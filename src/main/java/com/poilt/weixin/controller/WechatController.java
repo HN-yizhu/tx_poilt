@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
+<<<<<<< HEAD
+ * @author Binary Wang(https://github.com/binarywang)
+=======
  * 
  * @author Administrator
  *
+>>>>>>> branch 'master' of https://github.com/HN-yizhu/tx_polit.git
  */
 @RestController
 @RequestMapping("/wechat/portal")
