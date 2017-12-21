@@ -1,19 +1,5 @@
 package com.poilt.utils;
 
-import java.security.cert.X509Certificate;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSONObject;
 
 @Component
@@ -50,13 +35,22 @@ public class TradeHttpRequestExecute {
 		JSONObject result = new JSONObject();
 		try {
 			logger.info("发送HTTP请求参数:{}",param.toString());
+			JSONObject jsonm = new JSONObject();
+			jsonm.put("orgCode", orgCode);
+			jsonm.put("sign", param.toString());
+			jsonm.put("body", param.toString());
+			logger.info("发送明文:" + jsonm);
 			JSONObject json = new JSONObject();
 			json.put("orgCode", orgCode);
 			json.put("sign", RSAUtils.sign(param.toString().getBytes(), priKey));
 			json.put("body", RSAUtils.encryptByPublicKey(param.toString().getBytes(),gzPubKey));
+			
+			logger.info("发送密文:" + json);
+			
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			//restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+			
 			String resXml = restTemplate.postForObject(gzTradeUrl, new HttpEntity<>(json, headers), String.class);
 	        
 			logger.info("返回结果:" + resXml);
