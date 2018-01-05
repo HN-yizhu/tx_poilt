@@ -1,0 +1,17 @@
+springBoot 启动了
+Starting Application on WIN-01702261033 with PID 16376 (I:\work\github\tx_polit\target\classes started by Administrator in I:\work\github\tx_polit)
+No active profile set, falling back to default profiles: default
+Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@119cbf96: startup date [Fri Jan 05 14:44:37 CST 2018]; root of context hierarchy
+HV000001: Hibernate Validator 5.3.6.Final
+Tomcat initialized with port(s): 8888 (http)
+Starting service [Tomcat]
+Starting Servlet Engine: Apache Tomcat/8.5.23
+Initializing Spring embedded WebApplicationContext
+Root WebApplicationContext: initialization completed in 2069 ms
+Mapping servlet: 'statViewServlet' to [/druid/*]
+Mapping servlet: 'dispatcherServlet' to [/]
+Mapping filter: 'characterEncodingFilter' to: [/*]
+Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+Mapping filter: 'httpPutFormContentFilter' to: [/*]
+Mapping filter: 'requestContextFilter' to: [/*]
+Mapping filter: 'webStatFilter' to urls: [/*]

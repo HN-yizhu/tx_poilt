@@ -81,7 +81,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.26</version>
+			<version>1.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -94,6 +94,18 @@
 			<artifactId>weixin-java-mp</artifactId>
 			<version>2.9.0</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+
 
 	</dependencies>
 

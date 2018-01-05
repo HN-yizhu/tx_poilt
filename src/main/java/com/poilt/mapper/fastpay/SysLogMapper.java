@@ -1,4 +1,4 @@
-package com.poilt.mapper;
+package com.poilt.mapper.fastpay;
 
 import com.poilt.pojo.SysLog;
 import com.poilt.pojo.SysLogExample;

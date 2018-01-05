@@ -1,4 +1,4 @@
-package com.poilt.mapper;
+package com.poilt.mapper.fastpay;
 
 import com.poilt.pojo.TradeLog;
 import com.poilt.pojo.TradeLogExample;

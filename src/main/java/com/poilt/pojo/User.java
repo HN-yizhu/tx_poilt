@@ -5,6 +5,8 @@ import java.util.Date;
 public class User {
     private Integer id;
 
+    private String wxId;
+    
     private String userName;
 
     private String userAlias;
@@ -102,4 +104,12 @@ public class User {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	public String getWxId() {
+		return wxId;
+	}
+
+	public void setWxId(String wxId) {
+		this.wxId = wxId;
+	}
 }
