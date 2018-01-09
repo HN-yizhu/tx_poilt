@@ -11,9 +11,9 @@
 <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
 ">
 
-<link rel="stylesheet" href="./lib/weui.min.css">
-<link rel="stylesheet" href="./css/jquery-weui.css">
-<link rel="stylesheet" href="./css/demos.css">
+<link rel="stylesheet" th:href="@{/lib/weui.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery-weui.css}">
+<link rel="stylesheet" th:href="@{/css/demos.css}">
 
   </head>
 
@@ -62,33 +62,33 @@
       <div class="weui-tabbar" style="position: fixed;">
         <a th:href="@{/index}" class="weui-tabbar__item weui-bar__item--on">
           <div class="weui-tabbar__icon">
-            <img src="./images/icon_nav_button.png" alt="">
+            <img th:src="@{/images/icon_nav_button.png}" alt="">
           </div>
           <p class="weui-tabbar__label">收款</p>
         </a>
         <a th:href="@{/orderList}" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
-            <img src="./images/icon_nav_msg.png" alt="">
+            <img th:src="@{/images/icon_nav_msg.png}" alt="">
           </div>
           <p class="weui-tabbar__label">收款记录</p>
         </a>
         <a th:href="@{/home}" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
-            <img src="./images/icon_nav_cell.png" alt="">
+            <img th:src="@{/images/icon_nav_cell.png}" alt="">
           </div>
           <p class="weui-tabbar__label">我</p>
         </a>
       </div>
     </div>
 
-    <script src="./lib/jquery-2.1.4.js"></script>
-<script src="./lib/fastclick.js"></script>
+    <script th:src="@{/lib/jquery-2.1.4.js}"></script>
+<script th:src="@{/lib/fastclick.js}"></script>
 <script>
   $(function() {
     FastClick.attach(document.body);
   });
 </script>
-<script src="./js/jquery-weui.js"></script>
+<script th:src="@{/js/jquery-weui.js}"></script>
 
     <script>
       $("#a").select({
