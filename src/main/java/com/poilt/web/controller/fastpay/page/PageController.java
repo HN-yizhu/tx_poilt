@@ -23,4 +23,9 @@ public class PageController {
 		return "/home";
 	}
 	
+	@RequestMapping(value = "/wechat/register")
+	public String register(HttpServletRequest request, Map<String, Object> map) throws Exception {
+		return "/register";
+	}
+	
 }

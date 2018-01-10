@@ -12,7 +12,6 @@ import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 @Controller
 @RequestMapping("/wechat/url")
@@ -28,32 +27,42 @@ public class WechatUrlController {
 		logger.info("wechat post : " + code);
 		return "/index";
 	}
+	
+	private boolean isRegister(String code) throws WxErrorException {
+		WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+		
+		
+		return false;
+	}
 
 	/**
 SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_base&state=#wechat_redirect]
 SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect]
- 	 * @param code
-	 * @return
-	 */
-	@GetMapping
-	public String get(@RequestParam(name = "code", required = true) String code) {
-		String url = "https://pay.masduo.com/wechat/url";
+ 	 String url = "https://pay.masduo.com/wechat/url";
 		String baseUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_BASE, null);
 		logger.info("SNSAPI_BASE URL:[" + baseUrl + "]");
 		String userInfoUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAuth2Scope.SNSAPI_USERINFO, null);
 		logger.info("SNSAPI_BASE URL:[" + userInfoUrl + "]");
-		
 		try {
 			logger.info("wechat redirect code : " + code);
 			WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
-			logger.info("wechat access token:" + wxMpOAuth2AccessToken);
-			WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
-			logger.info(wxMpUser.toString());
+			logger.info("wechat access token's openId:" + wxMpOAuth2AccessToken.getOpenId());
+			//WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+			//logger.info(wxMpUser.toString());
 		} catch (WxErrorException e) {
 			e.printStackTrace();
 		}
-		
-		return "/index";
+	 * @return
+	 * @throws Exception 
+	 */
+	@GetMapping
+	public String get(@RequestParam(name = "code", required = true) String code) throws Exception {
+		if(isRegister(code)){
+			return "/index";
+		}else{
+			return "/register";
+		}
 	}
+	
 	
 }

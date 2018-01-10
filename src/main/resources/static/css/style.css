@@ -120,5 +120,17 @@
   margin-left: -160px;
 }
 
+.card-no-left {
+  position: absolute;
+  width: 320px;
+  bottom: 30px;
+  left: 50%;
+  color: white;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-left: -160px;
+}
+
+
 
 
