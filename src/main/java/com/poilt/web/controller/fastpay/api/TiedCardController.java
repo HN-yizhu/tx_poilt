@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.alibaba.fastjson.JSONObject;
-import com.poilt.model.TiedCard;
+import com.poilt.model.fastpay.Card;
+import com.poilt.model.fastpay.Merch;
 import com.poilt.service.fastpay.TiedCardService;
 
 /**
@@ -25,9 +27,9 @@ public class TiedCardController {
 	private TiedCardService tiedCardService;
 	
 	@RequestMapping("/fastpay_tiedcard")
-	public JSONObject tiedCard(@RequestBody TiedCard tiedCard){
-		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(tiedCard));
-		return tiedCardService.tiedCard(tiedCard);
+	public JSONObject tiedCard(@SessionAttribute Merch merch,@RequestBody Card card){
+		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(card));
+		return tiedCardService.tiedCard(merch,card);
 	}
 	
 }

@@ -1,7 +1,7 @@
 package com.poilt.mapper.fastpay;
 
-import com.poilt.pojo.Card;
-import com.poilt.pojo.CardExample;
+import com.poilt.model.fastpay.Card;
+import com.poilt.model.fastpay.CardExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

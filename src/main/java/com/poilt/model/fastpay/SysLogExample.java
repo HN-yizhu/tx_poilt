@@ -1,4 +1,4 @@
-package com.poilt.pojo;
+package com.poilt.model.fastpay;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -295,73 +295,143 @@ public class SysLogExample {
             return (Criteria) this;
         }
 
-        public Criteria andOptionIsNull() {
-            addCriterion("option is null");
+        public Criteria andTradeNoIsNull() {
+            addCriterion("trade_no is null");
             return (Criteria) this;
         }
 
-        public Criteria andOptionIsNotNull() {
-            addCriterion("option is not null");
+        public Criteria andTradeNoIsNotNull() {
+            addCriterion("trade_no is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOptionEqualTo(String value) {
-            addCriterion("option =", value, "option");
+        public Criteria andTradeNoEqualTo(String value) {
+            addCriterion("trade_no =", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionNotEqualTo(String value) {
-            addCriterion("option <>", value, "option");
+        public Criteria andTradeNoNotEqualTo(String value) {
+            addCriterion("trade_no <>", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionGreaterThan(String value) {
-            addCriterion("option >", value, "option");
+        public Criteria andTradeNoGreaterThan(String value) {
+            addCriterion("trade_no >", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionGreaterThanOrEqualTo(String value) {
-            addCriterion("option >=", value, "option");
+        public Criteria andTradeNoGreaterThanOrEqualTo(String value) {
+            addCriterion("trade_no >=", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionLessThan(String value) {
-            addCriterion("option <", value, "option");
+        public Criteria andTradeNoLessThan(String value) {
+            addCriterion("trade_no <", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionLessThanOrEqualTo(String value) {
-            addCriterion("option <=", value, "option");
+        public Criteria andTradeNoLessThanOrEqualTo(String value) {
+            addCriterion("trade_no <=", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionLike(String value) {
-            addCriterion("option like", value, "option");
+        public Criteria andTradeNoLike(String value) {
+            addCriterion("trade_no like", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionNotLike(String value) {
-            addCriterion("option not like", value, "option");
+        public Criteria andTradeNoNotLike(String value) {
+            addCriterion("trade_no not like", value, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionIn(List<String> values) {
-            addCriterion("option in", values, "option");
+        public Criteria andTradeNoIn(List<String> values) {
+            addCriterion("trade_no in", values, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionNotIn(List<String> values) {
-            addCriterion("option not in", values, "option");
+        public Criteria andTradeNoNotIn(List<String> values) {
+            addCriterion("trade_no not in", values, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionBetween(String value1, String value2) {
-            addCriterion("option between", value1, value2, "option");
+        public Criteria andTradeNoBetween(String value1, String value2) {
+            addCriterion("trade_no between", value1, value2, "tradeNo");
             return (Criteria) this;
         }
 
-        public Criteria andOptionNotBetween(String value1, String value2) {
-            addCriterion("option not between", value1, value2, "option");
+        public Criteria andTradeNoNotBetween(String value1, String value2) {
+            addCriterion("trade_no not between", value1, value2, "tradeNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeIsNull() {
+            addCriterion("trade_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeIsNotNull() {
+            addCriterion("trade_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeEqualTo(String value) {
+            addCriterion("trade_type =", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeNotEqualTo(String value) {
+            addCriterion("trade_type <>", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeGreaterThan(String value) {
+            addCriterion("trade_type >", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("trade_type >=", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeLessThan(String value) {
+            addCriterion("trade_type <", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeLessThanOrEqualTo(String value) {
+            addCriterion("trade_type <=", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeLike(String value) {
+            addCriterion("trade_type like", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeNotLike(String value) {
+            addCriterion("trade_type not like", value, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeIn(List<String> values) {
+            addCriterion("trade_type in", values, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeNotIn(List<String> values) {
+            addCriterion("trade_type not in", values, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeBetween(String value1, String value2) {
+            addCriterion("trade_type between", value1, value2, "tradeType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTypeNotBetween(String value1, String value2) {
+            addCriterion("trade_type not between", value1, value2, "tradeType");
             return (Criteria) this;
         }
 

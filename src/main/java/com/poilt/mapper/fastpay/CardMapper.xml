@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.poilt.mapper.CardMapper">
-  <resultMap id="BaseResultMap" type="com.poilt.pojo.Card">
+<mapper namespace="com.poilt.mapper.fastpay.CardMapper">
+  <resultMap id="BaseResultMap" type="com.poilt.model.fastpay.Card">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
     <result column="cert_no" jdbcType="VARCHAR" property="certNo" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="cert_type" jdbcType="CHAR" property="certType" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="phoneno" jdbcType="VARCHAR" property="phoneno" />
     <result column="card_type" jdbcType="VARCHAR" property="cardType" />
-    <result column="card_user_name" jdbcType="VARCHAR" property="cardUserName" />
     <result column="card_status" jdbcType="CHAR" property="cardStatus" />
     <result column="card_province" jdbcType="VARCHAR" property="cardProvince" />
     <result column="card_city" jdbcType="VARCHAR" property="cardCity" />
@@ -15,9 +16,10 @@
     <result column="bank_sub_name" jdbcType="VARCHAR" property="bankSubName" />
     <result column="bank_channel_no" jdbcType="VARCHAR" property="bankChannelNo" />
     <result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
-    <result column="bank_no" jdbcType="VARCHAR" property="bankNo" />
+    <result column="bank__abbr" jdbcType="VARCHAR" property="bankAbbr" />
     <result column="use_type" jdbcType="VARCHAR" property="useType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,11 +80,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, card_no, cert_no, phone, card_type, card_user_name, card_status, card_province, 
-    card_city, bank_name, bank_sub_name, bank_channel_no, bank_code, bank_no, use_type, 
-    create_time
+    id, card_no, cert_no, cert_type, account_name, phoneno, card_type, card_status, card_province, 
+    card_city, bank_name, bank_sub_name, bank_channel_no, bank_code, bank__abbr, use_type, 
+    create_time, order_no
   </sql>
-  <select id="selectByExample" parameterType="com.poilt.pojo.CardExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.poilt.model.fastpay.CardExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -106,27 +108,29 @@
     delete from card
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.poilt.pojo.CardExample">
+  <delete id="deleteByExample" parameterType="com.poilt.model.fastpay.CardExample">
     delete from card
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.poilt.pojo.Card">
+  <insert id="insert" parameterType="com.poilt.model.fastpay.Card" useGeneratedKeys="true" keyProperty="id">
     insert into card (id, card_no, cert_no, 
-      phone, card_type, card_user_name, 
-      card_status, card_province, card_city, 
-      bank_name, bank_sub_name, bank_channel_no, 
-      bank_code, bank_no, use_type, 
-      create_time)
+      cert_type, account_name, phoneno, 
+      card_type, card_status, card_province, 
+      card_city, bank_name, bank_sub_name, 
+      bank_channel_no, bank_code, bank__abbr, 
+      use_type, create_time, order_no
+      )
     values (#{id,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, #{certNo,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{cardType,jdbcType=VARCHAR}, #{cardUserName,jdbcType=VARCHAR}, 
-      #{cardStatus,jdbcType=CHAR}, #{cardProvince,jdbcType=VARCHAR}, #{cardCity,jdbcType=VARCHAR}, 
-      #{bankName,jdbcType=VARCHAR}, #{bankSubName,jdbcType=VARCHAR}, #{bankChannelNo,jdbcType=VARCHAR}, 
-      #{bankCode,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, #{useType,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{certType,jdbcType=CHAR}, #{accountName,jdbcType=VARCHAR}, #{phoneno,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=VARCHAR}, #{cardStatus,jdbcType=CHAR}, #{cardProvince,jdbcType=VARCHAR}, 
+      #{cardCity,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankSubName,jdbcType=VARCHAR}, 
+      #{bankChannelNo,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR}, #{bankAbbr,jdbcType=VARCHAR}, 
+      #{useType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.poilt.pojo.Card">
+  <insert id="insertSelective" parameterType="com.poilt.model.fastpay.Card" useGeneratedKeys="true" keyProperty="id">
     insert into card
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -138,14 +142,17 @@
       <if test="certNo != null">
         cert_no,
       </if>
-      <if test="phone != null">
-        phone,
+      <if test="certType != null">
+        cert_type,
+      </if>
+      <if test="accountName != null">
+        account_name,
+      </if>
+      <if test="phoneno != null">
+        phoneno,
       </if>
       <if test="cardType != null">
         card_type,
-      </if>
-      <if test="cardUserName != null">
-        card_user_name,
       </if>
       <if test="cardStatus != null">
         card_status,
@@ -168,14 +175,17 @@
       <if test="bankCode != null">
         bank_code,
       </if>
-      <if test="bankNo != null">
-        bank_no,
+      <if test="bankAbbr != null">
+        bank__abbr,
       </if>
       <if test="useType != null">
         use_type,
       </if>
       <if test="createTime != null">
         create_time,
+      </if>
+      <if test="orderNo != null">
+        order_no,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -188,14 +198,17 @@
       <if test="certNo != null">
         #{certNo,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
+      <if test="certType != null">
+        #{certType,jdbcType=CHAR},
+      </if>
+      <if test="accountName != null">
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneno != null">
+        #{phoneno,jdbcType=VARCHAR},
       </if>
       <if test="cardType != null">
         #{cardType,jdbcType=VARCHAR},
-      </if>
-      <if test="cardUserName != null">
-        #{cardUserName,jdbcType=VARCHAR},
       </if>
       <if test="cardStatus != null">
         #{cardStatus,jdbcType=CHAR},
@@ -218,8 +231,8 @@
       <if test="bankCode != null">
         #{bankCode,jdbcType=VARCHAR},
       </if>
-      <if test="bankNo != null">
-        #{bankNo,jdbcType=VARCHAR},
+      <if test="bankAbbr != null">
+        #{bankAbbr,jdbcType=VARCHAR},
       </if>
       <if test="useType != null">
         #{useType,jdbcType=VARCHAR},
@@ -227,9 +240,12 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.poilt.pojo.CardExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.poilt.model.fastpay.CardExample" resultType="java.lang.Integer">
     select count(*) from card
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -247,14 +263,17 @@
       <if test="record.certNo != null">
         cert_no = #{record.certNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.phone != null">
-        phone = #{record.phone,jdbcType=VARCHAR},
+      <if test="record.certType != null">
+        cert_type = #{record.certType,jdbcType=CHAR},
+      </if>
+      <if test="record.accountName != null">
+        account_name = #{record.accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneno != null">
+        phoneno = #{record.phoneno,jdbcType=VARCHAR},
       </if>
       <if test="record.cardType != null">
         card_type = #{record.cardType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cardUserName != null">
-        card_user_name = #{record.cardUserName,jdbcType=VARCHAR},
       </if>
       <if test="record.cardStatus != null">
         card_status = #{record.cardStatus,jdbcType=CHAR},
@@ -277,14 +296,17 @@
       <if test="record.bankCode != null">
         bank_code = #{record.bankCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.bankNo != null">
-        bank_no = #{record.bankNo,jdbcType=VARCHAR},
+      <if test="record.bankAbbr != null">
+        bank__abbr = #{record.bankAbbr,jdbcType=VARCHAR},
       </if>
       <if test="record.useType != null">
         use_type = #{record.useType,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -296,9 +318,10 @@
     set id = #{record.id,jdbcType=INTEGER},
       card_no = #{record.cardNo,jdbcType=VARCHAR},
       cert_no = #{record.certNo,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR},
+      cert_type = #{record.certType,jdbcType=CHAR},
+      account_name = #{record.accountName,jdbcType=VARCHAR},
+      phoneno = #{record.phoneno,jdbcType=VARCHAR},
       card_type = #{record.cardType,jdbcType=VARCHAR},
-      card_user_name = #{record.cardUserName,jdbcType=VARCHAR},
       card_status = #{record.cardStatus,jdbcType=CHAR},
       card_province = #{record.cardProvince,jdbcType=VARCHAR},
       card_city = #{record.cardCity,jdbcType=VARCHAR},
@@ -306,14 +329,15 @@
       bank_sub_name = #{record.bankSubName,jdbcType=VARCHAR},
       bank_channel_no = #{record.bankChannelNo,jdbcType=VARCHAR},
       bank_code = #{record.bankCode,jdbcType=VARCHAR},
-      bank_no = #{record.bankNo,jdbcType=VARCHAR},
+      bank__abbr = #{record.bankAbbr,jdbcType=VARCHAR},
       use_type = #{record.useType,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      order_no = #{record.orderNo,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.pojo.Card">
+  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.model.fastpay.Card">
     update card
     <set>
       <if test="cardNo != null">
@@ -322,14 +346,17 @@
       <if test="certNo != null">
         cert_no = #{certNo,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="certType != null">
+        cert_type = #{certType,jdbcType=CHAR},
+      </if>
+      <if test="accountName != null">
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneno != null">
+        phoneno = #{phoneno,jdbcType=VARCHAR},
       </if>
       <if test="cardType != null">
         card_type = #{cardType,jdbcType=VARCHAR},
-      </if>
-      <if test="cardUserName != null">
-        card_user_name = #{cardUserName,jdbcType=VARCHAR},
       </if>
       <if test="cardStatus != null">
         card_status = #{cardStatus,jdbcType=CHAR},
@@ -352,8 +379,8 @@
       <if test="bankCode != null">
         bank_code = #{bankCode,jdbcType=VARCHAR},
       </if>
-      <if test="bankNo != null">
-        bank_no = #{bankNo,jdbcType=VARCHAR},
+      <if test="bankAbbr != null">
+        bank__abbr = #{bankAbbr,jdbcType=VARCHAR},
       </if>
       <if test="useType != null">
         use_type = #{useType,jdbcType=VARCHAR},
@@ -361,16 +388,20 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.poilt.pojo.Card">
+  <update id="updateByPrimaryKey" parameterType="com.poilt.model.fastpay.Card">
     update card
     set card_no = #{cardNo,jdbcType=VARCHAR},
       cert_no = #{certNo,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
+      cert_type = #{certType,jdbcType=CHAR},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      phoneno = #{phoneno,jdbcType=VARCHAR},
       card_type = #{cardType,jdbcType=VARCHAR},
-      card_user_name = #{cardUserName,jdbcType=VARCHAR},
       card_status = #{cardStatus,jdbcType=CHAR},
       card_province = #{cardProvince,jdbcType=VARCHAR},
       card_city = #{cardCity,jdbcType=VARCHAR},
@@ -378,9 +409,10 @@
       bank_sub_name = #{bankSubName,jdbcType=VARCHAR},
       bank_channel_no = #{bankChannelNo,jdbcType=VARCHAR},
       bank_code = #{bankCode,jdbcType=VARCHAR},
-      bank_no = #{bankNo,jdbcType=VARCHAR},
+      bank__abbr = #{bankAbbr,jdbcType=VARCHAR},
       use_type = #{useType,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_no = #{orderNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

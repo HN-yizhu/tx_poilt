@@ -1,4 +1,4 @@
-package com.poilt.pojo;
+package com.poilt.model.fastpay;
 
 import java.util.Date;
 
@@ -9,11 +9,13 @@ public class Card {
 
     private String certNo;
 
-    private String phone;
+    private String certType;
+
+    private String accountName;
+
+    private String phoneno;
 
     private String cardType;
-
-    private String cardUserName;
 
     private String cardStatus;
 
@@ -29,11 +31,13 @@ public class Card {
 
     private String bankCode;
 
-    private String bankNo;
+    private String bankAbbr;
 
     private String useType;
 
     private Date createTime;
+
+    private String orderNo;
 
     public Integer getId() {
         return id;
@@ -59,12 +63,28 @@ public class Card {
         this.certNo = certNo == null ? null : certNo.trim();
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCertType() {
+        return certType;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone == null ? null : phone.trim();
+    public void setCertType(String certType) {
+        this.certType = certType == null ? null : certType.trim();
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName == null ? null : accountName.trim();
+    }
+
+    public String getPhoneno() {
+        return phoneno;
+    }
+
+    public void setPhoneno(String phoneno) {
+        this.phoneno = phoneno == null ? null : phoneno.trim();
     }
 
     public String getCardType() {
@@ -73,14 +93,6 @@ public class Card {
 
     public void setCardType(String cardType) {
         this.cardType = cardType == null ? null : cardType.trim();
-    }
-
-    public String getCardUserName() {
-        return cardUserName;
-    }
-
-    public void setCardUserName(String cardUserName) {
-        this.cardUserName = cardUserName == null ? null : cardUserName.trim();
     }
 
     public String getCardStatus() {
@@ -139,12 +151,12 @@ public class Card {
         this.bankCode = bankCode == null ? null : bankCode.trim();
     }
 
-    public String getBankNo() {
-        return bankNo;
+    public String getBankAbbr() {
+        return bankAbbr;
     }
 
-    public void setBankNo(String bankNo) {
-        this.bankNo = bankNo == null ? null : bankNo.trim();
+    public void setBankAbbr(String bankAbbr) {
+        this.bankAbbr = bankAbbr == null ? null : bankAbbr.trim();
     }
 
     public String getUseType() {
@@ -161,5 +173,13 @@ public class Card {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.poilt.mapper.SysLogMapper">
-  <resultMap id="BaseResultMap" type="com.poilt.pojo.SysLog">
+<mapper namespace="com.poilt.mapper.fastpay.SysLogMapper">
+  <resultMap id="BaseResultMap" type="com.poilt.model.fastpay.SysLog">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="option" jdbcType="VARCHAR" property="option" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="req_param" jdbcType="VARCHAR" property="reqParam" />
     <result column="resp_result" jdbcType="VARCHAR" property="respResult" />
     <result column="create_tim" jdbcType="TIMESTAMP" property="createTim" />
@@ -69,9 +70,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, user_name, option, req_param, resp_result, create_tim
+    id, user_id, user_name, trade_no, trade_type, req_param, resp_result, create_tim
   </sql>
-  <select id="selectByExample" parameterType="com.poilt.pojo.SysLogExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.poilt.model.fastpay.SysLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -95,21 +96,21 @@
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.poilt.pojo.SysLogExample">
+  <delete id="deleteByExample" parameterType="com.poilt.model.fastpay.SysLogExample">
     delete from sys_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.poilt.pojo.SysLog">
+  <insert id="insert" parameterType="com.poilt.model.fastpay.SysLog">
     insert into sys_log (id, user_id, user_name, 
-      option, req_param, resp_result, 
-      create_tim)
+      trade_no, trade_type, req_param, 
+      resp_result, create_tim)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{option,jdbcType=VARCHAR}, #{reqParam,jdbcType=VARCHAR}, #{respResult,jdbcType=VARCHAR}, 
-      #{createTim,jdbcType=TIMESTAMP})
+      #{tradeNo,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, #{reqParam,jdbcType=VARCHAR}, 
+      #{respResult,jdbcType=VARCHAR}, #{createTim,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.poilt.pojo.SysLog">
+  <insert id="insertSelective" parameterType="com.poilt.model.fastpay.SysLog">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -121,8 +122,11 @@
       <if test="userName != null">
         user_name,
       </if>
-      <if test="option != null">
-        option,
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
       </if>
       <if test="reqParam != null">
         req_param,
@@ -144,8 +148,11 @@
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="option != null">
-        #{option,jdbcType=VARCHAR},
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
       </if>
       <if test="reqParam != null">
         #{reqParam,jdbcType=VARCHAR},
@@ -158,7 +165,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.poilt.pojo.SysLogExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.poilt.model.fastpay.SysLogExample" resultType="java.lang.Integer">
     select count(*) from sys_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -176,8 +183,11 @@
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
-      <if test="record.option != null">
-        option = #{record.option,jdbcType=VARCHAR},
+      <if test="record.tradeNo != null">
+        trade_no = #{record.tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeType != null">
+        trade_type = #{record.tradeType,jdbcType=VARCHAR},
       </if>
       <if test="record.reqParam != null">
         req_param = #{record.reqParam,jdbcType=VARCHAR},
@@ -198,7 +208,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       user_name = #{record.userName,jdbcType=VARCHAR},
-      option = #{record.option,jdbcType=VARCHAR},
+      trade_no = #{record.tradeNo,jdbcType=VARCHAR},
+      trade_type = #{record.tradeType,jdbcType=VARCHAR},
       req_param = #{record.reqParam,jdbcType=VARCHAR},
       resp_result = #{record.respResult,jdbcType=VARCHAR},
       create_tim = #{record.createTim,jdbcType=TIMESTAMP}
@@ -206,7 +217,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.pojo.SysLog">
+  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.model.fastpay.SysLog">
     update sys_log
     <set>
       <if test="userId != null">
@@ -215,8 +226,11 @@
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="option != null">
-        option = #{option,jdbcType=VARCHAR},
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
       </if>
       <if test="reqParam != null">
         req_param = #{reqParam,jdbcType=VARCHAR},
@@ -230,11 +244,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.poilt.pojo.SysLog">
+  <update id="updateByPrimaryKey" parameterType="com.poilt.model.fastpay.SysLog">
     update sys_log
     set user_id = #{userId,jdbcType=INTEGER},
       user_name = #{userName,jdbcType=VARCHAR},
-      option = #{option,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
       req_param = #{reqParam,jdbcType=VARCHAR},
       resp_result = #{respResult,jdbcType=VARCHAR},
       create_tim = #{createTim,jdbcType=TIMESTAMP}

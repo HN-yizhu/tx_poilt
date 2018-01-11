@@ -1,7 +1,7 @@
 package com.poilt.mapper.fastpay;
 
-import com.poilt.pojo.SysLog;
-import com.poilt.pojo.SysLogExample;
+import com.poilt.model.fastpay.SysLog;
+import com.poilt.model.fastpay.SysLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

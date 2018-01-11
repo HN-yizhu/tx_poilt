@@ -1,4 +1,4 @@
-package com.poilt.pojo;
+package com.poilt.model.fastpay;
 
 import java.util.ArrayList;
 import java.util.Date;

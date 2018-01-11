@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.poilt.mapper.TradeLogMapper">
-  <resultMap id="BaseResultMap" type="com.poilt.pojo.TradeLog">
+<mapper namespace="com.poilt.mapper.fastpay.TradeLogMapper">
+  <resultMap id="BaseResultMap" type="com.poilt.model.fastpay.TradeLog">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
     <result column="trade_amt" jdbcType="INTEGER" property="tradeAmt" />
@@ -75,7 +75,7 @@
     id, trade_no, trade_amt, user_name, user_cert_no, pay_card_no, trade_time, status, 
     trace_no, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.poilt.pojo.TradeLogExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.poilt.model.fastpay.TradeLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,13 +99,13 @@
     delete from trade_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.poilt.pojo.TradeLogExample">
+  <delete id="deleteByExample" parameterType="com.poilt.model.fastpay.TradeLogExample">
     delete from trade_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.poilt.pojo.TradeLog">
+  <insert id="insert" parameterType="com.poilt.model.fastpay.TradeLog" useGeneratedKeys="true" keyProperty="id">
     insert into trade_log (id, trade_no, trade_amt, 
       user_name, user_cert_no, pay_card_no, 
       trade_time, status, trace_no, 
@@ -115,7 +115,7 @@
       #{tradeTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, #{traceNo,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.poilt.pojo.TradeLog">
+  <insert id="insertSelective" parameterType="com.poilt.model.fastpay.TradeLog" useGeneratedKeys="true" keyProperty="id">
     insert into trade_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.poilt.pojo.TradeLogExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.poilt.model.fastpay.TradeLogExample" resultType="java.lang.Integer">
     select count(*) from trade_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -242,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.pojo.TradeLog">
+  <update id="updateByPrimaryKeySelective" parameterType="com.poilt.model.fastpay.TradeLog">
     update trade_log
     <set>
       <if test="tradeNo != null">
@@ -275,7 +275,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.poilt.pojo.TradeLog">
+  <update id="updateByPrimaryKey" parameterType="com.poilt.model.fastpay.TradeLog">
     update trade_log
     set trade_no = #{tradeNo,jdbcType=VARCHAR},
       trade_amt = #{tradeAmt,jdbcType=INTEGER},

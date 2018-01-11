@@ -1,7 +1,7 @@
 package com.poilt.mapper.fastpay;
 
-import com.poilt.pojo.TradeLog;
-import com.poilt.pojo.TradeLogExample;
+import com.poilt.model.fastpay.TradeLog;
+import com.poilt.model.fastpay.TradeLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

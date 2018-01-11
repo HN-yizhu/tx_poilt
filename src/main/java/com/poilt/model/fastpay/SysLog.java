@@ -1,4 +1,4 @@
-package com.poilt.pojo;
+package com.poilt.model.fastpay;
 
 import java.util.Date;
 
@@ -9,7 +9,9 @@ public class SysLog {
 
     private String userName;
 
-    private String option;
+    private String tradeNo;
+
+    private String tradeType;
 
     private String reqParam;
 
@@ -41,12 +43,20 @@ public class SysLog {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getOption() {
-        return option;
+    public String getTradeNo() {
+        return tradeNo;
     }
 
-    public void setOption(String option) {
-        this.option = option == null ? null : option.trim();
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo == null ? null : tradeNo.trim();
+    }
+
+    public String getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType == null ? null : tradeType.trim();
     }
 
     public String getReqParam() {
