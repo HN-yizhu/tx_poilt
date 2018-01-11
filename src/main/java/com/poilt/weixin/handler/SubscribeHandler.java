@@ -38,7 +38,7 @@ public class SubscribeHandler extends AbstractHandler {
 
 		if (userWxInfo != null) {
 			Merch user = merchRegisterService.queryByOpenId(userWxInfo.getOpenId());
-			if(user == null){
+			if (user == null) {
 				//添加关注用户到本地
 				Merch merch = new Merch();
 				merch.setOpenId(userWxInfo.getOpenId());
@@ -46,6 +46,16 @@ public class SubscribeHandler extends AbstractHandler {
 					merchRegisterService.registerOrUpdate(merch);
 				} catch (Exception e) {
 					this.logger.error("关注用户到本地异常", e);
+				}
+			} else {
+				//更新本地数据库为关注状态
+				Merch merch = new Merch();
+				merch.setOpenId(userWxInfo.getOpenId());
+				merch.setAttenState("Y");
+				try {
+					merchRegisterService.updateByOpenId(merch);
+				} catch (Exception e) {
+					this.logger.error("修改关注状态异常", e);
 				}
 			}
 		}
@@ -62,7 +72,7 @@ public class SubscribeHandler extends AbstractHandler {
 		}
 
 		try {
-			return new TextBuilder().build("感谢关注", wxMessage, weixinService);
+			return new TextBuilder().build("感谢您关注，请点击<我要收款>，你懂的...", wxMessage, weixinService);
 		} catch (Exception e) {
 			this.logger.error(e.getMessage(), e);
 		}

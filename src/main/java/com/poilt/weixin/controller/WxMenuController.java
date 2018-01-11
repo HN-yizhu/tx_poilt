@@ -48,44 +48,38 @@ public class WxMenuController implements WxMpMenuService {
   public String menuCreateSample() throws WxErrorException {
     WxMenu menu = new WxMenu();
     WxMenuButton button1 = new WxMenuButton();
-    button1.setType(MenuButtonType.CLICK);
-    button1.setName("今日歌曲");
-    button1.setKey("V1001_TODAY_MUSIC");
+    button1.setType(MenuButtonType.VIEW);
+    button1.setName("我要收款");
+    button1.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect");
 
-//        WxMenuButton button2 = new WxMenuButton();
-//        button2.setType(WxConsts.BUTTON_MINIPROGRAM);
-//        button2.setName("小程序");
-//        button2.setAppId("wx286b93c14bbf93aa");
-//        button2.setPagePath("pages/lunar/index.html");
-//        button2.setUrl("http://mp.weixin.qq.com");
-
+    WxMenuButton button2 = new WxMenuButton();
+    button2.setName("帮助");
+    
     WxMenuButton button3 = new WxMenuButton();
-    button3.setName("菜单");
+    button3.setType(MenuButtonType.CLICK);
+    button3.setName("信用卡服务");
+    button3.setKey("CREDIT_CARD");
 
     menu.getButtons().add(button1);
-//        menu.getButtons().add(button2);
+    menu.getButtons().add(button2);
     menu.getButtons().add(button3);
 
-    WxMenuButton button31 = new WxMenuButton();
-    button31.setType(MenuButtonType.VIEW);
-    button31.setName("搜索");
-    button31.setUrl("http://www.soso.com/");
+    WxMenuButton button21 = new WxMenuButton();
+    button21.setType(MenuButtonType.VIEW);
+    button21.setName("我要注册");
+    button21.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect");
 
-    WxMenuButton button32 = new WxMenuButton();
-    button32.setType(MenuButtonType.VIEW);
-    button32.setName("视频");
-    button32.setUrl("http://v.qq.com/");
+    WxMenuButton button22 = new WxMenuButton();
+    button22.setType(MenuButtonType.VIEW);
+    button22.setName("使用教程");
+    button22.setUrl("http://v.qq.com/");
 
-    WxMenuButton button33 = new WxMenuButton();
-    button33.setType(MenuButtonType.CLICK);
-    button33.setName("赞一下我们");
-    button33.setKey("V1001_GOOD");
+    button2.getSubButtons().add(button21);
+    button2.getSubButtons().add(button22);
+    
+    this.wxService.getMenuService().menuCreate(menu);
 
-    button3.getSubButtons().add(button31);
-    button3.getSubButtons().add(button32);
-    button3.getSubButtons().add(button33);
-
-    return this.wxService.getMenuService().menuCreate(menu);
+    return "添加菜单成功！";
   }
 
   /**

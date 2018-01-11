@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.poilt.enums.StatusCode;
 import com.poilt.exception.JsonException;
 import com.poilt.mapper.fastpay.MerchMapper;
@@ -17,7 +16,6 @@ public class MerchRegisterService {
 	@Autowired
 	MerchMapper merchMapper;
 	
-	@Transactional
 	public void registerOrUpdate(Merch merch) throws Exception {
 		int i;
 		if(merch.getId() != null) {
@@ -33,7 +31,6 @@ public class MerchRegisterService {
 		}
 	}
 	
-	@Transactional
 	public void updateByOpenId(Merch merch) throws Exception{
 		int count = merchMapper.updateByOpenId(merch);
 		if(count !=1){

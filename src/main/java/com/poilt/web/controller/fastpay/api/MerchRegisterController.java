@@ -27,14 +27,14 @@ public class MerchRegisterController {
 	private static final Logger logger = LoggerFactory.getLogger(MerchRegisterController.class);
 
 	@Autowired
-	MerchRegisterService payService;
+	MerchRegisterService merchRegisterService;
 
 	@ResponseBody
 	@RequestMapping("/fastpay_register")
 	public Result<String> register(@RequestBody Merch merch) throws JsonException {
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(merch));
 		try {
-			payService.registerOrUpdate(merch);
+			merchRegisterService.registerOrUpdate(merch);
 		} catch (JsonException e) {
 			logger.error("", e);
 			throw e;

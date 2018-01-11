@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.MerchRegisterService;
+
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -22,19 +26,15 @@ public class WechatUrlController {
 	@Autowired
 	private WxMpService wxMpService;
 	
+	@Autowired
+	MerchRegisterService merchRegisterService;
+	
 	@PostMapping
 	public String post(@RequestParam(name = "code", required = true) String code) {
 		logger.info("wechat post : " + code);
 		return "/index";
 	}
 	
-	private boolean isRegister(String code) throws WxErrorException {
-		WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
-		
-		
-		return false;
-	}
-
 	/**
 SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_base&state=#wechat_redirect]
 SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect]
@@ -57,9 +57,13 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 	 */
 	@GetMapping
 	public String get(@RequestParam(name = "code", required = true) String code) throws Exception {
-		if(isRegister(code)){
+		WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+		String openId = wxMpOAuth2AccessToken.getOpenId();
+		Merch merch = merchRegisterService.queryByOpenId(openId);
+		String idCardNo = merch.getIdCardNo();
+		if(idCardNo != null && !"".equals(idCardNo)){
 			return "/index";
-		}else{
+		} else {
 			return "/register";
 		}
 	}
