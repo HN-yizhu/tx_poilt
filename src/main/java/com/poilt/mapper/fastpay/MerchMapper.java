@@ -27,4 +27,7 @@ public interface MerchMapper {
     int updateByPrimaryKeySelective(Merch record);
 
     int updateByPrimaryKey(Merch record);
+    
+    int updateByOpenId(Merch record);
+    
 }

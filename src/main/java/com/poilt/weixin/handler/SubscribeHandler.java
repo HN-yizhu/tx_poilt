@@ -6,60 +6,76 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.MerchRegisterService;
 import com.poilt.weixin.builder.TextBuilder;
-
 import java.util.Map;
 
 /**
- * @author Binary Wang(https://github.com/binarywang)
+ * 
+ * Title: SubscribeHandler
+ * Description: 
+ * Date: 2018年1月11日 下午12:12:38
+ * @author: TanGuobiao
+ *
  */
 @Component
 public class SubscribeHandler extends AbstractHandler {
 
-  @Override
-  public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
-                                  Map<String, Object> context, WxMpService weixinService,
-                                  WxSessionManager sessionManager) throws WxErrorException {
+	@Autowired
+	private MerchRegisterService merchRegisterService;
+	
+	@Override
+	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService weixinService,
+			WxSessionManager sessionManager) throws WxErrorException {
 
-    this.logger.info("新关注用户 OPENID: " + wxMessage.getFromUser());
+		this.logger.info("新关注用户 OPENID: " + wxMessage.getFromUser());
+		
+		// 获取微信用户基本信息
+		WxMpUser userWxInfo = weixinService.getUserService().userInfo(wxMessage.getFromUser(), null);
 
-    // 获取微信用户基本信息
-    WxMpUser userWxInfo = weixinService.getUserService()
-        .userInfo(wxMessage.getFromUser(), null);
+		if (userWxInfo != null) {
+			Merch user = merchRegisterService.queryByOpenId(userWxInfo.getOpenId());
+			if(user == null){
+				//添加关注用户到本地
+				Merch merch = new Merch();
+				merch.setOpenId(userWxInfo.getOpenId());
+				try {
+					merchRegisterService.registerOrUpdate(merch);
+				} catch (Exception e) {
+					this.logger.error("关注用户到本地异常", e);
+				}
+			}
+		}
 
-    if (userWxInfo != null) {
-      // TODO 可以添加关注用户到本地
-    }
+		WxMpXmlOutMessage responseResult = null;
+		try {
+			responseResult = handleSpecial(wxMessage);
+		} catch (Exception e) {
+			this.logger.error(e.getMessage(), e);
+		}
 
-    WxMpXmlOutMessage responseResult = null;
-    try {
-      responseResult = handleSpecial(wxMessage);
-    } catch (Exception e) {
-      this.logger.error(e.getMessage(), e);
-    }
+		if (responseResult != null) {
+			return responseResult;
+		}
 
-    if (responseResult != null) {
-      return responseResult;
-    }
+		try {
+			return new TextBuilder().build("感谢关注", wxMessage, weixinService);
+		} catch (Exception e) {
+			this.logger.error(e.getMessage(), e);
+		}
 
-    try {
-      return new TextBuilder().build("感谢关注", wxMessage, weixinService);
-    } catch (Exception e) {
-      this.logger.error(e.getMessage(), e);
-    }
+		return null;
+	}
 
-    return null;
-  }
-
-  /**
-   * 处理特殊请求，比如如果是扫码进来的，可以做相应处理
-   */
-  private WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage)
-      throws Exception {
-    //TODO
-    return null;
-  }
+	/**
+	 * 处理特殊请求，比如如果是扫码进来的，可以做相应处理
+	 */
+	private WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage) throws Exception {
+		// TODO
+		return null;
+	}
 
 }

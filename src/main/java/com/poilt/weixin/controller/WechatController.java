@@ -11,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
-<<<<<<< HEAD
- * @author Binary Wang(https://github.com/binarywang)
-=======
  * 
- * @author Administrator
+ * Title: WechatController
+ * Description: 
+ * Date: 2018年1月11日 下午1:58:53
+ * @author: TanGuobiao
  *
->>>>>>> branch 'master' of https://github.com/HN-yizhu/tx_polit.git
  */
 @RestController
 @RequestMapping("/wechat/portal")
