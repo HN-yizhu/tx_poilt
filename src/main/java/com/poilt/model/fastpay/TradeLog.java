@@ -9,6 +9,8 @@ public class TradeLog {
     private String openId;
     
     private String tradeNo;
+    
+    private String orderNo;
 
     private Integer tradeAmt;
 
@@ -152,6 +154,14 @@ public class TradeLog {
 
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	

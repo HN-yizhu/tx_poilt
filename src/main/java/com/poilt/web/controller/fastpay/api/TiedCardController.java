@@ -16,8 +16,11 @@ import com.poilt.exception.Result;
 import com.poilt.model.TiedCard;
 import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.CardService;
 import com.poilt.service.fastpay.MerchService;
 import com.poilt.service.fastpay.TiedCardService;
+import com.poilt.utils.Serialnumber;
+import com.poilt.utils.TradeHttpRequestExecute;
 
 /**
  * 银联绑卡
@@ -27,13 +30,19 @@ import com.poilt.service.fastpay.TiedCardService;
 @Controller
 public class TiedCardController {
 
-	private static final Logger logger = LoggerFactory.getLogger(TiedCardController.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	private TiedCardService tiedCardService;
 	
 	@Autowired
 	private MerchService merchService;
+	
+	@Autowired
+	private CardService cardService;
+	
+	@Autowired
+	private TradeHttpRequestExecute tradeExecute;
 	
 	@ResponseBody
 	@RequestMapping("/fastpay_tiedcard")
@@ -60,32 +69,34 @@ public class TiedCardController {
 	
 	@ResponseBody
 	@RequestMapping("/fastpay_tiedCreditCard")
-	public Result<String> tiedCreditCard(String cvn2, String expired) throws JsonException{
+	public Result<String> tiedCreditCard(String cardNo, String cvn2, String expired) throws JsonException{
 		try {
 			//String openId = httpSession.getAttribute("openId") == null ? "" : httpSession.getAttribute("openId").toString();
 			//String openId = httpSession.getAttribute("openId").toString();
 			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			/*获取用户信息*/
 			Merch user = merchService.findByOpenId(openId);
-			
+			/*获取卡信息*/
+			Card cardInfo = cardService.findByCardNo(openId, cardNo);
 			TiedCard card = new TiedCard();
 			card.setTranType("POPNCD");
 			card.setMerNo(user.getMerNo());
-			card.setMerTrace("");
-			card.setOrderId("");
-			card.setRateCode("");
-			card.setCardNo("");
-			card.setAccountName("");
-			card.setCardType("");
-			card.setBankCode("");
-			card.setBankAbbr("");
+			card.setMerTrace(Serialnumber.getSerial());
+			card.setOrderId(Serialnumber.getSerial());
+			card.setRateCode("1001002");
+			card.setCardNo(cardNo);
+			card.setAccountName(user.getName());
+			card.setCardType(cardInfo.getCardType());
+			card.setBankCode(cardInfo.getBankCode());
+			card.setBankAbbr(cardInfo.getBankAbbr());
 			card.setPhoneno(user.getPhone());
 			card.setCvn2(cvn2);
 			card.setExpired(expired);
 			card.setCertType("01");
 			card.setCertNo(user.getIdCard());
-			card.setPageReturnUrl("");
-			card.setOfflineNotifyUrl("");
+			card.setPageReturnUrl("https://pay.masduo.com/fastpay_card_notify");
+			card.setOfflineNotifyUrl("https://pay.masduo.com/fastpay_card_notify");
+			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
 		} catch (Exception e) {
 			throw new JsonException(StatusCode.SYS_ERR);
 		}

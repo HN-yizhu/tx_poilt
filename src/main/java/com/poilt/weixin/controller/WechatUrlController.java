@@ -83,6 +83,8 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 		if(idCard == null || "".equals(idCard)){
 			return "/register";
 		} else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
+			List<Map<String, Object>> list = bankCodeService.selectMap();
+			map.put("bankCodeList", list);
 			return "/tiedCard";
 		} else {
 			List<Map<String, Object>> list = bankCodeService.selectMap();

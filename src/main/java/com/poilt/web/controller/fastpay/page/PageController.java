@@ -65,7 +65,8 @@ public class PageController {
 	
 	@RequestMapping(value = "/home")
 	public String home(HttpSession httpSession, Model model) throws Exception {
-		String openId = httpSession.getAttribute("openId").toString();
+		//String openId = httpSession.getAttribute("openId").toString();
+		String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		Merch merch = merchService.findByOpenId(openId);
 		model.addAttribute("merch", merch);

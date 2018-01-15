@@ -47,7 +47,7 @@
 				</div>
 
 				<div class='demos-content-padded'>
-					<a id="register" href="javascript:;"
+					<a id="fastPay" href="javascript:;"
 						class="weui-btn weui-btn_primary">支付</a>
 				</div>
 			</div>
@@ -73,12 +73,38 @@
 	    		url: /*[[@{/fastpay_pay_sms}]]*/ + '',
 	    		data: '',
 	    		dataType: 'json',
+	    		contentType: 'application/json',
 	    		success: function(data){
 	    			$.hideLoading();
 	    			if(data.code == '200'){
 	    				$.toast("验证码已发送！");
 	    			}else{
 	    				$.toast(data.message, "cancel");
+	    			}
+	    		}
+	    	});
+		});
+		$("#fastPay").click(function() {
+			$.showLoading();
+			var params = {
+					"merNo": "666666",
+					"merTrace": "666666",
+					"orderNo": "666666",
+					"transStatus": "2"
+			};
+			$.ajax({
+	    		type: 'post',
+	    		url: /*[[@{/fastpay_pay}]]*/ + '',
+	    		data: JSON.stringify(params),
+	    		dataType: 'json',
+	    		contentType: 'application/json',
+	    		success: function(data){
+	    			$.hideLoading();
+	    			if(data.code == '200'){
+	    				location.href = /*[[@{/index}]]*/ + '';
+	    			}else{
+	    				$.toast(data.message, "cancel");
+	    				location.href = /*[[@{/tradeList}]]*/ + '';
 	    			}
 	    		}
 	    	});

@@ -43,7 +43,7 @@
 							<font color="black">￥[[${item.tradeAmt}]]</font>
 						</p>
 						<p>
-							<font th:color="${item.status == '2' ? 'green' : 'red'}">[[${item.statusDes}]]</font>
+							<font th:attr="color=${item.status == '2' ? 'green' : 'red'}">[[${item.statusDes}]]</font>
 						</p>
 					</div>
 				</div>

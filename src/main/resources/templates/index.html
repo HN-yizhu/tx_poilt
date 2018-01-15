@@ -139,7 +139,7 @@
 			};
 			$.ajax({
 	    		type: 'post',
-	    		url: /*[[@{/fastpay_pay}]]*/ + '',
+	    		url: /*[[@{/fastpay_start_pay}]]*/ + '',
 	    		data: JSON.stringify(params),
 	    		dataType: 'json',
 	    		contentType: 'application/json',
@@ -149,7 +149,8 @@
 	    				if(data.data == '0'){
 	    					location.href = /*[[@{/paysms}]]*/ + '';
 	    				}else{
-		    				location.href = /*[[@{/tiedCreditCard}]]*/ + '?cardNo=' + payCardNo;
+		    				//location.href = /*[[@{'/tiedCreditCard(cardNo='+payCardNo+')'}]]*/ + '?cardNo=' + payCardNo;
+	    					location.href = [[@{/tiedCreditCard}]] + '?cardNo=' + payCardNo;
 	    				}
 	    			}else{
 	    				$.toast(data.message, "cancel");
