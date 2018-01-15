@@ -13,7 +13,21 @@ public class TiedCard {
 	private String bankCode;
 	private String bankAbbr;
 	private String phoneno;
+	private String cvn2;
+	private String expired;
 	private String certType;
+	public String getCvn2() {
+		return cvn2;
+	}
+	public void setCvn2(String cvn2) {
+		this.cvn2 = cvn2;
+	}
+	public String getExpired() {
+		return expired;
+	}
+	public void setExpired(String expired) {
+		this.expired = expired;
+	}
 	private String certNo;
 	private String pageReturnUrl;
 	private String offlineNotifyUrl;

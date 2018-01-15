@@ -26,6 +26,26 @@ public class Merch {
 	private String attenState;
 
 	private String tiedCard;
+	
+	private String merchUuid;
+	
+	private String merNo;
+
+	public String getMerchUuid() {
+		return merchUuid;
+	}
+
+	public void setMerchUuid(String merchUuid) {
+		this.merchUuid = merchUuid;
+	}
+
+	public String getMerNo() {
+		return merNo;
+	}
+
+	public void setMerNo(String merNo) {
+		this.merNo = merNo;
+	}
 
 	private Date createTime;
 

@@ -43,7 +43,7 @@
 							<font color="black">￥[[${item.tradeAmt}]]</font>
 						</p>
 						<p>
-							<font color="green">[[${item.status}]]</font>
+							<font th:color="${item.status == '2' ? 'green' : 'red'}">[[${item.statusDes}]]</font>
 						</p>
 					</div>
 				</div>
@@ -126,9 +126,13 @@
 								+ '<p>'
 								+ '<font color="black">￥'+n.tradeAmt+'</font>'
 								+ '</p>'
-								+ '<p>'
-								+ '<font color="red">'+n.status+'</font>'
-								+ '</p>'
+								+ '<p>';
+								if(n.status == '2'){
+									htm = htm + '<font color="green">'+n.statusDes+'</font>';
+								}else{
+									htm = htm + '<font color="red">'+n.statusDes+'</font>';
+								}
+								htm = htm + '</p>'
 								+ '</div>'
 								+ '</div>';
 						$(".weui-cells").append(htm);
@@ -163,8 +167,12 @@
 								+ '<font color="black">￥'+n.tradeAmt+'</font>'
 								+ '</p>'
 								+ '<p>'
-								+ '<font color="red">'+n.status+'</font>'
-								+ '</p>'
+								if(n.status == '2'){
+									htm = htm + '<font color="green">'+n.statusDes+'</font>';
+								}else{
+									htm = htm + '<font color="red">'+n.statusDes+'</font>';
+								}
+								htm = htm + '</p>'
 								+ '</div>'
 								+ '</div>';
 						$(".weui-cells").append(htm);

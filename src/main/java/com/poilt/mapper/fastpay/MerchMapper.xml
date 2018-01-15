@@ -14,6 +14,8 @@
 		<result column="referrer" jdbcType="VARCHAR" property="referrer" />
 		<result column="atten_state" jdbcType="CHAR" property="attenState" />
 		<result column="tied_card" jdbcType="CHAR" property="tiedCard" />
+		<result column="merch_uuid" jdbcType="VARCHAR" property="merchUuid" />
+		<result column="mer_no" jdbcType="VARCHAR" property="merNo" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 
@@ -58,6 +60,12 @@
 			<if test="tiedCard != null">
 				tied_card,
 			</if>
+			<if test="merNo != null">
+				mer_no,
+			</if>
+			<if test="merchUuid != null">
+				merch_uuid,
+			</if>
 			<if test="createTime != null">
 				create_time,
 			</if>
@@ -99,6 +107,12 @@
 			<if test="tiedCard != null">
 				#{tiedCard,jdbcType=CHAR},
 			</if>
+			<if test="merNo != null">
+				#{merNo,jdbcType=CHAR},
+			</if>
+			<if test="merchUuid != null">
+				#{merchUuid,jdbcType=CHAR},
+			</if>
 			<if test="createTime != null">
 				#{createTime,jdbcType=TIMESTAMP},
 			</if>
@@ -137,6 +151,12 @@
 			</if>
 			<if test="tiedCard != null">
 				tied_card = #{tiedCard,jdbcType=CHAR},
+			</if>
+			<if test="merNo != null">
+				mer_no = #{merNo,jdbcType=CHAR},
+			</if>
+			<if test="merchUuid != null">
+				merch_uuid = #{merchUuid,jdbcType=CHAR},
 			</if>
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},

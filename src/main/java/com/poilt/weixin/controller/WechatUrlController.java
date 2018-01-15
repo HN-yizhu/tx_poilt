@@ -1,5 +1,6 @@
 package com.poilt.weixin.controller;
 
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.poilt.model.fastpay.BankCode;
 import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.MerchService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -27,6 +31,9 @@ public class WechatUrlController {
 	
 	@Autowired
 	private MerchService merchService;
+	
+	@Autowired
+	private BankCodeService bankCodeService;
 	
 	@PostMapping
 	public String post(@RequestParam(name = "code", required = true) String code) {
@@ -78,6 +85,8 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 		} else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
 			return "/tiedCard";
 		} else {
+			List<Map<String, Object>> list = bankCodeService.selectMap();
+			map.put("bankCodeList", list);
 			return "/index";
 		}
 	}

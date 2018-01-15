@@ -1,5 +1,8 @@
 package com.poilt.web.controller.fastpay.api;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.MerchService;
 
 /**
@@ -25,6 +29,9 @@ public class MerchRegisterController {
 	@Autowired
 	private MerchService merchService;
 	
+	@Autowired
+	private BankCodeService bankCodeService;
+	
 	@RequestMapping("/fastpay_register")
 	public String merch(Merch merch, HttpSession httpSession, Model model) throws Exception {
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(merch));
@@ -36,6 +43,8 @@ public class MerchRegisterController {
 			merch.setOpenId(openId);
 			merchService.updateByOpenId(merch);
 		}
+		List<Map<String, Object>> list = bankCodeService.selectMap();
+		model.addAttribute("bankCodeList", list);
 		return "/tiedCard";
 	}
 

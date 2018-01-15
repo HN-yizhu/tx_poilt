@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
+import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.CardService;
 import com.poilt.service.fastpay.MerchService;
 
@@ -29,14 +30,37 @@ public class PageController {
 	@Autowired
 	private CardService cardService;
 	
+	@Autowired
+	private BankCodeService bankCodeService;
+	
 	@RequestMapping(value = "/index")
 	public String index(HttpServletRequest request, Map<String, Object> map) throws Exception {
+		List<Map<String, Object>> list = bankCodeService.selectMap();
+		map.put("bankCodeList", list);
 		return "/index";
 	}
 	
 	@RequestMapping(value = "/orderList")
 	public String orderList(HttpServletRequest request, Map<String, Object> map) throws Exception {
 		return "/orderList";
+	}
+	
+	@RequestMapping(value = "/tiedCard")
+	public String tiedCard(HttpServletRequest request, Map<String, Object> map) throws Exception {
+		List<Map<String, Object>> list = bankCodeService.selectMap();
+		map.put("bankCodeList", list);
+		return "/tiedCard";
+	}
+	
+	@RequestMapping(value = "/paysms")
+	public String paysms(HttpServletRequest request, Map<String, Object> map) throws Exception {
+		return "/paysms";
+	}
+	
+	@RequestMapping(value = "/tiedCreditCard")
+	public String tiedCreditCard(String cardNo, Model model) throws Exception {
+		model.addAttribute("cardNo", cardNo);
+		return "/tiedCreditCard";
 	}
 	
 	@RequestMapping(value = "/home")

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.poilt.mapper.fastpay.BankCodeMapper">
+	<resultMap id="bankCodeMap" type="com.poilt.model.fastpay.BankCode">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+		<result column="status" jdbcType="CHAR" property="status" />
+	</resultMap>
+
+	<select id="findByBankCode" resultMap="bankCodeMap">
+		select * from bank_code where bank_code = #{bankCode}
+	</select>
+	
+	<select id="select" resultMap="bankCodeMap">
+		select * from bank_code
+	</select>
+	
+	<select id="selectMap" resultType="map">
+		select concat(bank_code,',',code) value, bank_name title from bank_code
+	</select>
+
+</mapper>

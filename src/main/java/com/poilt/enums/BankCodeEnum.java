@@ -4,7 +4,7 @@ public enum BankCodeEnum {
 	
 	E102	("102","ICBC","中国工商银行"),
 	E103	("103","ABC","中国农业银行"),
-	E104("104","BOC","中国银行"),
+	E104	("104","BOC","中国银行"),
 	E105	("105","CCB","中国建设银行"),
 	E201	("201","CDB","国家开发银行"),
 	E202	("202","EXIMBANK","中国进出口银行"),
@@ -32,8 +32,7 @@ public enum BankCodeEnum {
 	E503	("503","NCBCHINA","南洋商业银行"),
 	E504	("504","HANGSENG","恒生银行"),
 	E783	("783","SDB","深圳发展银行"),
-	E905("905","UNIONPAY","中国银联");
-	
+	E905	("905","UNIONPAY","中国银联");
 	
 	private String code;
 	private String ename;

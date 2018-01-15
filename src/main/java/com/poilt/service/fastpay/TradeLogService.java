@@ -20,6 +20,10 @@ public class TradeLogService {
 		return list;
 	}
 	
+	public TradeLog findByTradeNo(String openId, String tradeNo){
+		return tradeLogMapper.findByTradeNo(openId, tradeNo);
+	}
+	
 	public int insert(TradeLog trade){
 		int count = tradeLogMapper.insert(trade);
 		return count;

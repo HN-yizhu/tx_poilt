@@ -15,7 +15,7 @@
 		<result column="bank_sub_name" jdbcType="VARCHAR" property="bankSubName" />
 		<result column="bank_channel_no" jdbcType="VARCHAR" property="bankChannelNo" />
 		<result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
-		<result column="bank__abbr" jdbcType="VARCHAR" property="bankAbbr" />
+		<result column="bank_abbr" jdbcType="VARCHAR" property="bankAbbr" />
 		<result column="card_status" jdbcType="CHAR" property="cardStatus" />
 		<result column="use_type" jdbcType="CHAR" property="useType" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -74,7 +74,7 @@
 				bank_code,
 			</if>
 			<if test="bankAbbr != null">
-				bank__abbr,
+				bank_abbr,
 			</if>
 			<if test="cardStatus != null">
 				card_status,
@@ -181,7 +181,7 @@
 				bank_code = #{bankCode,jdbcType=VARCHAR},
 			</if>
 			<if test="bankAbbr != null">
-				bank__abbr = #{bankAbbr,jdbcType=VARCHAR},
+				bank_abbr = #{bankAbbr,jdbcType=VARCHAR},
 			</if>
 			<if test="cardStatus != null">
 				card_status = #{cardStatus,jdbcType=CHAR},

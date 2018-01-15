@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>用户绑卡</title>
+<title>短信验证</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no">
 
-<meta name="description" content="快捷支付用户绑卡">
+<meta name="description" content="快捷支付短信验证">
 
 <link rel="stylesheet" th:href="@{/lib/weui.min.css}">
 <link rel="stylesheet" th:href="@{/css/jquery-weui.css}">
@@ -20,35 +20,38 @@
 	<form id="tiedCardForm" th:action="@{/fastpay_tiedcard}">
 		<div class="weui-tab">
 			<div class="weui-tab__bd">
-				<div style="margin-top: 0px;" class="weui-cells__title">用户绑卡</div>
+				<div style="margin-top: 0px;" class="weui-cells__title">短信验证码</div>
 				<div class="weui-cells weui-cells_form">
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
-							<label class="weui-label">结算卡卡号</label>
+							<label class="weui-label">卡号</label>
 						</div>
 						<div class="weui-cell__bd">
-							<input id="cardNo" name="cardNo" type="number" pattern="[0-9]*" class="weui-input" placeholder="结算卡卡号">
-						</div>
-						<div class="weui-cell__ft">
-							<i class="weui-icon-warn"></i>
+							[[${cardNo}]]
+							<input class="weui-input" type="hidden" id="cardNo" name="cardNo" th:value="${cardNo}">
 						</div>
 					</div>
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
-							<label class="weui-label">开户银行</label>
+							<label class="weui-label">cvn2</label>
 						</div>
 						<div class="weui-cell__bd">
-							<input class="weui-input" id="bankName" name="bankName" type="text" value="" placeholder="开户银行">
+							<input class="weui-input" type="number" placeholder="卡背面后三位数字">
 						</div>
 					</div>
-				</div>
-				<div class="demos-content-padded weui-footer">
-					<p class="weui-footer__text">注：结算卡银行预留手机要与注册手机一致</p>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">卡有效期</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input class="weui-input" type="number" placeholder="如:12/24,输入1224">
+						</div>
+					</div>
 				</div>
 
 				<div class='demos-content-padded'>
 					<a id="register" href="javascript:;"
-						class="weui-btn weui-btn_primary">完成</a>
+						class="weui-btn weui-btn_primary">下一步</a>
 				</div>
 			</div>
 	</form>
@@ -66,23 +69,17 @@
 	        title: "请选择开户银行",
 	        items: /*[[${bankCodeList}]]*/
 	      });
-		$("#register").click(function() {
-			//$("#tiedCardForm").submit();
-			var params = {
-					"cardNo": $("#cardNo").val(),
-					"bankName": $("#bankName").val(),
-					"bankCode": $("#bankName").attr("data-values")
-			};
+		$("#getSms").click(function() {
 			$.showLoading();
 			$.ajax({
 	    		type: 'post',
-	    		url: /*[[@{/fastpay_tiedcard}]]*/ + '',
-	    		data: params,
+	    		url: /*[[@{/fastpay_tiedCreditCard}]]*/ + '',
+	    		data: '',
 	    		dataType: 'json',
 	    		success: function(data){
 	    			$.hideLoading();
 	    			if(data.code == '200'){
-	    				location.href=/*[[@{/index}]]*/+'';
+	    				location.href = /*[[@{/paysms}]]*/ + '';
 	    			}else{
 	    				$.toast(data.message, "cancel");
 	    			}

@@ -29,7 +29,7 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input class="weui-input" id="bankName" name="bankName"
-								type="text" value="" placeholder="请选择开户银行">
+								type="text" value="" placeholder="开户银行">
 						</div>
 					</div>
 					<div class="weui-cell">
@@ -38,7 +38,7 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input id="payCardNo" name="payCardNo" class="weui-input"
-								type="number" pattern="[0-9]*" placeholder="请输入卡号">
+								type="number" pattern="[0-9]*" placeholder="支付卡号">
 						</div>
 					</div>
 					<div class="weui-cell">
@@ -47,23 +47,12 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input id="tradeAmt" name="tradeAmt" class="weui-input"
-								type="number" pattern="[0-9]*" placeholder="请输入金额">
+								type="number" pattern="[0-9]*" placeholder="支付金额">
 						</div>
 						<div class="weui-cell__ft">
 							<i class="weui-icon-warn"></i>
 						</div>
 					</div>
-					<!-- 
-					<div class="weui-cell">
-						<div class="weui-cell__hd">
-							<label class="weui-label">手机号</label>
-						</div>
-						<div class="weui-cell__bd">
-							<input class="weui-input" type="number" pattern="[0-9]*"
-								placeholder="请输入手机号">
-						</div>
-					</div>
-					 -->
 				</div>
 				<div class="demos-content-padded weui-footer">
 					<!-- <p class="weui-footer__text">快捷交易费率:0.0045+1.0,手续费合计:￥0.00</p> -->
@@ -108,48 +97,12 @@
 	<script type="text/javascript" th:inline="javascript">
 	$("#bankName").select({
         title: "请选择开户银行",
-        items: [
-          {
-            title: "中国银行",
-            value: "中国银行",
-          },
-          {
-            title: "招商银行",
-            value: "招商银行",
-          },
-          {
-            title: "浦发银行",
-            value: "浦发银行",
-          },
-          {
-            title: "兴业银行",
-            value: "兴业银行",
-          },
-          {
-            title: "平安银行",
-            value: "平安银行",
-          },
-          {
-            title: "交通银行",
-            value: "交通银行",
-          },
-          {
-            title: "中信银行",
-            value: "中信银行",
-          },
-          {
-            title: "民生银行",
-            value: "民生银行",
-          },
-          {
-            title: "建设银行",
-            value: "建设银行"
-          }
-        ]
+        items: /*[[${bankCodeList}]]*/
       });
 		$("#payMoney").click(function() {
 			var bankName = $("#bankName").val();
-			if(bankName == ""){
+			var bankCode = $("#bankName").attr("data-values");
+			if(bankCode == ""){
 				$.alert("请选择银行！");
 			    return false;
 			}
@@ -173,12 +126,13 @@
 	    	  $.alert("请输入金额！");
 	    	  return false;
 	      }
-	      if(tradeAmt < 100){
-	    	  $.alert("支付金额最少100！");
+	      if(tradeAmt < 200){
+	    	  $.alert("支付金额最少200！");
 	    	  return false;
 	      }
-	      $.showLoading("正在支付...");
+	      $.showLoading("发起支付...");
 			var params = {
+					"bankCode": bankCode,
 					"bankName": bankName,
 					"payCardNo": payCardNo,
 					"tradeAmt": tradeAmt
@@ -191,15 +145,14 @@
 	    		contentType: 'application/json',
 	    		success: function(data){
 	    			$.hideLoading();
-	    			$('#payForm')[0].reset();
-	    			if(data.result){
-	    				$.toast("操作成功", function() {
-		    		          console.log('close');
-		    		        });
+	    			if(data.code == '200'){
+	    				if(data.data == '0'){
+	    					location.href = /*[[@{/paysms}]]*/ + '';
+	    				}else{
+		    				location.href = /*[[@{/tiedCreditCard}]]*/ + '?cardNo=' + payCardNo;
+	    				}
 	    			}else{
-	    				$.toast("操作异常", "cancel", function(toast) {
-		    		          console.log(toast);
-		    		        });
+	    				$.toast(data.message, "cancel");
 	    			}
 	    		}
 	    	});

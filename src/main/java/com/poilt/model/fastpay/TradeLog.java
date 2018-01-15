@@ -15,16 +15,46 @@ public class TradeLog {
     private String userName;
 
     private String idCard;
+    
+    private String bankCode;
+    
+    private String bankAbbr;
 
-    private String bankName;
+    public String getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	public String getBankAbbr() {
+		return bankAbbr;
+	}
+
+	public void setBankAbbr(String bankAbbr) {
+		this.bankAbbr = bankAbbr;
+	}
+
+	private String bankName;
     
     private String payCardNo;
 
     private Timestamp tradeTime;
 
     private String status;
+    
+    private String statusDes;
 
-    private String traceNo;
+    public String getStatusDes() {
+		return statusDes;
+	}
+
+	public void setStatusDes(String statusDes) {
+		this.statusDes = statusDes;
+	}
+
+	private String traceNo;
 
     private Timestamp createTime;
 

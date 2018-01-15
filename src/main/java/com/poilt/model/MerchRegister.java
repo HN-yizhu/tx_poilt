@@ -2,6 +2,9 @@ package com.poilt.model;
 
 public class MerchRegister {
 
+	/**
+	 * 交易码
+	 */
 	private String tranType;
 	private String merTrace;
 	private String merName;
@@ -28,12 +31,20 @@ public class MerchRegister {
 	public String getTranType() {
 		return tranType;
 	}
+	/**
+	 * 交易码
+	 * @param tranType
+	 */
 	public void setTranType(String tranType) {
 		this.tranType = tranType;
 	}
 	public String getMerTrace() {
 		return merTrace;
 	}
+	/**
+	 * 商户流水
+	 * @param merTrace
+	 */
 	public void setMerTrace(String merTrace) {
 		this.merTrace = merTrace;
 	}

@@ -8,16 +8,24 @@
 		<result column="trade_amt" jdbcType="INTEGER" property="tradeAmt" />
 		<result column="user_name" jdbcType="VARCHAR" property="userName" />
 		<result column="id_card" jdbcType="VARCHAR" property="idCard" />
+		<result column="bank_code" jdbcType="VARCHAR" property="bankCode" />
+		<result column="bank_abbr" jdbcType="VARCHAR" property="bankAbbr" />
 		<result column="bank_name" jdbcType="VARCHAR" property="bankName" />
 		<result column="pay_card_no" jdbcType="VARCHAR" property="payCardNo" />
 		<result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
 		<result column="status" jdbcType="CHAR" property="status" />
+		<result column="status_des" jdbcType="VARCHAR" property="statusDes" />
 		<result column="trace_no" jdbcType="VARCHAR" property="traceNo" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 
 	<select id="select" resultMap="tradeMap">
-		select * from trade_log where open_id = #{openId} order by create_time desc
+		select t.*,(select name from dictionary where type='trade_status' and value=t.status) status_des 
+		from trade_log t where t.open_id = #{openId} order by t.create_time desc
+	</select>
+	
+	<select id="findByTradeNo" resultMap="tradeMap">
+		select * from trade_log where open_id = #{openId} and trade_no = #{tradeNo}
 	</select>
 
 	<insert id="insert" parameterType="com.poilt.model.fastpay.TradeLog"
@@ -41,6 +49,12 @@
 			</if>
 			<if test="idCard != null">
 				id_card,
+			</if>
+			<if test="bankCode != null">
+				bank_code,
+			</if>
+			<if test="bankAbbr != null">
+				bank_abbr,
 			</if>
 			<if test="bankName != null">
 				bank_name,
@@ -80,6 +94,12 @@
 			<if test="idCard != null">
 				#{idCard,jdbcType=VARCHAR},
 			</if>
+			<if test="bankCode != null">
+				#{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAbbr != null">
+				#{bankAbbr,jdbcType=VARCHAR},
+			</if>
 			<if test="bankName != null">
 				#{bankName,jdbcType=VARCHAR},
 			</if>
@@ -116,6 +136,12 @@
 			</if>
 			<if test="idCard != null">
 				id_card = #{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCode != null">
+				bank_code = #{bankCode,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAbbr != null">
+				bank_abbr = #{bankAbbr,jdbcType=VARCHAR},
 			</if>
 			<if test="bankName != null">
 				bank_name = #{bankName,jdbcType=VARCHAR},
