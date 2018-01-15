@@ -20,10 +20,17 @@
 
 	<div class="weui-msg">
 		<div class="weui-msg__icon-area">
-			<i class="weui-icon-warn weui-icon_msg"></i>
+			<i th:class="${result ? 'weui-icon-success weui-icon_msg' : 'weui-icon-cancel weui-icon_msg'}"></i>
 		</div>
 		<div class="weui-msg__text-area">
-			<h2 class="weui-msg__title">系统异常</h2>
+			<h2 class="weui-msg__title">[[${result ? '交易成功' : '交易异常'}]]</h2>
+			<p class="weui-msg__desc">注：请勿刷新此页面</p>
+		</div>
+		<div class="weui-msg__opr-area">
+			<p class="weui-btn-area">
+				<a th:href="@{/index}" class="weui-btn weui-btn_primary">继续收款</a> <a
+					th:href="@{/fastpay_trade_list}" class="weui-btn weui-btn_default">交易记录</a>
+			</p>
 		</div>
 	</div>
 	<script th:src="@{/lib/jquery-2.1.4.js}"></script>

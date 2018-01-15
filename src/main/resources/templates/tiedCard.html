@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>用户绑卡</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="快捷支付用户绑卡">
+
+<link rel="stylesheet" th:href="@{/lib/weui.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery-weui.css}">
+<link rel="stylesheet" th:href="@{/css/demos.css}">
+
+</head>
+
+<body ontouchstart th:inline="text">
+	<form id="tiedCardForm" th:action="@{/fastpay_tiedcard}">
+		<div class="weui-tab">
+			<div class="weui-tab__bd">
+				<div style="margin-top: 0px;" class="weui-cells__title">用户绑卡</div>
+				<div class="weui-cells weui-cells_form">
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">结算卡卡号</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="cardNo" name="cardNo" type="number" pattern="[0-9]*" class="weui-input" placeholder="请输入卡号">
+						</div>
+						<div class="weui-cell__ft">
+							<i class="weui-icon-warn"></i>
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label class="weui-label">开户银行</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input class="weui-input" id="bankName" name="bankName" type="text" value="" placeholder="请选择开户银行">
+						</div>
+					</div>
+				</div>
+				<div class="weui-footer">
+					<p class="weui-footer__text">注：绑定结算卡银行手机要与注册手机一致</p>
+				</div>
+
+				<div class='demos-content-padded'>
+					<a id="register" href="javascript:;"
+						class="weui-btn weui-btn_primary">完成</a>
+				</div>
+			</div>
+	</form>
+	<script th:src="@{/lib/jquery-2.1.4.js}"></script>
+	<script th:src="@{/lib/fastclick.js}"></script>
+	<script>
+		$(function() {
+			FastClick.attach(document.body);
+		});
+	</script>
+	<script th:src="@{/js/jquery-weui.js}"></script>
+
+	<script type="text/javascript" th:inline="javascript">
+		$("#bankName").select({
+	        title: "请选择开户银行",
+	        items: [
+	          {
+	            title: "中国银行",
+	            value: "中国银行",
+	          },
+	          {
+	            title: "招商银行",
+	            value: "招商银行",
+	          },
+	          {
+	            title: "浦发银行",
+	            value: "浦发银行",
+	          },
+	          {
+	            title: "兴业银行",
+	            value: "兴业银行",
+	          },
+	          {
+	            title: "平安银行",
+	            value: "平安银行",
+	          },
+	          {
+	            title: "交通银行",
+	            value: "交通银行",
+	          },
+	          {
+	            title: "中信银行",
+	            value: "中信银行",
+	          },
+	          {
+	            title: "民生银行",
+	            value: "民生银行",
+	          },
+	          {
+	            title: "建设银行",
+	            value: "建设银行"
+	          }
+	        ]
+	      });
+		$("#register").click(function() {
+			$("#tiedCardForm").submit();
+		});
+	</script>
+</body>
+</html>

@@ -1,105 +1,130 @@
 package com.poilt.model.fastpay;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class TradeLog {
+	
     private Integer id;
 
+    private String openId;
+    
     private String tradeNo;
 
     private Integer tradeAmt;
 
     private String userName;
 
-    private String userCertNo;
+    private String idCard;
 
+    private String bankName;
+    
     private String payCardNo;
 
-    private Date tradeTime;
+    private Timestamp tradeTime;
 
     private String status;
 
     private String traceNo;
 
-    private Date createTime;
+    private Timestamp createTime;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getTradeNo() {
-        return tradeNo;
-    }
+	public String getOpenId() {
+		return openId;
+	}
 
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo == null ? null : tradeNo.trim();
-    }
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
 
-    public Integer getTradeAmt() {
-        return tradeAmt;
-    }
+	public String getTradeNo() {
+		return tradeNo;
+	}
 
-    public void setTradeAmt(Integer tradeAmt) {
-        this.tradeAmt = tradeAmt;
-    }
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public Integer getTradeAmt() {
+		return tradeAmt;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	public void setTradeAmt(Integer tradeAmt) {
+		this.tradeAmt = tradeAmt;
+	}
 
-    public String getUserCertNo() {
-        return userCertNo;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUserCertNo(String userCertNo) {
-        this.userCertNo = userCertNo == null ? null : userCertNo.trim();
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getPayCardNo() {
-        return payCardNo;
-    }
+	public String getIdCard() {
+		return idCard;
+	}
 
-    public void setPayCardNo(String payCardNo) {
-        this.payCardNo = payCardNo == null ? null : payCardNo.trim();
-    }
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
 
-    public Date getTradeTime() {
-        return tradeTime;
-    }
+	public String getPayCardNo() {
+		return payCardNo;
+	}
 
-    public void setTradeTime(Date tradeTime) {
-        this.tradeTime = tradeTime;
-    }
+	public void setPayCardNo(String payCardNo) {
+		this.payCardNo = payCardNo;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public Timestamp getTradeTime() {
+		return tradeTime;
+	}
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
+	public void setTradeTime(Timestamp tradeTime) {
+		this.tradeTime = tradeTime;
+	}
 
-    public String getTraceNo() {
-        return traceNo;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setTraceNo(String traceNo) {
-        this.traceNo = traceNo == null ? null : traceNo.trim();
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public String getTraceNo() {
+		return traceNo;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setTraceNo(String traceNo) {
+		this.traceNo = traceNo;
+	}
+
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	
+
+    
 }

@@ -1,16 +1,14 @@
 package com.poilt.web.controller.fastpay.api;
 
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
-
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.model.fastpay.Card;
-import com.poilt.model.fastpay.Merch;
 import com.poilt.service.fastpay.TiedCardService;
 
 /**
@@ -18,7 +16,7 @@ import com.poilt.service.fastpay.TiedCardService;
  * @author Administrator
  *
  */
-@RestController
+@Controller
 public class TiedCardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TiedCardController.class);
@@ -27,9 +25,18 @@ public class TiedCardController {
 	private TiedCardService tiedCardService;
 	
 	@RequestMapping("/fastpay_tiedcard")
-	public JSONObject tiedCard(@SessionAttribute Merch merch,@RequestBody Card card){
+	public String tiedCard(Card card, HttpSession httpSession, Model model) throws Exception{
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(card));
-		return tiedCardService.tiedCard(merch,card);
+		//String openId = httpSession.getAttribute("openId") == null ? "" : httpSession.getAttribute("openId").toString();
+		String openId = httpSession.getAttribute("openId").toString();
+		logger.info("Session openId：" + openId);
+		if("".equals(openId)){
+			throw new Exception("openId获取失败！");
+		}else{
+			card.setOpenId(openId);
+			tiedCardService.tiedCard(card);
+		}
+		return "/index";
 	}
 	
 }

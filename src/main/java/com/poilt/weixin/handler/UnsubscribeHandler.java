@@ -4,12 +4,10 @@ import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.poilt.model.fastpay.Merch;
-import com.poilt.service.fastpay.MerchRegisterService;
+import com.poilt.service.fastpay.MerchService;
 
 import java.util.Map;
 
@@ -25,7 +23,7 @@ import java.util.Map;
 public class UnsubscribeHandler extends AbstractHandler {
 
 	@Autowired
-	private MerchRegisterService merchRegisterService;
+	private MerchService merchService;
 
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
@@ -37,7 +35,7 @@ public class UnsubscribeHandler extends AbstractHandler {
 		merch.setOpenId(openId);
 		merch.setAttenState("N");
 		try {
-			merchRegisterService.updateByOpenId(merch);
+			merchService.updateByOpenId(merch);
 		} catch (Exception e) {
 			this.logger.error("修改关注状态异常", e);
 		}

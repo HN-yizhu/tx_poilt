@@ -19,7 +19,11 @@ public enum StatusCode {
 	/**
 	 * [0101]数据库操作失败
 	 */
-	SYS_DB_ERR("0101", "数据库操作失败");
+	SYS_DB_ERR("0101", "数据库操作失败"),
+	/**
+	 * 
+	 */
+	SYS_NO_OPEN_ID("0102", "微信openId获取失败");
 	
 	private String code;
 	private String desc;

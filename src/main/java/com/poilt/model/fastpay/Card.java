@@ -4,26 +4,24 @@ import java.util.Date;
 
 public class Card {
     private Integer id;
+    
+    private String openId;
+
+    private String idCard;
+
+    private String phone;
 
     private String cardNo;
 
-    private String certNo;
-
-    private String certType;
-
-    private String accountName;
-
-    private String phoneno;
-
     private String cardType;
 
-    private String cardStatus;
-
+    private String cardName;
+    
+    private String bankName;
+    
     private String cardProvince;
 
     private String cardCity;
-
-    private String bankName;
 
     private String bankSubName;
 
@@ -32,6 +30,8 @@ public class Card {
     private String bankCode;
 
     private String bankAbbr;
+    
+    private String cardStatus;
 
     private String useType;
 
@@ -39,147 +39,149 @@ public class Card {
 
     private String orderNo;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getCardNo() {
-        return cardNo;
-    }
+	public String getOpenId() {
+		return openId;
+	}
 
-    public void setCardNo(String cardNo) {
-        this.cardNo = cardNo == null ? null : cardNo.trim();
-    }
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
 
-    public String getCertNo() {
-        return certNo;
-    }
+	public String getIdCard() {
+		return idCard;
+	}
 
-    public void setCertNo(String certNo) {
-        this.certNo = certNo == null ? null : certNo.trim();
-    }
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
 
-    public String getCertType() {
-        return certType;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setCertType(String certType) {
-        this.certType = certType == null ? null : certType.trim();
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public String getAccountName() {
-        return accountName;
-    }
+	public String getCardNo() {
+		return cardNo;
+	}
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName == null ? null : accountName.trim();
-    }
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
+	}
 
-    public String getPhoneno() {
-        return phoneno;
-    }
+	public String getCardType() {
+		return cardType;
+	}
 
-    public void setPhoneno(String phoneno) {
-        this.phoneno = phoneno == null ? null : phoneno.trim();
-    }
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
 
-    public String getCardType() {
-        return cardType;
-    }
+	public String getCardName() {
+		return cardName;
+	}
 
-    public void setCardType(String cardType) {
-        this.cardType = cardType == null ? null : cardType.trim();
-    }
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
 
-    public String getCardStatus() {
-        return cardStatus;
-    }
+	public String getBankName() {
+		return bankName;
+	}
 
-    public void setCardStatus(String cardStatus) {
-        this.cardStatus = cardStatus == null ? null : cardStatus.trim();
-    }
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
 
-    public String getCardProvince() {
-        return cardProvince;
-    }
+	public String getCardProvince() {
+		return cardProvince;
+	}
 
-    public void setCardProvince(String cardProvince) {
-        this.cardProvince = cardProvince == null ? null : cardProvince.trim();
-    }
+	public void setCardProvince(String cardProvince) {
+		this.cardProvince = cardProvince;
+	}
 
-    public String getCardCity() {
-        return cardCity;
-    }
+	public String getCardCity() {
+		return cardCity;
+	}
 
-    public void setCardCity(String cardCity) {
-        this.cardCity = cardCity == null ? null : cardCity.trim();
-    }
+	public void setCardCity(String cardCity) {
+		this.cardCity = cardCity;
+	}
 
-    public String getBankName() {
-        return bankName;
-    }
+	public String getBankSubName() {
+		return bankSubName;
+	}
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName == null ? null : bankName.trim();
-    }
+	public void setBankSubName(String bankSubName) {
+		this.bankSubName = bankSubName;
+	}
 
-    public String getBankSubName() {
-        return bankSubName;
-    }
+	public String getBankChannelNo() {
+		return bankChannelNo;
+	}
 
-    public void setBankSubName(String bankSubName) {
-        this.bankSubName = bankSubName == null ? null : bankSubName.trim();
-    }
+	public void setBankChannelNo(String bankChannelNo) {
+		this.bankChannelNo = bankChannelNo;
+	}
 
-    public String getBankChannelNo() {
-        return bankChannelNo;
-    }
+	public String getBankCode() {
+		return bankCode;
+	}
 
-    public void setBankChannelNo(String bankChannelNo) {
-        this.bankChannelNo = bankChannelNo == null ? null : bankChannelNo.trim();
-    }
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
 
-    public String getBankCode() {
-        return bankCode;
-    }
+	public String getBankAbbr() {
+		return bankAbbr;
+	}
 
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode == null ? null : bankCode.trim();
-    }
+	public void setBankAbbr(String bankAbbr) {
+		this.bankAbbr = bankAbbr;
+	}
 
-    public String getBankAbbr() {
-        return bankAbbr;
-    }
+	public String getCardStatus() {
+		return cardStatus;
+	}
 
-    public void setBankAbbr(String bankAbbr) {
-        this.bankAbbr = bankAbbr == null ? null : bankAbbr.trim();
-    }
+	public void setCardStatus(String cardStatus) {
+		this.cardStatus = cardStatus;
+	}
 
-    public String getUseType() {
-        return useType;
-    }
+	public String getUseType() {
+		return useType;
+	}
 
-    public void setUseType(String useType) {
-        this.useType = useType == null ? null : useType.trim();
-    }
+	public void setUseType(String useType) {
+		this.useType = useType;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public String getOrderNo() {
-        return orderNo;
-    }
+	public String getOrderNo() {
+		return orderNo;
+	}
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo == null ? null : orderNo.trim();
-    }
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+   
 }

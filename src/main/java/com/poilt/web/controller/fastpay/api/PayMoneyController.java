@@ -1,15 +1,24 @@
 package com.poilt.web.controller.fastpay.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.model.PayMoney;
+import com.poilt.model.fastpay.TradeLog;
 import com.poilt.service.fastpay.PayMoneyService;
+import com.poilt.service.fastpay.TradeLogService;
 
 /**
  * 支付
@@ -24,10 +33,8 @@ public class PayMoneyController {
 	@Autowired
 	private PayMoneyService payMoneyService;
 	
-	@RequestMapping("/fastpay_pay")
-	public JSONObject pay(@RequestBody PayMoney payMoney){
-		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(payMoney));
-		return payMoneyService.pay(payMoney);
-	}
+	@Autowired
+	private TradeLogService tradeLogService;
+	
 	
 }

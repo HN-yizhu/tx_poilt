@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.poilt.model.fastpay.Merch;
-import com.poilt.service.fastpay.MerchRegisterService;
+import com.poilt.service.fastpay.MerchService;
 import com.poilt.weixin.builder.TextBuilder;
 import java.util.Map;
 
@@ -25,8 +25,11 @@ import java.util.Map;
 public class SubscribeHandler extends AbstractHandler {
 
 	@Autowired
-	private MerchRegisterService merchRegisterService;
+	private MerchService merchService;
 	
+	/* (non-Javadoc)
+	 * @see me.chanjar.weixin.mp.api.WxMpMessageHandler#handle(me.chanjar.weixin.mp.bean.message.WxMpXmlMessage, java.util.Map, me.chanjar.weixin.mp.api.WxMpService, me.chanjar.weixin.common.session.WxSessionManager)
+	 */
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService weixinService,
 			WxSessionManager sessionManager) throws WxErrorException {
@@ -37,25 +40,28 @@ public class SubscribeHandler extends AbstractHandler {
 		WxMpUser userWxInfo = weixinService.getUserService().userInfo(wxMessage.getFromUser(), null);
 
 		if (userWxInfo != null) {
-			Merch user = merchRegisterService.queryByOpenId(userWxInfo.getOpenId());
+			Merch user = merchService.findByOpenId(userWxInfo.getOpenId());
 			if (user == null) {
 				//添加关注用户到本地
 				Merch merch = new Merch();
+				merch.setMerName(userWxInfo.getNickname());
 				merch.setOpenId(userWxInfo.getOpenId());
 				try {
-					merchRegisterService.registerOrUpdate(merch);
+					merchService.insert(merch);
 				} catch (Exception e) {
 					this.logger.error("关注用户到本地异常", e);
 				}
 			} else {
-				//更新本地数据库为关注状态
-				Merch merch = new Merch();
-				merch.setOpenId(userWxInfo.getOpenId());
-				merch.setAttenState("Y");
-				try {
-					merchRegisterService.updateByOpenId(merch);
-				} catch (Exception e) {
-					this.logger.error("修改关注状态异常", e);
+				if("N".equals(user.getAttenState())){
+					//更新本地数据库为关注状态
+					Merch merch = new Merch();
+					merch.setOpenId(userWxInfo.getOpenId());
+					merch.setAttenState("Y");
+					try {
+						merchService.updateByOpenId(merch);
+					} catch (Exception e) {
+						this.logger.error("修改关注状态异常", e);
+					}
 				}
 			}
 		}

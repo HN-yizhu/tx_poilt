@@ -1,5 +1,7 @@
 package com.poilt.weixin.controller;
 
+import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.poilt.model.fastpay.Merch;
-import com.poilt.service.fastpay.MerchRegisterService;
-
-import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import com.poilt.service.fastpay.MerchService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 @Controller
 @RequestMapping("/wechat/url")
@@ -27,7 +26,7 @@ public class WechatUrlController {
 	private WxMpService wxMpService;
 	
 	@Autowired
-	MerchRegisterService merchRegisterService;
+	private MerchService merchService;
 	
 	@PostMapping
 	public String post(@RequestParam(name = "code", required = true) String code) {
@@ -56,15 +55,30 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 	 * @throws Exception 
 	 */
 	@GetMapping
-	public String get(@RequestParam(name = "code", required = true) String code) throws Exception {
+	public String get(@RequestParam(name = "code", required = true) String code, HttpSession httpSession, Map<String, Object> map) throws Exception {
 		WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
 		String openId = wxMpOAuth2AccessToken.getOpenId();
-		Merch merch = merchRegisterService.queryByOpenId(openId);
-		String idCardNo = merch.getIdCardNo();
-		if(idCardNo != null && !"".equals(idCardNo)){
-			return "/index";
-		} else {
+		if(openId == null || "".equals(openId)){
+			throw new Exception("请从微信公众号进行访问!");
+		}
+		httpSession.setAttribute("openId", openId);
+		/*是否已经注册*/
+		Merch merch = merchService.findByOpenId(openId);
+		if(merch == null){
+			WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
+			merch = new Merch();
+			merch.setOpenId(openId);
+			merch.setMerName(wxMpUser.getNickname());
+			merchService.insert(merch);
+		}
+		String tiedCard = merch.getTiedCard();
+		String idCard = merch.getIdCard();
+		if(idCard == null || "".equals(idCard)){
 			return "/register";
+		} else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
+			return "/tiedCard";
+		} else {
+			return "/index";
 		}
 	}
 	

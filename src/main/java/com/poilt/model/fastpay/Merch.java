@@ -3,133 +3,134 @@ package com.poilt.model.fastpay;
 import java.util.Date;
 
 public class Merch {
-    private Integer id;
+	private Integer id;
 
-    private String merName;
+	private String openId;
 
-    private String merAbbr;
+	private String merName;
 
-    private String idCardNo;
+	private String name;
 
-    private String openId;
+	private String phone;
 
-    private String creditRate;
+	private String idCard;
 
-    private Integer historyTotal;
+	private Double creditRate;
 
-    private Integer creditFee;
+	private Double creditFee;
 
-    private String referrer;
+	private Double historyTotal;
 
-    private Date createTime;
+	private String referrer;
 
-    private String merUuid;
+	private String attenState;
 
-    private String merNo;
+	private String tiedCard;
 
-    private String attenState;
+	private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getMerName() {
-        return merName;
-    }
+	public String getOpenId() {
+		return openId;
+	}
 
-    public void setMerName(String merName) {
-        this.merName = merName == null ? null : merName.trim();
-    }
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
 
-    public String getMerAbbr() {
-        return merAbbr;
-    }
+	public String getMerName() {
+		return merName;
+	}
 
-    public void setMerAbbr(String merAbbr) {
-        this.merAbbr = merAbbr == null ? null : merAbbr.trim();
-    }
+	public void setMerName(String merName) {
+		this.merName = merName;
+	}
 
-    public String getIdCardNo() {
-        return idCardNo;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setIdCardNo(String idCardNo) {
-        this.idCardNo = idCardNo == null ? null : idCardNo.trim();
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getOpenId() {
-        return openId;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setOpenId(String openId) {
-        this.openId = openId == null ? null : openId.trim();
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public String getCreditRate() {
-        return creditRate;
-    }
+	public String getIdCard() {
+		return idCard;
+	}
 
-    public void setCreditRate(String creditRate) {
-        this.creditRate = creditRate == null ? null : creditRate.trim();
-    }
+	public void setIdCard(String idCard) {
+		this.idCard = idCard;
+	}
 
-    public Integer getHistoryTotal() {
-        return historyTotal;
-    }
+	public Double getCreditRate() {
+		return creditRate;
+	}
 
-    public void setHistoryTotal(Integer historyTotal) {
-        this.historyTotal = historyTotal;
-    }
+	public void setCreditRate(Double creditRate) {
+		this.creditRate = creditRate;
+	}
 
-    public Integer getCreditFee() {
-        return creditFee;
-    }
+	public Double getCreditFee() {
+		return creditFee;
+	}
 
-    public void setCreditFee(Integer creditFee) {
-        this.creditFee = creditFee;
-    }
+	public void setCreditFee(Double creditFee) {
+		this.creditFee = creditFee;
+	}
 
-    public String getReferrer() {
-        return referrer;
-    }
+	public Double getHistoryTotal() {
+		return historyTotal;
+	}
 
-    public void setReferrer(String referrer) {
-        this.referrer = referrer == null ? null : referrer.trim();
-    }
+	public void setHistoryTotal(Double historyTotal) {
+		this.historyTotal = historyTotal;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public String getReferrer() {
+		return referrer;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public void setReferrer(String referrer) {
+		this.referrer = referrer;
+	}
 
-    public String getMerUuid() {
-        return merUuid;
-    }
+	public String getAttenState() {
+		return attenState;
+	}
 
-    public void setMerUuid(String merUuid) {
-        this.merUuid = merUuid == null ? null : merUuid.trim();
-    }
+	public void setAttenState(String attenState) {
+		this.attenState = attenState;
+	}
 
-    public String getMerNo() {
-        return merNo;
-    }
+	public String getTiedCard() {
+		return tiedCard;
+	}
 
-    public void setMerNo(String merNo) {
-        this.merNo = merNo == null ? null : merNo.trim();
-    }
+	public void setTiedCard(String tiedCard) {
+		this.tiedCard = tiedCard;
+	}
 
-    public String getAttenState() {
-        return attenState;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public void setAttenState(String attenState) {
-        this.attenState = attenState == null ? null : attenState.trim();
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
 }

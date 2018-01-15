@@ -2,36 +2,56 @@ package com.poilt.service.fastpay;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.alibaba.fastjson.JSONObject;
-import com.poilt.mapper.fastpay.CardMapper;
+import org.springframework.transaction.annotation.Transactional;
 import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.utils.TradeHttpRequestExecute;
-
-import me.chanjar.weixin.common.util.RandomUtils;
 
 @Service
 public class TiedCardService {
 	
 	@Autowired
-	CardMapper cardMapper;
-
-	@Autowired
 	TradeHttpRequestExecute tradeExecute;
 	
+	@Autowired
+	private CardService cardService;
+	
+	@Autowired
+	private MerchService merchService;
+	
 	/**
-	 * 银联绑卡
+	 * 结算卡
 	 * @param param
 	 * @return
+	 * @throws Exception 
 	 */
-	public JSONObject tiedCard(Merch merch,Card card) {
-		card.setOrderNo(RandomUtils.getRandomStr());
-		cardMapper.insertSelective(card);
-		JSONObject merchJson = (JSONObject)JSONObject.toJSON(merch);
-		JSONObject cardJson = (JSONObject)JSONObject.toJSON(card);
-		merchJson.putAll(cardJson);
-		return tradeExecute.tradeHttpReq(merchJson.toJSONString());
+	@Transactional
+	public void tiedCard(Card card) {
+		Merch user = merchService.findByOpenId(card.getOpenId());
+		card.setIdCard(user.getIdCard());
+		card.setPhone(user.getPhone());
+		card.setCardName(user.getName());
+		card.setCardType("1");
+		card.setUseType("2");
+		cardService.insert(card);
+		Merch merch = new Merch();
+		merch.setOpenId(card.getOpenId());
+		merch.setTiedCard("Y");
+		merchService.updateByOpenId(merch);
+	}
+	
+	/**
+	 * 信用卡
+	 * @param card
+	 * @return
+	 */
+	public int tiedCreditCard(Card card) {
+		Merch user = merchService.findByOpenId(card.getOpenId());
+		card.setIdCard(user.getIdCard());
+		card.setPhone(user.getPhone());
+		card.setCardName(user.getName());
+		card.setUseType("1");
+		return cardService.insert(card);
 	}
 	
 }
