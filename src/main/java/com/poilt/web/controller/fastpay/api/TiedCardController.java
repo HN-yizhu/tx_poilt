@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,11 @@ import com.poilt.utils.Serialnumber;
 import com.poilt.utils.TradeHttpRequestExecute;
 
 /**
- * 银联绑卡
- * @author Administrator
+ * 绑卡
+ * Title: TiedCardController.java
+ * Description: 
+ * Date: 2018年1月16日
+ * @author: TanGuobiao
  *
  */
 @Controller
@@ -43,6 +47,9 @@ public class TiedCardController {
 	
 	@Autowired
 	private TradeHttpRequestExecute tradeExecute;
+	
+	@Value("${fastpay.rateCode}")
+	private String rateCode;
 	
 	@ResponseBody
 	@RequestMapping("/fastpay_tiedcard")
@@ -78,12 +85,13 @@ public class TiedCardController {
 			Merch user = merchService.findByOpenId(openId);
 			/*获取卡信息*/
 			Card cardInfo = cardService.findByCardNo(openId, cardNo);
+			String orderNo = Serialnumber.getSerial();
 			TiedCard card = new TiedCard();
 			card.setTranType("POPNCD");
 			card.setMerNo(user.getMerNo());
-			card.setMerTrace(Serialnumber.getSerial());
-			card.setOrderId(Serialnumber.getSerial());
-			card.setRateCode("1001002");
+			card.setMerTrace(orderNo);
+			card.setOrderId(orderNo);
+			card.setRateCode(rateCode);
 			card.setCardNo(cardNo);
 			card.setAccountName(user.getName());
 			card.setCardType(cardInfo.getCardType());
@@ -97,10 +105,10 @@ public class TiedCardController {
 			card.setPageReturnUrl("https://pay.masduo.com/fastpay_card_notify");
 			card.setOfflineNotifyUrl("https://pay.masduo.com/fastpay_card_notify");
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
+			return new Result<String>(result.toJSONString());
 		} catch (Exception e) {
 			throw new JsonException(StatusCode.SYS_ERR);
 		}
-		return new Result<String>("");
 	}
 	
 }

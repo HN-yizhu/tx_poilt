@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.poilt.model.fastpay.BankCode;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.MerchService;
@@ -20,6 +18,14 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
+/**
+ * 
+ * Title: WechatUrlController.java
+ * Description: 
+ * Date: 2018年1月16日
+ * @author: TanGuobiao
+ *
+ */
 @Controller
 @RequestMapping("/wechat/url")
 public class WechatUrlController {

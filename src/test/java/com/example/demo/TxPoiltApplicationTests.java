@@ -55,9 +55,9 @@ public class TxPoiltApplicationTests {
 	public void cardStates() throws Exception{
 		JSONObject param = new JSONObject();
 		param.put("tranType", "OPNCQRY");
-		param.put("merNo", "321321321321");
-		param.put("merTrace", "");
-		param.put("orderId", "");
+		param.put("merNo", "10000837");
+		param.put("merTrace", "20180116112332687118");
+		param.put("orderId", "20180116112332687118");
 		RequestBuilder request = MockMvcRequestBuilders
 				.post("/fastpay_cardstate")
 				.contentType("application/json; charset=utf-8")

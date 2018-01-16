@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,9 @@ public class TradeLogController {
 
 	@Autowired
 	private TradeHttpRequestExecute tradeExecute;
+	
+	@Value("${fastpay.rateCode}")
+	private String rateCode;
 
 	@ResponseBody
 	@RequestMapping("/fastpay_start_pay")
@@ -50,7 +54,6 @@ public class TradeLogController {
 		logger.info("Session openId：" + openId);
 		String[] bankCodes = trade.getBankCode().split(",");
 		Merch merch = merchService.findByOpenId(openId);
-		/* 交易记录 */
 		trade.setOpenId(openId);
 		String tradeNo = Serialnumber.getSerial();
 		/*记录交易流水号*/
@@ -102,6 +105,7 @@ public class TradeLogController {
 		logger.info("Session openId：" + openId);
 		Merch merch = merchService.findByOpenId(openId);
 		String tradeNo = httpSession.getAttribute("tradeNo").toString();
+		logger.info("交易短信流水：" + tradeNo);
 		TradeLog tradeLog = tradeLogService.findByTradeNo(openId, tradeNo);
 		PayMessage message = new PayMessage();
 		message.setTranType("PAYMSG");// 交易码
@@ -109,7 +113,7 @@ public class TradeLogController {
 		message.setMerTrace(tradeNo);// 商户流水
 		message.setOrderId(tradeNo);// 支付订单号
 		message.setOrderAmount(tradeLog.getTradeAmt()*100 + "");// 订单金额(分)
-		message.setRateCode("1001002");// 费率编号
+		message.setRateCode(rateCode);// 费率编号
 		message.setCardNo(tradeLog.getPayCardNo());// 银行卡卡号
 		message.setAccountName(tradeLog.getUserName());// 银行卡姓名
 		message.setCardType("2");// 银行卡类型(1、借记卡，2、信用卡)
@@ -140,7 +144,7 @@ public class TradeLogController {
 		payMoney.setOrderId(tradeNo);// 支付订单号 
 		payMoney.setPayNo(tradeNo);//支付流水号
 		payMoney.setPayAmount(tradeLog.getTradeAmt()*100+"");// 支付金额(分)
-		payMoney.setRateCode("1001002");// 合作商户费率编号 
+		payMoney.setRateCode(rateCode);// 合作商户费率编号 
 		payMoney.setCardNo(tradeLog.getPayCardNo());//银行卡卡号
 		payMoney.setAccountName(tradeLog.getUserName());// 银行卡姓名 
 		payMoney.setCardType("2");//银行卡类型

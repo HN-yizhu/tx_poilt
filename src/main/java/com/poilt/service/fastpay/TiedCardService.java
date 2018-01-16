@@ -3,6 +3,7 @@ package com.poilt.service.fastpay;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +28,9 @@ public class TiedCardService {
 	
 	@Autowired
 	private MerchService merchService;
+	
+	@Value("${fastpay.rateCode}")
+	private String rateCode;
 	
 	/**
 	 * 绑结算卡
@@ -58,7 +62,7 @@ public class TiedCardService {
 			merchRegister.setMerTrace(Serialnumber.getSerial());//商户流水
 			merchRegister.setMerName(user.getMerName());//商户名称
 			merchRegister.setMerAbbr(user.getMerName());//商户简称
-			merchRegister.setRateCode("1001002");//合作商户费率编号
+			merchRegister.setRateCode(rateCode);//合作商户费率编号
 			merchRegister.setIdCardNo(user.getIdCard());//身份证
 			merchRegister.setBankAccNo(card.getCardNo());//银行卡卡号
 			merchRegister.setPhoneno(user.getPhone());//银行预留手机
@@ -78,7 +82,6 @@ public class TiedCardService {
 			merchRegister.setWithdRate(user.getCreditRate().toString());//提现费率
 			merchRegister.setWithdSgFee(user.getCreditFee().toString());//单笔提现手续费
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(merchRegister));
-			logger.info("[商户注册返回报文]\r\n" + result.toJSONString());
 			if(!"000000".equals(result.getString("respCode"))){
 				logger.error(StatusCode.SYS_MSG_TIED_CARD.toString()+"["+result.toJSONString()+"]");
 				throw new JsonException(StatusCode.SYS_MSG_TIED_CARD);

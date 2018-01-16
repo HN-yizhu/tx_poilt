@@ -1,30 +1,17 @@
 package com.poilt.mapper.fastpay;
 
 import com.poilt.model.fastpay.SysLog;
-import com.poilt.model.fastpay.SysLogExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+/**
+ * 
+ * Title: SysLogMapper.java
+ * Description: 
+ * Date: 2018年1月16日
+ * @author: TanGuobiao
+ *
+ */
 public interface SysLogMapper {
-    int countByExample(SysLogExample example);
 
-    int deleteByExample(SysLogExample example);
+    int insert(SysLog sysLog);
 
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(SysLog record);
-
-    int insertSelective(SysLog record);
-
-    List<SysLog> selectByExample(SysLogExample example);
-
-    SysLog selectByPrimaryKey(Integer id);
-
-    int updateByExampleSelective(@Param("record") SysLog record, @Param("example") SysLogExample example);
-
-    int updateByExample(@Param("record") SysLog record, @Param("example") SysLogExample example);
-
-    int updateByPrimaryKeySelective(SysLog record);
-
-    int updateByPrimaryKey(SysLog record);
 }

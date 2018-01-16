@@ -5,7 +5,7 @@ import java.util.Date;
 public class SysLog {
     private Integer id;
 
-    private Integer userId;
+    private String userId;
 
     private String userName;
 
@@ -27,13 +27,6 @@ public class SysLog {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -82,4 +75,12 @@ public class SysLog {
     public void setCreateTim(Date createTim) {
         this.createTim = createTim;
     }
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 }

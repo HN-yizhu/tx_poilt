@@ -8,8 +8,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
+import com.poilt.mapper.fastpay.SysLogMapper;
+import com.poilt.model.fastpay.SysLog;
 
 @Component
 public class TradeHttpRequestExecute {
@@ -29,8 +33,12 @@ public class TradeHttpRequestExecute {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Autowired
+	private SysLogMapper sysLogMapper;
+	
 	private static final Logger logger = LoggerFactory.getLogger(TradeHttpRequestExecute.class);
 	
+	@Transactional(propagation=Propagation.NOT_SUPPORTED) 
 	public JSONObject tradeHttpReq(String param) {
 		JSONObject result = new JSONObject();
 		try {
@@ -50,6 +58,14 @@ public class TradeHttpRequestExecute {
 				String sign = resultJson.getString("sign");
 				String body = RSAUtils.decryptByPrivateKey(resultJson.getString("body"), priKey);
 				logger.info("解密body明文[{}]",body);
+				/*记录发送报文*/
+				SysLog sysLog = new SysLog();
+				//String openId = httpSession.getAttribute("openId").toString();
+				String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+				sysLog.setUserId(openId);
+				sysLog.setReqParam(param);
+				sysLog.setRespResult(body);
+				sysLogMapper.insert(sysLog);
 				if(RSAUtils.verify(body.getBytes(), gzPubKey, sign)){
 					result = JSONObject.parseObject(body);
 				}else{
