@@ -15,7 +15,7 @@ public class Serialnumber {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		String dateString = formatter.format(currentTime);
 		int x = (int) (Math.random() * 900) + 100;
-		String serial = "0210731" + dateString + x;
+		String serial = "021" + dateString + x;
 		return serial;
 	}
 
