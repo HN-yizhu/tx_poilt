@@ -17,7 +17,7 @@
 </head>
 
 <body ontouchstart th:inline="text">
-	<form id="tiedCardForm" th:action="@{/fastpay_tiedcard}">
+	<form id="tiedCardForm" th:action="@{/fastpay_tiedCreditCard}" method="post">
 		<div class="weui-tab">
 			<div class="weui-tab__bd">
 				<div style="margin-top: 0px;" class="weui-cells__title">卡片信息</div>
@@ -71,7 +71,8 @@
 	      });
 		$("#tiedCreditCard").click(function() {
 			$.showLoading();
-			var params = {
+			$("#tiedCardForm").submit();
+			/* var params = {
 					"cardNo": $("#cardNo").val(),
 					"cvn2": $("#cvn2").val(),
 					"expired": $("#expired").val()
@@ -89,8 +90,8 @@
 	    				$.toast(data.message, "cancel");
 	    			}
 	    		}
-	    	});
-		});
+	    	}); */
+		}); 
 	</script>
 </body>
 </html>

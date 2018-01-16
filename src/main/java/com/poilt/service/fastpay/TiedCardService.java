@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.poilt.enums.StatusCode;
 import com.poilt.exception.JsonException;
 import com.poilt.model.MerchRegister;
+import com.poilt.model.TiedCard;
 import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.utils.Serialnumber;
@@ -69,7 +70,7 @@ public class TiedCardService {
 			merchRegister.setBankAccName(user.getName());//银行卡户名
 			merchRegister.setBankAccType("2");//银行卡类型(2对私)
 			merchRegister.setBankName(card.getBankName());//银行名称
-			merchRegister.setBankSubName("上海亿珠");//支行名称
+			merchRegister.setBankSubName("上海嘎吱");//支行名称
 			merchRegister.setBankCode(card.getBankCode());//银行代码
 			merchRegister.setBankAbbr(card.getBankAbbr());//银行代号
 			merchRegister.setBankChannelNo("66666");//银行联行号
@@ -80,7 +81,7 @@ public class TiedCardService {
 			merchRegister.setCreditRate(user.getCreditRate().toString());//信用卡费率
 			merchRegister.setCreditCapAmount("99999900");//信用卡封顶
 			merchRegister.setWithdRate(user.getCreditRate().toString());//提现费率
-			merchRegister.setWithdSgFee(user.getCreditFee().toString());//单笔提现手续费
+			merchRegister.setWithdSgFee(user.getCreditFee()*100+"");//单笔提现手续费
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(merchRegister));
 			if(!"000000".equals(result.getString("respCode"))){
 				logger.error(StatusCode.SYS_MSG_TIED_CARD.toString()+"["+result.toJSONString()+"]");
@@ -102,14 +103,39 @@ public class TiedCardService {
 	 * @param card
 	 * @return
 	 */
-	public int tiedCreditCard(Card card) {
-		Merch user = merchService.findByOpenId(card.getOpenId());
+	public JSONObject tiedCreditCard(String openId, String cardNo) {
+		/*Merch user = merchService.findByOpenId(card.getOpenId());
 		card.setIdCard(user.getIdCard());
 		card.setPhone(user.getPhone());
 		card.setCardName(user.getName());
 		card.setCardType("2");//信用卡
 		card.setUseType("2");//支付卡
-		return cardService.insert(card);
+		return cardService.insert(card);*/
+		/*获取用户信息*/
+		Merch user = merchService.findByOpenId(openId);
+		/*获取卡信息*/
+		Card cardInfo = cardService.findByCardNo(openId, cardNo);
+		String orderNo = Serialnumber.getSerial();
+		TiedCard card = new TiedCard();
+		card.setTranType("POPNCD");
+		card.setMerNo(user.getMerNo());
+		card.setMerTrace(orderNo);
+		card.setOrderId(orderNo);
+		card.setRateCode(rateCode);
+		card.setCardNo(cardNo);
+		card.setAccountName(user.getName());
+		card.setCardType(cardInfo.getCardType());
+		card.setBankCode(cardInfo.getBankCode());
+		card.setBankAbbr(cardInfo.getBankAbbr());
+		card.setPhoneno(user.getPhone());
+		card.setCvn2("666");
+		card.setExpired("6666");
+		card.setCertType("01");
+		card.setCertNo(user.getIdCard());
+		card.setPageReturnUrl("https://pay.masduo.com/index");
+		card.setOfflineNotifyUrl("https://pay.masduo.com/fastpay_card_notify");
+		JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
+		return result;
 	}
 	
 }

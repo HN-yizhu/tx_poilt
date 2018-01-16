@@ -27,7 +27,15 @@ public enum StatusCode {
 	/**
 	 * [0103]绑卡异常
 	 */
-	SYS_MSG_TIED_CARD("0103", "绑卡异常");
+	SYS_MSG_TIED_CARD("0103", "绑卡异常"),
+	/**
+	 * [0104]发送短信异常
+	 */
+	SYS_SEND_MSG_ERR("0104", "发送短信异常"),
+	/**
+	 * [0105]支付异常
+	 */
+	SYS_PAY_ERR("0105", "支付异常");
 	
 	private String code;
 	private String desc;

@@ -1,5 +1,7 @@
 package com.poilt.web.controller.fastpay.api;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.enums.StatusCode;
 import com.poilt.exception.JsonException;
@@ -56,7 +57,6 @@ public class TiedCardController {
 	public Result<String> tiedCard(Card card, HttpSession httpSession, Model model) throws JsonException{
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(card));
 		try {
-			//String openId = httpSession.getAttribute("openId") == null ? "" : httpSession.getAttribute("openId").toString();
 			//String openId = httpSession.getAttribute("openId").toString();
 			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			logger.info("Session openId：" + openId);
@@ -74,11 +74,9 @@ public class TiedCardController {
 		return new Result<String>("");
 	}
 	
-	@ResponseBody
 	@RequestMapping("/fastpay_tiedCreditCard")
-	public Result<String> tiedCreditCard(String cardNo, String cvn2, String expired) throws JsonException{
+	public String tiedCreditCard(String cardNo, String cvn2, String expired, HttpServletResponse response) throws JsonException{
 		try {
-			//String openId = httpSession.getAttribute("openId") == null ? "" : httpSession.getAttribute("openId").toString();
 			//String openId = httpSession.getAttribute("openId").toString();
 			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			/*获取用户信息*/
@@ -102,10 +100,24 @@ public class TiedCardController {
 			card.setExpired(expired);
 			card.setCertType("01");
 			card.setCertNo(user.getIdCard());
-			card.setPageReturnUrl("https://pay.masduo.com/fastpay_card_notify");
+			card.setPageReturnUrl("https://pay.masduo.com/index");
 			card.setOfflineNotifyUrl("https://pay.masduo.com/fastpay_card_notify");
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
-			return new Result<String>(result.toJSONString());
+			String respCode = result.getString("respCode");
+			if("000000".equals(respCode)){
+				String status = result.getJSONObject("result").getString("activateStatus");
+				if(!"2".equals(status)){
+					//如果没能开通
+					String html = result.getJSONObject("result").getString("html");
+					logger.info("html页面代码" + html);
+					response.reset();
+					response.setContentType("text/html; charset=UTF-8");
+					ServletOutputStream out = response.getOutputStream();
+					out.println(html);
+					return null;
+				}
+			}
+			return "/paysms";
 		} catch (Exception e) {
 			throw new JsonException(StatusCode.SYS_ERR);
 		}

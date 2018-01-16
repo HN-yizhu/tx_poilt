@@ -18,7 +18,7 @@
 </head>
 
 <body ontouchstart>
-	<form id="payForm">
+	<form id="payForm" th:action="@{/fastpay_start_pay}" method="post">
 		<div class="weui-tab">
 			<div class="weui-tab__bd">
 				<div style="margin-top: 0px;" class="weui-cells__title">收款</div>
@@ -30,6 +30,7 @@
 						<div class="weui-cell__bd">
 							<input class="weui-input" id="bankName" name="bankName"
 								type="text" value="" placeholder="开户银行">
+							<input type="hidden" id="bankCode" name="bankCode" value=""/>
 						</div>
 					</div>
 					<div class="weui-cell">
@@ -102,6 +103,7 @@
 		$("#payMoney").click(function() {
 			var bankName = $("#bankName").val();
 			var bankCode = $("#bankName").attr("data-values");
+			$("#bankCode").val(bankCode);
 			if(bankCode == ""){
 				$.alert("请选择银行！");
 			    return false;
@@ -126,37 +128,13 @@
 	    	  $.alert("请输入金额！");
 	    	  return false;
 	      }
-	      if(tradeAmt < 200){
+	      /* if(tradeAmt < 200){
 	    	  $.alert("支付金额最少200！");
 	    	  return false;
-	      }
+	      } */
 	      $.showLoading("发起支付...");
-			var params = {
-					"bankCode": bankCode,
-					"bankName": bankName,
-					"payCardNo": payCardNo,
-					"tradeAmt": tradeAmt
-			};
-			$.ajax({
-	    		type: 'post',
-	    		url: /*[[@{/fastpay_start_pay}]]*/ + '',
-	    		data: JSON.stringify(params),
-	    		dataType: 'json',
-	    		contentType: 'application/json',
-	    		success: function(data){
-	    			$.hideLoading();
-	    			if(data.code == '200'){
-	    				if(data.data == '0'){
-	    					location.href = /*[[@{/paysms}]]*/ + '';
-	    				}else{
-		    				//location.href = /*[[@{'/tiedCreditCard(cardNo='+payCardNo+')'}]]*/ + '?cardNo=' + payCardNo;
-	    					location.href = [[@{/tiedCreditCard}]] + '?cardNo=' + payCardNo;
-	    				}
-	    			}else{
-	    				$.toast(data.message, "cancel");
-	    			}
-	    		}
-	    	});
+			$("#payForm").submit();
+	      	
 		});
 	</script>
 </body>

@@ -56,7 +56,7 @@ public class TradeLog {
 		this.statusDes = statusDes;
 	}
 
-	private String traceNo;
+	private String payNo;
 
     private Timestamp createTime;
 
@@ -132,12 +132,12 @@ public class TradeLog {
 		this.status = status;
 	}
 
-	public String getTraceNo() {
-		return traceNo;
+	public String getPayNo() {
+		return payNo;
 	}
 
-	public void setTraceNo(String traceNo) {
-		this.traceNo = traceNo;
+	public void setPayNo(String payNo) {
+		this.payNo = payNo;
 	}
 
 	public Timestamp getCreateTime() {

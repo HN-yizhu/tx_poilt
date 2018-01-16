@@ -16,7 +16,7 @@
 		<result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
 		<result column="status" jdbcType="CHAR" property="status" />
 		<result column="status_des" jdbcType="VARCHAR" property="statusDes" />
-		<result column="trace_no" jdbcType="VARCHAR" property="traceNo" />
+		<result column="pay_no" jdbcType="VARCHAR" property="payNo" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 
@@ -72,8 +72,8 @@
 			<if test="status != null">
 				status,
 			</if>
-			<if test="traceNo != null">
-				trace_no,
+			<if test="payNo != null">
+				pay_no,
 			</if>
 			<if test="createTime != null">
 				create_time,
@@ -119,8 +119,8 @@
 			<if test="status != null">
 				#{status,jdbcType=CHAR},
 			</if>
-			<if test="traceNo != null">
-				#{traceNo,jdbcType=VARCHAR},
+			<if test="payNo != null">
+				#{payNo,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null">
 				#{createTime,jdbcType=TIMESTAMP},
@@ -134,9 +134,6 @@
 		<set>
 			<if test="tradeNo != null">
 				trade_no = #{tradeNo,jdbcType=VARCHAR},
-			</if>
-			<if test="orderNo != null">
-				order_no = #{orderNo,jdbcType=VARCHAR},
 			</if>
 			<if test="tradeAmt != null">
 				trade_amt = #{tradeAmt,jdbcType=INTEGER},
@@ -165,14 +162,15 @@
 			<if test="status != null">
 				status = #{status,jdbcType=CHAR},
 			</if>
-			<if test="traceNo != null">
-				trace_no = #{traceNo,jdbcType=VARCHAR},
+			<if test="payNo != null">
+				pay_no = #{payNo,jdbcType=VARCHAR},
 			</if>
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
-		where open_id = #{openId,jdbcType=INTEGER}
+		where open_id = #{openId,jdbcType=VARCHAR}
+		and order_no = #{orderNo,jdbcType=VARCHAR}
 	</update>
 
 </mapper>

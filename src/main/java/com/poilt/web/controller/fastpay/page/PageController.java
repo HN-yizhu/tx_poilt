@@ -53,7 +53,8 @@ public class PageController {
 	}
 	
 	@RequestMapping(value = "/paysms")
-	public String paysms(HttpServletRequest request, Map<String, Object> map) throws Exception {
+	public String paysms(String orderNo, Model model) throws Exception {
+		model.addAttribute("orderNo", orderNo);
 		return "/paysms";
 	}
 	
