@@ -27,6 +27,7 @@ import com.poilt.service.fastpay.TiedCardService;
 import com.poilt.service.fastpay.TradeLogService;
 import com.poilt.utils.Serialnumber;
 import com.poilt.utils.TradeHttpRequestExecute;
+import com.poilt.utils.WebUtils;
 
 @Controller
 public class TradeLogController {
@@ -53,8 +54,8 @@ public class TradeLogController {
 
 	@RequestMapping("/fastpay_start_pay")
 	public String startPay(TradeLog trade, HttpSession httpSession, HttpServletResponse response, Model model) throws Exception {
-		// String openId = httpSession.getAttribute("openId").toString();
-		String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+		String openId = WebUtils.getSessionValue("openId");
+		//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		String[] bankCodes = trade.getBankCode().split(",");
 		Merch merch = merchService.findByOpenId(openId);
@@ -102,8 +103,48 @@ public class TradeLogController {
 				out.println(html);
 				return null;
 			}
+			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+			/*logger.info("Session openId：" + openId);
+			Merch merch = merchService.findByOpenId(openId);
+			if(null == orderNo || "".equals(orderNo)){
+				orderNo = httpSession.getAttribute("tradeNo").toString();
+			}*/
+			logger.info("支付订单号：" + tradeNo);
+			TradeLog tradeLog = tradeLogService.findByTradeNo(openId, tradeNo);
+			PayMessage message = new PayMessage();
+			message.setTranType("PAYMSG");// 交易码
+			message.setMerNo(merch.getMerNo());// 合作商户编号
+			message.setMerTrace(tradeNo);// 商户流水
+			message.setOrderId(tradeNo);// 支付订单号
+			String tradeAmt = tradeLog.getTradeAmt()*100 + "";
+			logger.info("支付金额：" + tradeAmt);
+			message.setOrderAmount(tradeAmt);// 订单金额(分)
+			message.setRateCode(rateCode);// 费率编号
+			message.setCardNo(tradeLog.getPayCardNo());// 银行卡卡号
+			message.setAccountName(tradeLog.getUserName());// 银行卡姓名
+			message.setCardType("2");// 银行卡类型(1、借记卡，2、信用卡)
+			message.setBankCode(tradeLog.getBankCode());// 银行代码
+			message.setBankAbbr(tradeLog.getBankAbbr());// 银行代号
+			message.setPhoneno(merch.getPhone());// 预留手机
+			message.setCertType("01");// 01、身份证
+			message.setCertNo(merch.getIdCard());// 证件号码
+			JSONObject msgResult = tradeExecute.tradeHttpReq(JSONObject.toJSONString(message));
+			if(!"000000".equals(msgResult.getString("respCode"))){
+				throw new Exception(StatusCode.SYS_SEND_MSG_ERR.toString());
+			}else{
+				/*记录支付流水号(短信接口返回)*/
+				String orderId = msgResult.getJSONObject("result").getString("orderId");
+				String payNo = msgResult.getJSONObject("result").getString("payNo");
+				TradeLog msgTrade = new TradeLog();
+				msgTrade.setOpenId(openId);
+				msgTrade.setOrderNo(orderId);
+				msgTrade.setPayNo(payNo);
+				tradeLogService.update(msgTrade);
+			}
+		}else{
+			throw new Exception(StatusCode.SYS_PAY_ERR.toString());
 		}
-		return "/paysms";
+		return "paysms";
 	}
 
 	/**
@@ -114,10 +155,13 @@ public class TradeLogController {
 	@RequestMapping("/fastpay_pay_sms")
 	public Result<String> paySms(String orderNo, HttpSession httpSession) throws JsonException {
 		try {
-			// String openId = httpSession.getAttribute("openId").toString();
-			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+			String openId = WebUtils.getSessionValue("openId");
+			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			logger.info("Session openId：" + openId);
 			Merch merch = merchService.findByOpenId(openId);
+			if(null == orderNo || "".equals(orderNo)){
+				orderNo = httpSession.getAttribute("tradeNo").toString();
+			}
 			logger.info("支付订单号：" + orderNo);
 			TradeLog tradeLog = tradeLogService.findByTradeNo(openId, orderNo);
 			PayMessage message = new PayMessage();
@@ -159,13 +203,16 @@ public class TradeLogController {
 		}
 	}
 	
-	@ResponseBody
 	@RequestMapping("/fastpay_pay")
 	public Result<String> pay(String orderNo, String smsCode, HttpSession httpSession) throws JsonException {
 		try {
-			// String openId = httpSession.getAttribute("openId").toString();
-			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+			String openId = WebUtils.getSessionValue("openId");
+			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			Merch merch = merchService.findByOpenId(openId);
+			if(null == orderNo || "".equals(orderNo)){
+				orderNo = httpSession.getAttribute("tradeNo").toString();
+			}
+			logger.info("支付订单号：" + orderNo);
 			TradeLog tradeLog = tradeLogService.findByTradeNo(openId, orderNo);
 			PayMoney payMoney = new PayMoney();
 			payMoney.setTranType("CONPAY");
@@ -189,7 +236,6 @@ public class TradeLogController {
 			payMoney.setNotifyUrl("https://pay.masduo.com/fastpay_pay_notify");// 后台通知URL JSONObject result =
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(payMoney));
 			if(!"000000".equals(result.getString("respCode"))){
-				/*成功则修改支付状态*/
 				String orderId = result.getJSONObject("result").getString("orderId");
 				TradeLog trade = new TradeLog();
 				trade.setOpenId(openId);
@@ -206,6 +252,7 @@ public class TradeLogController {
 				trade.setStatus("2");
 				tradeLogService.update(trade);
 			}
+			httpSession.setAttribute("tradeNo", "");
 			return new Result<String>(result.toJSONString());
 		} catch (JsonException e) {
 			logger.error("[支付异常]", e);
@@ -217,8 +264,8 @@ public class TradeLogController {
 
 	@RequestMapping("/fastpay_trade_list")
 	public String tradeList(HttpSession httpSession, Model model) {
-		//String openId = httpSession.getAttribute("openId").toString();
-		String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+		String openId = WebUtils.getSessionValue("openId");
+		//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		List<TradeLog> list = tradeLogService.select(1, 20, openId);
 		model.addAttribute("tradeList", list);
@@ -229,8 +276,8 @@ public class TradeLogController {
 	@RequestMapping("/fastpay_json_list")
 	public List<TradeLog> jsonList(int pageNum, int pageSize, HttpSession httpSession, Model model) {
 		logger.info(pageNum + "========" + pageSize);
-		//String openId = httpSession.getAttribute("openId").toString();
-		String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+		String openId = WebUtils.getSessionValue("openId");
+		//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		List<TradeLog> list = tradeLogService.select(pageNum, pageSize, openId);
 		return list;

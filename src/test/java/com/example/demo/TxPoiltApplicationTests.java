@@ -35,10 +35,31 @@ public class TxPoiltApplicationTests {
 	@Test
 	public void fastpayRegister() throws Exception{
 		JSONObject param = new JSONObject();
-		param.put("id", "123");
-		param.put("merName", "aaa");
+		param.put("bankAbbr", "CMB");
+		param.put("bankAccName", "杨天雄");
+		param.put("bankAccNo", "6214830216836675");
+		param.put("bankAccType", "2");
+		param.put("bankChannelNo", "66666");
+		param.put("bankCity", "上海");
+		param.put("bankCode", "308");
+		param.put("bankName", "招商银行");
+		param.put("bankProvince", "上海");
+		param.put("bankSubName", "上海亿珠");
+		param.put("creditCapAmount", "99999900");
+		param.put("creditRate", "0.004");
+		param.put("debitCapAmount", "99999900");
+		param.put("debitRate", "0.004");
+		param.put("idCardNo", "430821198710112632");
+		param.put("merAbbr", "一紙荒年");
+		param.put("merName", "一紙荒年");
+		param.put("merTrace", "021073120180116233246250403");
+		param.put("phoneno", "18721715632");
+		param.put("rateCode", "1001002");
+		param.put("tranType", "MERREG");
+		param.put("withdRate", "0.004");
+		param.put("withdSgFee", "100.0");
 		RequestBuilder request = MockMvcRequestBuilders
-				.post("/fastpay_register")
+				.post("/fastpay_test_register")
 				.contentType("application/json; charset=utf-8")
 				.content(param.toString());
 		

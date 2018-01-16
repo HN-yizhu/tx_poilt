@@ -60,8 +60,8 @@ public class TradeHttpRequestExecute {
 				logger.info("解密body明文[{}]",body);
 				/*记录发送报文*/
 				SysLog sysLog = new SysLog();
-				//String openId = httpSession.getAttribute("openId").toString();
-				String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+				//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+				String openId = WebUtils.getSessionValue("openId");
 				sysLog.setUserId(openId);
 				sysLog.setReqParam(param);
 				sysLog.setRespResult(body);

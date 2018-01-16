@@ -81,17 +81,17 @@
 		<div class="weui-tabbar" style="position: fixed;">
 			<a th:href="@{/index}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_button.png" alt="">
+					<img th:src="@{/images/pay.svg}" alt="">
 				</div>
 				<p class="weui-tabbar__label">收款</p>
 			</a> <a th:href="@{/fastpay_trade_list}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_msg.png" alt="">
+					<img th:src="@{/images/trade.svg}" alt="">
 				</div>
 				<p class="weui-tabbar__label">收款记录</p>
 			</a> <a th:href="@{/home}" class="weui-tabbar__item weui-bar__item--on">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_cell.png" alt="">
+					<img th:src="@{/images/home_active.svg}" alt="">
 				</div>
 				<p class="weui-tabbar__label">我</p>
 			</a>

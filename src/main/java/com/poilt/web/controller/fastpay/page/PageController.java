@@ -18,6 +18,7 @@ import com.poilt.model.fastpay.Merch;
 import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.CardService;
 import com.poilt.service.fastpay.MerchService;
+import com.poilt.utils.WebUtils;
 
 @Controller
 public class PageController {
@@ -66,8 +67,8 @@ public class PageController {
 	
 	@RequestMapping(value = "/home")
 	public String home(HttpSession httpSession, Model model) throws Exception {
-		//String openId = httpSession.getAttribute("openId").toString();
-		String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+		String openId = WebUtils.getSessionValue("openId");
+		//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		Merch merch = merchService.findByOpenId(openId);
 		model.addAttribute("merch", merch);

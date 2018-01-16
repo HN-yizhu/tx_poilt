@@ -40,7 +40,7 @@
 					</div>
 					<div class="weui-cell__ft">
 						<p>
-							<font color="black">￥[[${item.tradeAmt}]]</font>
+							<font color="black">￥[[${#numbers.formatDecimal(item.tradeAmt, 0, 2)}]]</font>
 						</p>
 						<p>
 							<font th:attr="color=${item.status == '2' ? 'green' : 'red'}">[[${item.statusDes}]]</font>
@@ -61,18 +61,18 @@
 		<div class="weui-tabbar" style="position: fixed;">
 			<a th:href="@{/index}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_button.png" alt="" />
+					<img th:src="@{/images/pay.svg}" alt="" />
 				</div>
 				<p class="weui-tabbar__label">收款</p>
 			</a> <a th:href="@{/fastpay_trade_list}"
 				class="weui-tabbar__item weui-bar__item--on">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_msg.png" alt="">
+					<img th:src="@{/images/trade_active.svg}" alt="">
 				</div>
 				<p class="weui-tabbar__label">收款记录</p>
 			</a> <a th:href="@{/home}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img src="./images/icon_nav_cell.png" alt="">
+					<img th:src="@{/images/home.svg}" alt="">
 				</div>
 				<p class="weui-tabbar__label">我</p>
 			</a>
@@ -111,6 +111,7 @@
 					pageNum = pageNum + 1;
 					if(data.length < 1){
 						loading = true;
+						$(document.body).destroyInfinite();
 					}else{
 						loading = false;
 					}
@@ -124,7 +125,7 @@
 								+ '</div>'
 								+ '<div class="weui-cell__ft">'
 								+ '<p>'
-								+ '<font color="black">￥'+n.tradeAmt+'</font>'
+								+ '<font color="black">'+n.tradeAmt.formatMoney(2,'￥',',','.')+'</font>'
 								+ '</p>'
 								+ '<p>';
 								if(n.status == '2'){
@@ -142,6 +143,7 @@
 		});
 
 		$('.weui-tab__bd').pullToRefresh().on('pull-to-refresh',function(done) {
+			$(document.body).infinite();
 			loading = false;
 			var params = {
 				"pageNum" : 1,
@@ -164,7 +166,7 @@
 								+ '</div>'
 								+ '<div class="weui-cell__ft">'
 								+ '<p>'
-								+ '<font color="black">￥'+n.tradeAmt+'</font>'
+								+ '<font color="black">'+n.tradeAmt.formatMoney(2,'￥',',','.')+'</font>'
 								+ '</p>'
 								+ '<p>'
 								if(n.status == '2'){
@@ -203,6 +205,17 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 
+Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
+    places = !isNaN(places = Math.abs(places)) ? places : 2;
+    symbol = symbol !== undefined ? symbol : "$";
+    thousand = thousand || ",";
+    decimal = decimal || ".";
+    var number = this,
+        negative = number < 0 ? "-" : "",
+        i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+};
 	</script>
 </body>
 </html>

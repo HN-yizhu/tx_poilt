@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.service.fastpay.BankCodeService;
 import com.poilt.service.fastpay.MerchService;
+import com.poilt.utils.WebUtils;
 
 /**
  * 商户注册
@@ -36,7 +37,7 @@ public class MerchRegisterController {
 	public String merch(Merch merch, HttpSession httpSession, Model model) throws Exception {
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(merch));
 		//String openId = httpSession.getAttribute("openId") == null ? "" : httpSession.getAttribute("openId").toString();
-		String openId = httpSession.getAttribute("openId").toString();
+		String openId = WebUtils.getSessionValue("openId");
 		if("".equals(openId)){
 			throw new Exception("openId获取失败！");
 		}else{

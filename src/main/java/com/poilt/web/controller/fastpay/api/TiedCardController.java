@@ -23,6 +23,7 @@ import com.poilt.service.fastpay.MerchService;
 import com.poilt.service.fastpay.TiedCardService;
 import com.poilt.utils.Serialnumber;
 import com.poilt.utils.TradeHttpRequestExecute;
+import com.poilt.utils.WebUtils;
 
 /**
  * 绑卡
@@ -57,8 +58,8 @@ public class TiedCardController {
 	public Result<String> tiedCard(Card card, HttpSession httpSession, Model model) throws JsonException{
 		logger.info("[接收到实体]\r\n{}", JSONObject.toJSONString(card));
 		try {
-			//String openId = httpSession.getAttribute("openId").toString();
-			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+			String openId = WebUtils.getSessionValue("openId");
+			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			logger.info("Session openId：" + openId);
 			if("".equals(openId)){
 				throw new JsonException(StatusCode.SYS_NO_OPEN_ID);
@@ -75,10 +76,10 @@ public class TiedCardController {
 	}
 	
 	@RequestMapping("/fastpay_tiedCreditCard")
-	public String tiedCreditCard(String cardNo, String cvn2, String expired, HttpServletResponse response) throws JsonException{
+	public String tiedCreditCard(String cardNo, String cvn2, String expired, HttpSession httpSession, HttpServletResponse response) throws JsonException{
 		try {
-			//String openId = httpSession.getAttribute("openId").toString();
-			String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
+			String openId = WebUtils.getSessionValue("openId");
+			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			/*获取用户信息*/
 			Merch user = merchService.findByOpenId(openId);
 			/*获取卡信息*/

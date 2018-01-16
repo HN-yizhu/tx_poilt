@@ -61,7 +61,27 @@
 		<script th:src="@{/js/jquery-weui.js}"></script>
 
 		<script type="text/javascript" th:inline="javascript">
+			var countdown=60;
+			$.toast("验证码已发送！");
+			settime();
+			function settime(){
+				if(countdown ==0){
+					$("#getSms").attr("disabled", false);
+					$("#getSms").text('获取验证码');
+					countdown=60;
+					return;
+				}else{
+					$("#getSms").attr("disabled", true);
+					$("#getSms").text("重新发送(" + countdown + ")");
+					countdown--;
+				}
+				setTimeout(function(){
+					settime()
+				}, 1000);
+			}
+			
 			$("#getSms").click(function() {
+				settime();
 				$.showLoading("获取验证码");
 				var params = {
 					"orderNo" : $("#orderNo").val()
@@ -82,7 +102,12 @@
 				});
 			});
 			$("#fastPay").click(function() {
-				$.showLoading();
+				var smsCode = $("#smsCode").val();
+				if(smsCode == ""){
+					$.alert("请输入验证码！");
+					return false;
+				}
+				$.showLoading("正在支付...");
 				var params = {
 					"orderNo" : $("#orderNo").val(),
 					"smsCode" : $("#smsCode").val()
@@ -96,10 +121,10 @@
 						$.hideLoading();
 						if (data.code == '200') {
 							$.toast("支付成功！");
-							location.href = /*[[@{/index}]]*/+'';
+							location.href = /*[[@{/fastpay_trade_list}]]*/+'';
 						} else {
 							$.toast(data.message, "cancel");
-							location.href = /*[[@{/tradeList}]]*/+'';
+							location.href = /*[[@{/fastpay_trade_list}]]*/+'';
 						}
 					}
 				});
