@@ -120,11 +120,9 @@
 					success : function(data) {
 						$.hideLoading();
 						if (data.code == '200') {
-							$.toast("支付成功！");
-							location.href = /*[[@{/fastpay_trade_list}]]*/+'';
+							location.href = /*[[@{/success}]]*/+'';
 						} else {
-							$.toast(data.message, "cancel");
-							location.href = /*[[@{/fastpay_trade_list}]]*/+'';
+							location.href = /*[[@{/failed}]]*/+'';
 						}
 					}
 				});

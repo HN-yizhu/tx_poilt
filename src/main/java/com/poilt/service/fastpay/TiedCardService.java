@@ -33,6 +33,12 @@ public class TiedCardService {
 	@Value("${fastpay.rateCode}")
 	private String rateCode;
 	
+	@Value("${fastpay.pageReturnUrl}")
+	private String pageReturnUrl;
+	
+	@Value("${fastpay.cardNotifyUrl}")
+	private String cardNotifyUrl;
+	
 	/**
 	 * 绑结算卡
 	 * @param param
@@ -104,13 +110,6 @@ public class TiedCardService {
 	 * @return
 	 */
 	public JSONObject tiedCreditCard(String openId, String cardNo) {
-		/*Merch user = merchService.findByOpenId(card.getOpenId());
-		card.setIdCard(user.getIdCard());
-		card.setPhone(user.getPhone());
-		card.setCardName(user.getName());
-		card.setCardType("2");//信用卡
-		card.setUseType("2");//支付卡
-		return cardService.insert(card);*/
 		/*获取用户信息*/
 		Merch user = merchService.findByOpenId(openId);
 		/*获取卡信息*/
@@ -132,8 +131,8 @@ public class TiedCardService {
 		card.setExpired("6666");
 		card.setCertType("01");
 		card.setCertNo(user.getIdCard());
-		card.setPageReturnUrl("https://pay.masduo.com/index");
-		card.setOfflineNotifyUrl("https://pay.masduo.com/fastpay_card_notify");
+		card.setPageReturnUrl(pageReturnUrl);
+		card.setOfflineNotifyUrl(cardNotifyUrl);
 		JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
 		return result;
 	}

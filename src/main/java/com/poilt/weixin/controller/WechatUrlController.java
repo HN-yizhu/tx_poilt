@@ -84,15 +84,15 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 			merch.setMerName(wxMpUser.getNickname());
 			merchService.insert(merch);
 		}
-		String tiedCard = merch.getTiedCard();
+		//String tiedCard = merch.getTiedCard();
 		String idCard = merch.getIdCard();
 		if(idCard == null || "".equals(idCard)){
 			return "/register";
-		} else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
+		} /*else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
 			List<Map<String, Object>> list = bankCodeService.selectMap();
 			map.put("bankCodeList", list);
 			return "/tiedCard";
-		} else {
+		} */else {
 			List<Map<String, Object>> list = bankCodeService.selectMap();
 			map.put("bankCodeList", list);
 			return "/index";

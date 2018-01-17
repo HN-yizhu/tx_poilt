@@ -40,7 +40,7 @@
 					</div>
 					<div class="weui-cell__ft">
 						<p>
-							<font color="black">￥[[${#numbers.formatDecimal(item.tradeAmt, 0, 2)}]]</font>
+							<font color="black">￥[[${#numbers.formatDecimal(item.tradeAmt, 0, 'COMMA', 2, 'POINT')}]]</font>
 						</p>
 						<p>
 							<font th:attr="color=${item.status == '2' ? 'green' : 'red'}">[[${item.statusDes}]]</font>

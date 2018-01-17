@@ -74,6 +74,25 @@
 
 	<script type="text/javascript" th:inline="javascript">
 		$("#register").click(function() {
+			var name = $("#name").val();
+			var idCard = $("#idCard").val();
+			var phone = $("#phone").val();
+			if(name == ""){
+				$.alert("请输入姓名！");
+				return false;
+			}
+			if(idCard == ""){
+				$.alert("请输入身份证号！");
+				return false;
+			}
+			if(idCard.length != 15 && idCard.length != 18){
+				$.alert("身份证号格式不正确！");
+				return false;
+			}
+			if(phone == "" || phone.length != 11){
+				$.alert("请输入正确的手机号！");
+				return false;
+			}
 			$("#registerForm").submit();
 			
 		});

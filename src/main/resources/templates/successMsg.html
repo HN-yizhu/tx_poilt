@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>消息</title>
+<title>成功消息</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no">
 
-<meta name="description" content="消息">
+<meta name="description" content="成功消息">
 
 <link rel="stylesheet" th:href="@{/lib/weui.min.css}">
 <link rel="stylesheet" th:href="@{/css/jquery-weui.css}">
@@ -20,11 +20,10 @@
 
 	<div class="weui-msg">
 		<div class="weui-msg__icon-area">
-			<i th:class="${result ? 'weui-icon-success weui-icon_msg' : 'weui-icon-cancel weui-icon_msg'}"></i>
+			<i class="weui-icon-success weui-icon_msg"></i>
 		</div>
 		<div class="weui-msg__text-area">
-			<h2 class="weui-msg__title">[[${result ? '交易成功' : '交易异常'}]]</h2>
-			<p class="weui-msg__desc">注：请勿刷新此页面</p>
+			<h2 class="weui-msg__title">交易成功</h2>
 		</div>
 		<div class="weui-msg__opr-area">
 			<p class="weui-btn-area">

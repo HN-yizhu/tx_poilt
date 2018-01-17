@@ -8,8 +8,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no">
 
-<meta name="description"
-	content="信人信息">
+<meta name="description" content="个人信息">
 
 <link rel="stylesheet" href="./lib/weui.min.css">
 <link rel="stylesheet" href="./css/jquery-weui.css">
@@ -24,12 +23,12 @@
 		<div class="weui-tab__bd">
 			<div class="card_container">
 				<div class="cover atvImg">
-					<div class="atvImg-layer" data-img="./images/visa-bg.jpg"></div>
+					<div class="atvImg-layer" data-img="./images/visa-bg-2.jpg"></div>
 					<div class="atvImg-layer" data-img="./images/visa.png"></div>
 				</div>
-				<div class="card-no">[[${card.cardNo}]]</div>
+				<div class="card-no">[[${card == null ? '****************' : card.cardNo}]]</div>
 				<div class="card-no-left">
-					<span>结算周期：T+0</span><span style="padding-left: 30px;">结算费率：[[${merch.creditRate}]]+[[${merch.creditFee}]]</span>
+					<span>结算周期：T+0</span><span style="padding-left: 30px;">结算费率：[[${merch?.creditRate}]]+[[${merch?.creditFee}]]</span>
 				</div>
 			</div>
 
@@ -39,7 +38,7 @@
 						<p>商户编号</p>
 					</div>
 					<div class="weui-cell__ft">
-						<p>[[${merch.merNo}]]</p>
+						<p>[[${merch?.merNo}]]</p>
 					</div>
 				</div>
 				<div class="weui-cell">
@@ -47,51 +46,81 @@
 						<p>店铺名称</p>
 					</div>
 					<div class="weui-cell__ft">
-						<p>[[${merch.merName}]]</p>
+						<p>[[${merch?.merName}]]</p>
 					</div>
 				</div>
-				<div class="weui-cell">
+
+				<a id="show-name" th:if="${merch?.tiedCard == 'N'}"
+					class="weui-cell weui-cell_access" href="javascript:;">
 					<div class="weui-cell__bd">
 						<p>联系人</p>
 					</div>
 					<div class="weui-cell__ft">
-						<p>[[${merch.name}]]</p>
+						<p>[[${merch?.name}]]</p>
+					</div>
+				</a>
+				<div class="weui-cell" th:if="${merch?.tiedCard != 'N'}">
+					<div class="weui-cell__bd">
+						<p>联系人</p>
+					</div>
+					<div class="weui-cell__ft">
+						<p>[[${merch?.name}]]</p>
 					</div>
 				</div>
-				<div class="weui-cell">
+				<a id="show-idCard" th:if="${merch?.tiedCard == 'N'}"
+					class="weui-cell weui-cell_access" href="javascript:;">
 					<div class="weui-cell__bd">
 						<p>身份证</p>
 					</div>
 					<div class="weui-cell__ft">
-						<p>[[${merch.idCard}]]</p>
+						<p>[[${merch?.idCard}]]</p>
+					</div>
+				</a>
+				<div class="weui-cell" th:if="${merch?.tiedCard != 'N'}">
+					<div class="weui-cell__bd">
+						<p>身份证</p>
+					</div>
+					<div class="weui-cell__ft">
+						<p>[[${merch?.idCard}]]</p>
 					</div>
 				</div>
-				<div class="weui-cell">
+				<a id="show-phone" th:if="${merch?.tiedCard == 'N'}"
+					class="weui-cell weui-cell_access" href="javascript:;">
 					<div class="weui-cell__bd">
 						<p>手机号</p>
 					</div>
 					<div class="weui-cell__ft">
-						<p>[[${merch.phone}]]</p>
+						<p>[[${merch?.phone}]]</p>
+					</div>
+				</a>
+				<div class="weui-cell" th:if="${merch?.tiedCard != 'N'}">
+					<div class="weui-cell__bd">
+						<p>手机号</p>
+					</div>
+					<div class="weui-cell__ft">
+						<p>[[${merch?.phone}]]</p>
 					</div>
 				</div>
+				<div class='demos-content-padded' th:if="${merch?.tiedCard == 'N'}">
+					<a th:href="@{/tiedCard}" class="weui-btn weui-btn_primary">结算卡绑定</a>
+				</div>
 			</div>
-
 		</div>
 
 		<div class="weui-tabbar" style="position: fixed;">
 			<a th:href="@{/index}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img th:src="@{/images/pay.svg}" alt="">
+					<img th:src="@{/images/pay.svg}" alt=""/>
 				</div>
 				<p class="weui-tabbar__label">收款</p>
 			</a> <a th:href="@{/fastpay_trade_list}" class="weui-tabbar__item">
 				<div class="weui-tabbar__icon">
-					<img th:src="@{/images/trade.svg}" alt="">
+					<img th:src="@{/images/trade.svg}" alt=""/>
 				</div>
 				<p class="weui-tabbar__label">收款记录</p>
 			</a> <a th:href="@{/home}" class="weui-tabbar__item weui-bar__item--on">
 				<div class="weui-tabbar__icon">
-					<img th:src="@{/images/home_active.svg}" alt="">
+					<img th:src="@{/images/home_active.svg}" alt=""/>
 				</div>
 				<p class="weui-tabbar__label">我</p>
 			</a>
@@ -102,17 +131,71 @@
 	<script src="./lib/fastclick.js"></script>
 	<script src="./js/main.js"></script>
 	<script>
-  $(function() {
-    FastClick.attach(document.body);
-  });
-</script>
+		$(function() {
+			FastClick.attach(document.body);
+		});
+	</script>
 	<script src="./js/jquery-weui.js"></script>
 
-	<script>
-      $("#a").select({
-        title: "选择职业",
-        items: ["法官", "医生", "猎人", "学生", "记者", "其他"]
-      });
-    </script>
+	<script type="text/javascript" th:inline="javascript">
+		$(document).on("click", "#show-name", function() {
+			$.prompt({
+				title : "输入姓名",
+				onOK : function(text) {
+					var params = {"name": text};
+					updateMerch(params);
+				},
+				onCancel : function() {
+					console.log("取消了");
+				},
+				input : [[${merch?.name}]]
+			});
+		});
+		$(document).on("click", "#show-idCard", function() {
+			$.prompt({
+				title : "输入结算卡号",
+				onOK : function(text) {
+					var params = {"idCard": text};
+					updateMerch(params);
+				},
+				onCancel : function() {
+					console.log("取消了");
+				},
+				input : [[${merch?.idCard}]]
+			});
+		});
+		$(document).on("click", "#show-phone", function() {
+			$.prompt({
+				text : "注：必需和银行预留手机号一致",
+				title : "输入手机号",
+				onOK : function(text) {
+					var params = {"phone": text};
+					updateMerch(params);
+				},
+				onCancel : function() {
+					console.log("取消了");
+				},
+				input : [[${merch?.phone}]]
+			});
+		});
+		
+		function updateMerch(params){
+			$.showLoading();
+			$.ajax({
+	    		type: 'post',
+	    		url: /*[[@{/fastpay_merch_update}]]*/ + '',
+	    		data: params,
+	    		dataType: 'json',
+	    		success: function(data){
+	    			$.hideLoading();
+	    			if(data.code == '200'){
+	    				location.href = /*[[@{/home}]]*/
+	    			}else{
+	    				$.toast(data.message, "cancel");
+	    			}
+	    		}
+	    	});
+		}
+	</script>
 </body>
 </html>

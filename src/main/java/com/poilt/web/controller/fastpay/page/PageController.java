@@ -68,16 +68,25 @@ public class PageController {
 	@RequestMapping(value = "/home")
 	public String home(HttpSession httpSession, Model model) throws Exception {
 		String openId = WebUtils.getSessionValue("openId");
-		//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 		logger.info("Session openId：" + openId);
 		Merch merch = merchService.findByOpenId(openId);
 		model.addAttribute("merch", merch);
 		/*结算卡信息*/
-		List<Card> list = cardService.findByOpenId(openId, "2");
+		List<Card> list = cardService.findByOpenId(openId, "1");
 		if(list.size() > 0){
 			model.addAttribute("card", list.get(0));
 		}
 		return "/home";
+	}
+	
+	@RequestMapping(value = "/success")
+	public String success() throws Exception {
+		return "/successMsg";
+	}
+	
+	@RequestMapping(value = "/failed")
+	public String failed() throws Exception {
+		return "/failedMsg";
 	}
 	
 	@RequestMapping(value = "/wechat/register")
