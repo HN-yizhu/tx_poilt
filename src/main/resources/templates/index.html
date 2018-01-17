@@ -25,21 +25,15 @@
 				<div class="weui-cells weui-cells_form">
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
-							<label class="weui-label">开户银行</label>
+							<label class="weui-label">支付卡</label>
 						</div>
 						<div class="weui-cell__bd">
-							<input class="weui-input" id="bankName" name="bankName"
-								type="text" value="" placeholder="开户银行"> <input
-								type="hidden" id="bankCode" name="bankCode" value="" />
-						</div>
-					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd">
-							<label for="" class="weui-label">卡号</label>
-						</div>
-						<div class="weui-cell__bd">
-							<input id="payCardNo" name="payCardNo" class="weui-input"
-								type="number" pattern="[0-9]*" placeholder="支付卡号">
+							<input class="weui-input" id="payCardList" name="payCardList"
+								type="text" value="" placeholder="请选择支付卡"> <input
+								type="hidden" id="payCardNo" name="payCardNo" value="" /> <input
+								type="hidden" id="bankCode" name="bankCode" value="" /> <input
+								type="hidden" id="bankAbbr" name="bankAbbr" value="" /> <input
+								type="hidden" id="bankName" name="bankName" value="" />
 						</div>
 					</div>
 					<div class="weui-cell">
@@ -62,7 +56,8 @@
 
 				<div class='demos-content-padded'>
 					<a id="payMoney" href="javascript:;"
-						class="weui-btn weui-btn_primary">立即支付</a>
+						class="weui-btn weui-btn_primary">立即支付</a> <a
+						th:href="@{/tiedCreditCard}" class="weui-btn weui-btn_default">添加支付卡</a>
 				</div>
 			</div>
 
@@ -96,46 +91,52 @@
 	<script th:src="@{/js/jquery-weui.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
-	$("#bankName").select({
-        title: "请选择开户银行",
-        items: /*[[${bankCodeList}]]*/
-      });
-		$("#payMoney").click(function() {
-			var bankName = $("#bankName").val();
-			var bankCode = $("#bankName").attr("data-values");
-			$("#bankCode").val(bankCode);
-			if(bankCode == ""){
-				$.alert("请选择银行！");
-			    return false;
+	$("#payCardList").select({
+		title: "请选择支付卡",
+		items: /*[[${payCardList}]]*/
+	});
+	$("#payMoney").click(function() {
+		if($("#payCardList").val() == ""){
+			$.alert("请选择支付卡！");
+			return false;
+		}
+		var card = $("#payCardList").attr("data-values").split(",");
+		var payCardNo = card[0];
+		var bankCode = card[1];
+		var bankAbbr = card[2];
+		var bankName = card[3];
+		var tradeAmt = $("#tradeAmt").val();
+		if(tradeAmt == ""){
+			$.alert("请输入金额！");
+			return false;
+		}
+		if(tradeAmt < 200){
+			$.alert("支付金额最少200！");
+			return false;
+		}
+		var params = {
+			"payCardNo": payCardNo,
+			"bankCode": bankCode,
+			"bankAbbr": bankAbbr,
+			"bankName": bankName,
+			"tradeAmt": tradeAmt
+		};
+		$.showLoading("正在支付...");
+		$.ajax({
+			type : 'post',
+			url : /*[[@{/fastpay_start_pay}]]*/+'',
+			data : params,
+			dataType : 'json',
+			success : function(data) {
+				$.hideLoading();
+				if (data.code == '200') {
+					location.href = /*[[@{/paysms}]]*/
+				} else {
+					$.toast(data.message, "cancel");
+				}
 			}
-			var payCardNo = $("#payCardNo").val().replace(/\s/g,'');
-			if(payCardNo == "") {
-			    $.alert("请填写银行卡号！");
-			    return false;
-			}
-	      if(payCardNo.length < 16 || payCardNo.length > 19) {
-	          $.alert("银行卡号长度必须在16到19之间");
-	          return false;
-	      }
-	      var num = /^\d*$/;//全数字
-	      if(!num.exec(payCardNo)) {
-	          $.alert("银行卡号必须全为数字！");
-	          return false;
-	      }
-	      var tradeAmt = $("#tradeAmt").val();
-	      
-	      if(tradeAmt == ""){
-	    	  $.alert("请输入金额！");
-	    	  return false;
-	      }
-	      if(tradeAmt < 200){
-	    	  $.alert("支付金额最少200！");
-	    	  return false;
-	      }
-	      $.showLoading("正在支付...");
-			$("#payForm").submit();
-			
 		});
+	});
 	</script>
 </body>
 </html>

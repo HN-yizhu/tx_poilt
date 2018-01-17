@@ -29,6 +29,10 @@
 	<select id="findByOpenId" resultMap="cardMap">
 		select * from card where open_id = #{openId} and use_type = #{useType}
 	</select>
+	
+	<select id="selectMap" resultType="map">
+		select concat(card_no,',',bank_code,',',bank_abbr,',',bank_name) value, concat('(',insert(card_no, 5, 8, '****'),')',bank_name) title from card where open_id = #{openId} and card_type = '2'
+	</select>
 
 	<insert id="insert" parameterType="com.poilt.model.fastpay.Card"
 		useGeneratedKeys="true" keyProperty="id">

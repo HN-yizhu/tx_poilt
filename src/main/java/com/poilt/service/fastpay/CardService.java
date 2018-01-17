@@ -1,6 +1,7 @@
 package com.poilt.service.fastpay;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ public class CardService {
 	public List<Card> findByOpenId(String openId, String useType){
 		List<Card> list = cardMapper.findByOpenId(openId, useType);
 		return list;
+	}
+	
+	public List<Map<String, Object>> selectMap(String openId){
+		return cardMapper.selectMap(openId);
 	}
 	
 	public int insert(Card card){

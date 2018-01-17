@@ -17,41 +17,38 @@
 </head>
 
 <body ontouchstart th:inline="text">
-	<form id="tiedCardForm" th:action="@{/fastpay_tiedCreditCard}" method="post">
+	<form id="tiedCardForm" th:action="@{/fastpay_tiedCreditCard}"
+		method="post">
 		<div class="weui-tab">
 			<div class="weui-tab__bd">
 				<div style="margin-top: 0px;" class="weui-cells__title">卡片信息</div>
 				<div class="weui-cells weui-cells_form">
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
-							<label class="weui-label">卡号</label>
+							<label class="weui-label">开户银行</label>
 						</div>
 						<div class="weui-cell__bd">
-							[[${cardNo}]]
-							<input class="weui-input" type="hidden" id="cardNo" name="cardNo" th:value="${cardNo}">
+							<input class="weui-input" id="bankName" name="bankName"
+								type="text" value="" placeholder="开户银行"> <input
+								type="hidden" id="bankCode" name="bankCode" value="" /> <input
+								type="hidden" id="bankAbbr" name="bankAbbr" value="" />
 						</div>
 					</div>
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
-							<label class="weui-label">cvn2</label>
+							<label for="" class="weui-label">卡号</label>
 						</div>
 						<div class="weui-cell__bd">
-							<input id="cvn2" name="cvn2" class="weui-input" type="number" placeholder="卡背面后三位数字">
-						</div>
-					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd">
-							<label class="weui-label">卡有效期</label>
-						</div>
-						<div class="weui-cell__bd">
-							<input id="expired" name="expired" class="weui-input" type="number" placeholder="如:12/24,输入1224">
+							<input id="cardNo" name="cardNo" class="weui-input"
+								type="number" pattern="[0-9]*" placeholder="支付卡号">
 						</div>
 					</div>
 				</div>
 
 				<div class='demos-content-padded'>
 					<a id="tiedCreditCard" href="javascript:;"
-						class="weui-btn weui-btn_primary">下一步</a>
+						class="weui-btn weui-btn_primary">绑卡</a>
+					<a th:href="@{/index}" class="weui-btn weui-btn_default">返回首页</a>
 				</div>
 			</div>
 	</form>
@@ -68,29 +65,12 @@
 		$("#bankName").select({
 	        title: "请选择开户银行",
 	        items: /*[[${bankCodeList}]]*/
-	      });
+	    });
 		$("#tiedCreditCard").click(function() {
-			$.showLoading();
+			var card = $("#bankName").attr("data-values").split(",");
+			$("#bankCode").val(card[0]);
+			$("#bankAbbr").val(card[1]);
 			$("#tiedCardForm").submit();
-			/* var params = {
-					"cardNo": $("#cardNo").val(),
-					"cvn2": $("#cvn2").val(),
-					"expired": $("#expired").val()
-			};
-			$.ajax({
-	    		type: 'post',
-	    		url: /*[[@{/fastpay_tiedCreditCard}]]*/ + '',
-	    		data: params,
-	    		dataType: 'json',
-	    		success: function(data){
-	    			$.hideLoading();
-	    			if(data.code == '200'){
-	    				location.href = /*[[@{/paysms}]]*/ + '';
-	    			}else{
-	    				$.toast(data.message, "cancel");
-	    			}
-	    		}
-	    	}); */
 		}); 
 	</script>
 </body>

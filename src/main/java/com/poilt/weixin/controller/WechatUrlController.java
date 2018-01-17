@@ -1,18 +1,17 @@
 package com.poilt.weixin.controller;
 
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.poilt.model.fastpay.Merch;
-import com.poilt.service.fastpay.BankCodeService;
+import com.poilt.service.fastpay.CardService;
 import com.poilt.service.fastpay.MerchService;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -39,7 +38,7 @@ public class WechatUrlController {
 	private MerchService merchService;
 	
 	@Autowired
-	private BankCodeService bankCodeService;
+	private CardService cardService;
 	
 	@PostMapping
 	public String post(@RequestParam(name = "code", required = true) String code) {
@@ -68,7 +67,7 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 	 * @throws Exception 
 	 */
 	@GetMapping
-	public String get(@RequestParam(name = "code", required = true) String code, HttpSession httpSession, Map<String, Object> map) throws Exception {
+	public String get(@RequestParam(name = "code", required = true) String code, HttpSession httpSession, Model model) throws Exception {
 		WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
 		String openId = wxMpOAuth2AccessToken.getOpenId();
 		if(openId == null || "".equals(openId)){
@@ -84,17 +83,11 @@ SNSAPI_BASE URL:[https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45d
 			merch.setMerName(wxMpUser.getNickname());
 			merchService.insert(merch);
 		}
-		//String tiedCard = merch.getTiedCard();
 		String idCard = merch.getIdCard();
 		if(idCard == null || "".equals(idCard)){
 			return "/register";
-		} /*else if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)) {
-			List<Map<String, Object>> list = bankCodeService.selectMap();
-			map.put("bankCodeList", list);
-			return "/tiedCard";
-		} */else {
-			List<Map<String, Object>> list = bankCodeService.selectMap();
-			map.put("bankCodeList", list);
+		} else {
+			model.addAttribute("payCardList", cardService.selectMap(openId));
 			return "/index";
 		}
 	}

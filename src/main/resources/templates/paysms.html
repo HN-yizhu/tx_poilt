@@ -103,8 +103,8 @@
 			});
 			$("#fastPay").click(function() {
 				var smsCode = $("#smsCode").val();
-				if(smsCode == ""){
-					$.alert("请输入验证码！");
+				if(smsCode.length != 6){
+					$.alert("请输入6位验证码！");
 					return false;
 				}
 				$.showLoading("正在支付...");

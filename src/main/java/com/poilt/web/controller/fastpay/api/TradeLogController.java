@@ -18,10 +18,8 @@ import com.poilt.exception.JsonException;
 import com.poilt.exception.Result;
 import com.poilt.model.PayMessage;
 import com.poilt.model.PayMoney;
-import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.model.fastpay.TradeLog;
-import com.poilt.service.fastpay.CardService;
 import com.poilt.service.fastpay.MerchService;
 import com.poilt.service.fastpay.TiedCardService;
 import com.poilt.service.fastpay.TradeLogService;
@@ -38,9 +36,6 @@ public class TradeLogController {
 	private MerchService merchService;
 
 	@Autowired
-	private CardService cardService;
-
-	@Autowired
 	private TradeLogService tradeLogService;
 
 	@Autowired
@@ -55,106 +50,104 @@ public class TradeLogController {
 	@Value("${fastpay.payNotifyUrl}")
 	private String payNotifyUrl;
 
+	@ResponseBody
 	@RequestMapping("/fastpay_start_pay")
-	public String startPay(TradeLog trade, HttpSession httpSession, HttpServletResponse response, Model model) throws Exception {
-		String openId = WebUtils.getSessionValue("openId");
-		logger.info("Session openId：" + openId);
-		/*是否已绑结算卡*/
-		Merch merch = merchService.findByOpenId(openId);
-		String tiedCard = merch.getTiedCard();
-		if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)){
-			return "/tiedCard";
-		}
-		String[] bankCodes = trade.getBankCode().split(",");
-		trade.setOpenId(openId);
-		String tradeNo = Serialnumber.getSerial();
-		model.addAttribute("orderNo", tradeNo);
-		/*记录交易流水号*/
-		httpSession.setAttribute("tradeNo", tradeNo);
-		trade.setTradeNo(tradeNo);
-		trade.setOrderNo(tradeNo);
-		trade.setUserName(merch.getName());
-		trade.setIdCard(merch.getIdCard());
-		trade.setBankCode(bankCodes[0]);
-		trade.setBankAbbr(bankCodes[1]);
-		trade.setStatus("0");
-		tradeLogService.insert(trade);
-		/*
-		 * 是否绑卡 如果有绑卡记录，看下卡状态是否开通成功
-		 */
-		Card card = cardService.findByCardNo(openId, trade.getPayCardNo());
-		if (card == null) {
-			card = new Card();
-			card.setOpenId(openId);
-			card.setIdCard(merch.getIdCard());
-			card.setPhone(merch.getPhone());
-			card.setCardNo(trade.getPayCardNo());
-			card.setCardType("2");// 信用卡
-			card.setCardName(merch.getName());
-			card.setBankCode(bankCodes[0]);
-			card.setBankAbbr(bankCodes[1]);
-			card.setBankName(trade.getBankName());
-			cardService.insert(card);
-		}
-		JSONObject result = tiedCardService.tiedCreditCard(openId, trade.getPayCardNo());
-		String respCode = result.getString("respCode");
-		if("000000".equals(respCode)){
-			String status = result.getJSONObject("result").getString("activateStatus");
-			if("2".equals(status)){
-				//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
-				/*logger.info("Session openId：" + openId);
-				Merch merch = merchService.findByOpenId(openId);
-				if(null == orderNo || "".equals(orderNo)){
-					orderNo = httpSession.getAttribute("tradeNo").toString();
-				}*/
-				logger.info("支付订单号：" + tradeNo);
-				TradeLog tradeLog = tradeLogService.findByTradeNo(openId, tradeNo);
-				PayMessage message = new PayMessage();
-				message.setTranType("PAYMSG");// 交易码
-				message.setMerNo(merch.getMerNo());// 合作商户编号
-				message.setMerTrace(tradeNo);// 商户流水
-				message.setOrderId(tradeNo);// 支付订单号
-				String tradeAmt = tradeLog.getTradeAmt()*100 + "";
-				logger.info("支付金额：" + tradeAmt);
-				message.setOrderAmount(tradeAmt);// 订单金额(分)
-				message.setRateCode(rateCode);// 费率编号
-				message.setCardNo(tradeLog.getPayCardNo());// 银行卡卡号
-				message.setAccountName(tradeLog.getUserName());// 银行卡姓名
-				message.setCardType("2");// 银行卡类型(1、借记卡，2、信用卡)
-				message.setBankCode(tradeLog.getBankCode());// 银行代码
-				message.setBankAbbr(tradeLog.getBankAbbr());// 银行代号
-				message.setPhoneno(merch.getPhone());// 预留手机
-				message.setCertType("01");// 01、身份证
-				message.setCertNo(merch.getIdCard());// 证件号码
-				JSONObject msgResult = tradeExecute.tradeHttpReq(JSONObject.toJSONString(message));
-				if(!"000000".equals(msgResult.getString("respCode"))){
-					throw new Exception(StatusCode.SYS_SEND_MSG_ERR.toString());
-				}else{
-					/*记录支付流水号(短信接口返回)*/
-					String orderId = msgResult.getJSONObject("result").getString("orderId");
-					String payNo = msgResult.getJSONObject("result").getString("payNo");
-					TradeLog msgTrade = new TradeLog();
-					msgTrade.setOpenId(openId);
-					msgTrade.setOrderNo(orderId);
-					msgTrade.setPayNo(payNo);
-					tradeLogService.update(msgTrade);
-				}
-			} else if("1".equals(status)){
-				//如果没有开通
-				String html = result.getJSONObject("result").getString("html");
-				logger.info("html页面代码" + html);
-				response.reset();
-				response.setContentType("text/html; charset=UTF-8");
-				ServletOutputStream out = response.getOutputStream();
-				out.println(html);
-				return null;
-			} else {
-				throw new Exception(StatusCode.SYS_MSG_TIED_CARD.toString());
+	public Result<String> startPay(TradeLog trade, HttpSession httpSession, HttpServletResponse response, Model model) throws JsonException {
+		try {
+			String openId = WebUtils.getSessionValue("openId");
+			logger.info("Session openId：" + openId);
+			/*是否已绑结算卡*/
+			Merch merch = merchService.findByOpenId(openId);
+			String tiedCard = merch.getTiedCard();
+			if(tiedCard == null || "N".equals(tiedCard) || "".equals(tiedCard)){
+				throw new JsonException(StatusCode.SYS_TIED_CARD);
 			}
-		}else{
-			throw new Exception(StatusCode.SYS_PAY_ERR.toString());
+			trade.setOpenId(openId);
+			String tradeNo = Serialnumber.getSerial();
+			model.addAttribute("orderNo", tradeNo);
+			/*记录交易流水号*/
+			httpSession.setAttribute("tradeNo", tradeNo);
+			trade.setTradeNo(tradeNo);
+			trade.setOrderNo(tradeNo);
+			trade.setUserName(merch.getName());
+			trade.setIdCard(merch.getIdCard());
+			trade.setBankCode(trade.getBankCode());
+			trade.setBankAbbr(trade.getBankAbbr());
+			trade.setStatus("0");
+			tradeLogService.insert(trade);
+			JSONObject result = tiedCardService.tiedCreditCard(openId, trade.getPayCardNo());
+			String respCode = result.getString("respCode");
+			if("000000".equals(respCode)){
+				String status = result.getJSONObject("result").getString("activateStatus");
+				if("2".equals(status)){
+					logger.info("支付订单号：" + tradeNo);
+					TradeLog tradeLog = tradeLogService.findByTradeNo(openId, tradeNo);
+					PayMessage message = new PayMessage();
+					message.setTranType("PAYMSG");// 交易码
+					message.setMerNo(merch.getMerNo());// 合作商户编号
+					message.setMerTrace(tradeNo);// 商户流水
+					message.setOrderId(tradeNo);// 支付订单号
+					String tradeAmt = tradeLog.getTradeAmt()*100 + "";
+					logger.info("支付金额：" + tradeAmt);
+					message.setOrderAmount(tradeAmt);// 订单金额(分)
+					message.setRateCode(rateCode);// 费率编号
+					message.setCardNo(tradeLog.getPayCardNo());// 银行卡卡号
+					message.setAccountName(tradeLog.getUserName());// 银行卡姓名
+					message.setCardType("2");// 银行卡类型(1、借记卡，2、信用卡)
+					message.setBankCode(tradeLog.getBankCode());// 银行代码
+					message.setBankAbbr(tradeLog.getBankAbbr());// 银行代号
+					message.setPhoneno(merch.getPhone());// 预留手机
+					message.setCertType("01");// 01、身份证
+					message.setCertNo(merch.getIdCard());// 证件号码
+					JSONObject msgResult = tradeExecute.tradeHttpReq(JSONObject.toJSONString(message));
+					if(!"000000".equals(msgResult.getString("respCode"))){
+						throw new Exception(StatusCode.SYS_SEND_MSG_ERR.toString());
+					}else{
+						String code = msgResult.getJSONObject("result").getString("resultCode");
+						if(!"000000".equals(code)){
+							/*记录支付流水号(短信接口返回)*/
+							String orderId = msgResult.getJSONObject("result").getString("orderId");
+							String payNo = msgResult.getJSONObject("result").getString("payNo");
+							TradeLog msgTrade = new TradeLog();
+							msgTrade.setOpenId(openId);
+							msgTrade.setOrderNo(orderId);
+							msgTrade.setPayNo(payNo);
+							msgTrade.setStatus("5");
+							tradeLogService.update(msgTrade);
+							String codeMsg = msgResult.getJSONObject("result").getString("resultMsg");
+							return new Result<String>(code, codeMsg, "");
+						}else{
+							/*记录支付流水号(短信接口返回)*/
+							String orderId = msgResult.getJSONObject("result").getString("orderId");
+							String payNo = msgResult.getJSONObject("result").getString("payNo");
+							TradeLog msgTrade = new TradeLog();
+							msgTrade.setOpenId(openId);
+							msgTrade.setOrderNo(orderId);
+							msgTrade.setPayNo(payNo);
+							tradeLogService.update(msgTrade);
+						}
+					}
+				} else if("1".equals(status)){
+					//如果没有开通
+					String html = result.getJSONObject("result").getString("html");
+					logger.info("html页面代码" + html);
+					response.reset();
+					response.setContentType("text/html; charset=UTF-8");
+					ServletOutputStream out = response.getOutputStream();
+					out.println(html);
+					return null;
+				} else {
+					throw new JsonException(StatusCode.SYS_MSG_TIED_CARD);
+				}
+			}else{
+				throw new JsonException(StatusCode.SYS_PAY_ERR);
+			}
+		} catch(JsonException e){
+			throw e;
+		} catch (Exception e) {
+			throw new JsonException(StatusCode.SYS_PAY_ERR);
 		}
-		return "/paysms";
+		return new Result<String>("");
 	}
 
 	/**
@@ -166,7 +159,6 @@ public class TradeLogController {
 	public Result<String> paySms(String orderNo, HttpSession httpSession) throws JsonException {
 		try {
 			String openId = WebUtils.getSessionValue("openId");
-			//String openId = "o1ZZ61qoovpSAhCjrk144BUc6NLY";
 			logger.info("Session openId：" + openId);
 			Merch merch = merchService.findByOpenId(openId);
 			if(null == orderNo || "".equals(orderNo)){
@@ -246,11 +238,11 @@ public class TradeLogController {
 			payMoney.setNotifyUrl(payNotifyUrl);// 后台通知URL
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(payMoney));
 			if(!"000000".equals(result.getString("respCode"))){
-				String orderId = result.getJSONObject("result").getString("orderId");
+				//String orderId = result.getJSONObject("result").getString("orderId");
 				TradeLog trade = new TradeLog();
 				trade.setOpenId(openId);
-				trade.setOrderNo(orderId);
-				trade.setStatus("1");
+				trade.setOrderNo(orderNo);
+				trade.setStatus("5");
 				tradeLogService.update(trade);
 				throw new JsonException(StatusCode.SYS_PAY_ERR);
 			}else{
@@ -267,7 +259,7 @@ public class TradeLogController {
 					TradeLog trade = new TradeLog();
 					trade.setOpenId(openId);
 					trade.setOrderNo(orderId);
-					trade.setStatus("1");
+					trade.setStatus("5");
 					tradeLogService.update(trade);
 					throw new JsonException(StatusCode.SYS_PAY_ERR);
 				}

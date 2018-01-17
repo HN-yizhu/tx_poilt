@@ -35,7 +35,11 @@ public enum StatusCode {
 	/**
 	 * [0105]支付异常
 	 */
-	SYS_PAY_ERR("0105", "支付异常");
+	SYS_PAY_ERR("0105", "支付异常"),
+	/**
+	 * [0106]请先绑定结算卡
+	 */
+	SYS_TIED_CARD("0106", "请先绑定结算卡");
 	
 	private String code;
 	private String desc;

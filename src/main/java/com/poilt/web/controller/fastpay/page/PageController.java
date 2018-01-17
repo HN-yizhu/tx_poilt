@@ -35,9 +35,9 @@ public class PageController {
 	private BankCodeService bankCodeService;
 	
 	@RequestMapping(value = "/index")
-	public String index(HttpServletRequest request, Map<String, Object> map) throws Exception {
-		List<Map<String, Object>> list = bankCodeService.selectMap();
-		map.put("bankCodeList", list);
+	public String index(HttpServletRequest request, Model model) throws Exception {
+		String openId = WebUtils.getSessionValue("openId");
+		model.addAttribute("payCardList", cardService.selectMap(openId));
 		return "/index";
 	}
 	
@@ -60,8 +60,9 @@ public class PageController {
 	}
 	
 	@RequestMapping(value = "/tiedCreditCard")
-	public String tiedCreditCard(String cardNo, Model model) throws Exception {
-		model.addAttribute("cardNo", cardNo);
+	public String tiedCreditCard(HttpServletRequest request, Map<String, Object> map) throws Exception {
+		List<Map<String, Object>> list = bankCodeService.selectMap();
+		map.put("bankCodeList", list);
 		return "/tiedCreditCard";
 	}
 	
