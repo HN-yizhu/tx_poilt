@@ -5,6 +5,8 @@ import java.util.Date;
 public class Card {
     private Integer id;
     
+    private String merNo;
+    
     private String openId;
 
     private String idCard;
@@ -36,6 +38,8 @@ public class Card {
     private String useType;
 
     private Date createTime;
+    
+    private String traceNo;
 
     private String orderNo;
 
@@ -181,6 +185,22 @@ public class Card {
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	public String getMerNo() {
+		return merNo;
+	}
+
+	public void setMerNo(String merNo) {
+		this.merNo = merNo;
+	}
+
+	public String getTraceNo() {
+		return traceNo;
+	}
+
+	public void setTraceNo(String traceNo) {
+		this.traceNo = traceNo;
 	}
 
    

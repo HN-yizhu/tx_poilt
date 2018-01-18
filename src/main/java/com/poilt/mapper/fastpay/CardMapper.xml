@@ -3,6 +3,7 @@
 <mapper namespace="com.poilt.mapper.fastpay.CardMapper">
 	<resultMap id="cardMap" type="com.poilt.model.fastpay.Card">
 		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="mer_no" jdbcType="VARCHAR" property="merNo" />
 		<result column="open_id" jdbcType="VARCHAR" property="openId" />
 		<result column="id_card" jdbcType="CHAR" property="idCard" />
 		<result column="phone" jdbcType="CHAR" property="phone" />
@@ -19,6 +20,7 @@
 		<result column="card_status" jdbcType="CHAR" property="cardStatus" />
 		<result column="use_type" jdbcType="CHAR" property="useType" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="trace_no" jdbcType="VARCHAR" property="traceNo" />
 		<result column="order_no" jdbcType="VARCHAR" property="orderNo" />
 	</resultMap>
 
@@ -40,6 +42,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="merNo != null">
+				mer_no,
 			</if>
 			<if test="openId != null">
 				open_id,
@@ -89,6 +94,9 @@
 			<if test="createTime != null">
 				create_time,
 			</if>
+			<if test="traceNo != null">
+				trace_no,
+			</if>
 			<if test="orderNo != null">
 				order_no,
 			</if>
@@ -96,6 +104,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="merNo != null">
+				#{merNo,jdbcType=VARCHAR},
 			</if>
 			<if test="openId != null">
 				#{openId,jdbcType=VARCHAR},
@@ -144,6 +155,9 @@
 			</if>
 			<if test="createTime != null">
 				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="traceNo != null">
+				#{traceNo,jdbcType=VARCHAR},
 			</if>
 			<if test="orderNo != null">
 				#{orderNo,jdbcType=VARCHAR},
@@ -196,11 +210,28 @@
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
+			<if test="traceNo != null">
+				trace_no = #{traceNo,jdbcType=VARCHAR},
+			</if>
 			<if test="orderNo != null">
 				order_no = #{orderNo,jdbcType=VARCHAR},
 			</if>
 		</set>
-		where open_id = #{openId,jdbcType=INTEGER}
+		where card_no = #{cardNo,jdbcType=VARCHAR} 
+		<if test="openId != null">
+			and open_id = #{openId,jdbcType=VARCHAR}
+		</if>
+		<if test="merNo != null">
+			and mer_no = #{merNo,jdbcType=VARCHAR}
+		</if>
+	</update>
+	
+	<update id="updateStatus" parameterType="com.poilt.model.fastpay.Card">
+		update card
+		   set card_status = #{cardStatus,jdbcType=CHAR}
+		 where mer_no = #{merNo,jdbcType=VARCHAR}
+		   and trace_no = #{traceNo,jdbcType=VARCHAR}
+		   and order_no = #{orderNo,jdbcType=VARCHAR}
 	</update>
 
 </mapper>

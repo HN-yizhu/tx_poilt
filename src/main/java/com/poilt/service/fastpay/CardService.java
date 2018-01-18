@@ -2,14 +2,10 @@ package com.poilt.service.fastpay;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.poilt.mapper.fastpay.CardMapper;
 import com.poilt.model.fastpay.Card;
-
-import me.chanjar.weixin.common.util.RandomUtils;
 
 @Service
 public class CardService {
@@ -31,8 +27,18 @@ public class CardService {
 	}
 	
 	public int insert(Card card){
-		card.setOrderNo(RandomUtils.getRandomStr());
+		//card.setOrderNo(RandomUtils.getRandomStr());
 		int count = cardMapper.insert(card);
+		return count;
+	}
+	
+	public int update(Card card){
+		int count = cardMapper.update(card);
+		return count;
+	}
+	
+	public int updateStatus(Card card){
+		int count = cardMapper.updateStatus(card);
 		return count;
 	}
 	

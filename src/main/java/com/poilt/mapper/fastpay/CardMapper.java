@@ -17,4 +17,6 @@ public interface CardMapper {
 
     int update(Card card);
     
+    int updateStatus(Card card);
+    
 }

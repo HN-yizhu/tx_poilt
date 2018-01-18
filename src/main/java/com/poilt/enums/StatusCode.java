@@ -39,7 +39,11 @@ public enum StatusCode {
 	/**
 	 * [0106]请先绑定结算卡
 	 */
-	SYS_TIED_CARD("0106", "请先绑定结算卡");
+	SYS_TIED_CARD("0106", "请先绑定结算卡"),
+	/**
+	 * [0107]支付卡未绑定
+	 */
+	TX_PAY_CARD_NOT_TIED("0107", "支付卡未绑定");
 	
 	private String code;
 	private String desc;

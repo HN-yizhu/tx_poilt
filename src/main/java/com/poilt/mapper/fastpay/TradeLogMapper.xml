@@ -3,6 +3,7 @@
 <mapper namespace="com.poilt.mapper.fastpay.TradeLogMapper">
 	<resultMap id="tradeMap" type="com.poilt.model.fastpay.TradeLog">
 		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="mer_no" jdbcType="VARCHAR" property="merNo" />
 		<result column="open_id" jdbcType="VARCHAR" property="openId" />
 		<result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
 		<result column="order_no" jdbcType="VARCHAR" property="orderNo" />
@@ -25,8 +26,8 @@
 		from trade_log t where t.open_id = #{openId} order by t.create_time desc
 	</select>
 	
-	<select id="findByTradeNo" resultMap="tradeMap">
-		select * from trade_log where open_id = #{openId} and trade_no = #{tradeNo}
+	<select id="findByOrderNo" resultMap="tradeMap">
+		select * from trade_log where open_id = #{openId} and order_no = #{orderNo}
 	</select>
 
 	<insert id="insert" parameterType="com.poilt.model.fastpay.TradeLog"
@@ -35,6 +36,9 @@
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="merNo != null">
+				mer_no,
 			</if>
 			<if test="openId != null">
 				open_id,
@@ -82,6 +86,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="merNo != null">
+				#{merNo,jdbcType=VARCHAR},
 			</if>
 			<if test="openId != null">
 				#{openId,jdbcType=VARCHAR},
@@ -171,6 +178,13 @@
 		</set>
 		where open_id = #{openId,jdbcType=VARCHAR}
 		and order_no = #{orderNo,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateStatus" parameterType="com.poilt.model.fastpay.TradeLog">
+	update trade_log
+	   set status = #{status,jdbcType=CHAR}
+	 where trade_no = #{tradeNo,jdbcType=VARCHAR}
+	   and order_no = #{orderNo,jdbcType=VARCHAR}
 	</update>
 
 </mapper>

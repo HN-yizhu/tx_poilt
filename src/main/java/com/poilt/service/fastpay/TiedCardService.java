@@ -133,6 +133,15 @@ public class TiedCardService {
 		card.setCertNo(user.getIdCard());
 		card.setPageReturnUrl(pageReturnUrl);
 		card.setOfflineNotifyUrl(cardNotifyUrl);
+		/*更新卡片绑卡流水号及订单号*/
+		Card updateCard = new Card();
+		updateCard.setTraceNo(orderNo);
+		updateCard.setOrderNo(orderNo);
+		updateCard.setOpenId(openId);
+		updateCard.setCardNo(cardNo);
+		updateCard.setCardStatus("1");//等等签约中
+		cardService.update(updateCard);
+		/*发送报文绑卡*/
 		JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(card));
 		return result;
 	}

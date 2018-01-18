@@ -6,6 +6,8 @@ public class TradeLog {
 	
     private Integer id;
 
+    private String merNo;
+    
     private String openId;
     
     private String tradeNo;
@@ -162,6 +164,14 @@ public class TradeLog {
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	public String getMerNo() {
+		return merNo;
+	}
+
+	public void setMerNo(String merNo) {
+		this.merNo = merNo;
 	}
 
 	

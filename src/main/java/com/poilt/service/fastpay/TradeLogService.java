@@ -20,8 +20,8 @@ public class TradeLogService {
 		return list;
 	}
 	
-	public TradeLog findByTradeNo(String openId, String tradeNo){
-		return tradeLogMapper.findByTradeNo(openId, tradeNo);
+	public TradeLog findByOrderNo(String openId, String orderNo){
+		return tradeLogMapper.findByOrderNo(openId, orderNo);
 	}
 	
 	public int insert(TradeLog trade){
@@ -31,6 +31,11 @@ public class TradeLogService {
 	
 	public int update(TradeLog trade){
 		int count = tradeLogMapper.update(trade);
+		return count;
+	}
+	
+	public int updateStatus(TradeLog trade){
+		int count = tradeLogMapper.updateStatus(trade);
 		return count;
 	}
 	
