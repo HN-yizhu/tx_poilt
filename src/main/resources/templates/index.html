@@ -42,7 +42,7 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input id="tradeAmt" name="tradeAmt" class="weui-input"
-								type="number" pattern="[0-9]*" placeholder="支付金额">
+								type="number" pattern="[0-9]*" placeholder="500 - 200000">
 						</div>
 						<div class="weui-cell__ft">
 							<i class="weui-icon-warn"></i>
@@ -105,13 +105,18 @@
 		var bankCode = card[1];
 		var bankAbbr = card[2];
 		var bankName = card[3];
+		
 		var tradeAmt = $("#tradeAmt").val();
 		if(tradeAmt == ""){
 			$.alert("请输入金额！");
 			return false;
 		}
-		if(tradeAmt < 200){
-			$.alert("支付金额最少200！");
+		if(tradeAmt < 500){
+			$.alert("支付金额最少500！");
+			return false;
+		}
+		if(tradeAmt > 20000){
+			$.alert("支付金额最大20000！");
 			return false;
 		}
 		var params = {
@@ -130,7 +135,7 @@
 			success : function(data) {
 				$.hideLoading();
 				if (data.code == '200') {
-					location.href = /*[[@{/paysms}]]*/
+					location.href = [[@{/paysms}]]+'?phone='+data.data
 				} else {
 					$.toast(data.message, "cancel");
 				}

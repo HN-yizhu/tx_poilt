@@ -35,7 +35,7 @@
 				<div class="weui-cell" th:each="item,status : ${tradeList}"
 					th:inline="text">
 					<div class="weui-cell__bd">
-						<p>快捷支付</p>
+						<p>快捷支付 [[${#strings.substring(item.payCardNo,#strings.length(item.payCardNo) - 4, #strings.length(item.payCardNo))}]]</p>
 						<font color="#999">[[${#dates.format(item.createTime,'yyyy-MM-dd HH:mm:ss')}]]</font>
 					</div>
 					<div class="weui-cell__ft">

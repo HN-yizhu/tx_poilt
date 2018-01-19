@@ -54,8 +54,9 @@ public class PageController {
 	}
 	
 	@RequestMapping(value = "/paysms")
-	public String paysms(String orderNo, Model model) throws Exception {
+	public String paysms(String orderNo,String phone, Model model) throws Exception {
 		model.addAttribute("orderNo", orderNo);
+		model.addAttribute("phone", phone);
 		return "/paysms";
 	}
 	

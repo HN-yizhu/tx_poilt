@@ -186,5 +186,12 @@
 	 where trade_no = #{tradeNo,jdbcType=VARCHAR}
 	   and order_no = #{orderNo,jdbcType=VARCHAR}
 	</update>
+	
+	<update id="updateOrderNoByOldOrderNo">
+		update trade_log 
+			set order_no=#{newOrderNo,jdbcType=VARCHAR}
+		where open_id = #{openId,jdbcType=VARCHAR}
+		and order_no = #{orderNo,jdbcType=VARCHAR}
+	</update>
 
 </mapper>

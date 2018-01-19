@@ -1,8 +1,10 @@
 package com.poilt.web.controller.fastpay.api;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.enums.StatusCode;
 import com.poilt.exception.JsonException;
@@ -128,6 +131,7 @@ public class TradeLogController {
 					msgTrade.setOrderNo(orderId);
 					msgTrade.setPayNo(payNo);
 					tradeLogService.update(msgTrade);
+					return new Result<String>(merch.getPhone());
 				}
 			}
 		} catch(JsonException e){
@@ -137,7 +141,7 @@ public class TradeLogController {
 			logger.error("", e);
 			throw new JsonException(StatusCode.SYS_PAY_ERR);
 		}
-		return new Result<String>("");
+//		return new Result<String>("");
 	}
 
 	/**
@@ -154,13 +158,17 @@ public class TradeLogController {
 			if(null == orderNo || "".equals(orderNo)){
 				orderNo = httpSession.getAttribute("orderNo").toString();
 			}
+			String newOrderNo = Serialnumber.getSerial();
+			tradeLogService.updateOrderNoByOldOrderNo(openId,orderNo,newOrderNo);
+			httpSession.setAttribute("orderNo", newOrderNo);
+			
 			logger.info("支付订单号：" + orderNo);
-			TradeLog tradeLog = tradeLogService.findByOrderNo(openId, orderNo);
+			TradeLog tradeLog = tradeLogService.findByOrderNo(openId, newOrderNo);
 			PayMessage message = new PayMessage();
 			message.setTranType("PAYMSG");// 交易码
 			message.setMerNo(merch.getMerNo());// 合作商户编号
 			message.setMerTrace(Serialnumber.getSerial());// 商户流水
-			message.setOrderId(orderNo);// 支付订单号
+			message.setOrderId(newOrderNo);// 支付订单号
 			String tradeAmt = tradeLog.getTradeAmt()*100 + "";
 			logger.info("支付金额：" + tradeAmt);
 			message.setOrderAmount(tradeAmt);// 订单金额(分)

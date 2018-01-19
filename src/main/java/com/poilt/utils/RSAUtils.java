@@ -364,5 +364,13 @@ public class RSAUtils {
 		Key key = (Key) keyMap.get(PUBLIC_KEY);
 		return Base64.getEncoder().encodeToString(key.getEncoded());
 	}
-
+	
+	public static void main(String[] args) throws Exception {
+		String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC73F+dwtcHxOx24KxLjpRCOnm3vxFB/N2Yg2Njj9q29OSTnLDohioFcevH7tU4TQY1jZj0mhyqNzD+BF+2IWHOEODs+3OXRL4HTRimNQI/LwyAlXuLpppvd5FR65wx6tTLFZze+mK9EZBYfUuWp+B7JToLfSyN8I+OB6cpbLkLCwIDAQAB";
+		String priKey = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALvcX53C1wfE7HbgrEuOlEI6ebe/EUH83ZiDY2OP2rb05JOcsOiGKgVx68fu1ThNBjWNmPSaHKo3MP4EX7YhYc4Q4Oz7c5dEvgdNGKY1Aj8vDICVe4ummm93kVHrnDHq1MsVnN76Yr0RkFh9S5an4HslOgt9LI3wj44HpylsuQsLAgMBAAECgYEAppjlNpveY+ZwKXBPe2YC9sSywo+v90wPHDyQfG/Lb2q39mwDuwGX7GI9zX1xG0+7TOy4k1rERvNRAEPSuUrbVwVDPxNyUabkQMw621vbecgSjQMGSpVg37dYMY6JHTf5J+mtl189LgVRU2xJLsZE7xdPymzeG+hgy2RUuWykdWkCQQDeXGsD5/wD1aPJ/8YeuV112gWIrB2z0Qbw/6d/XinMswAC1q739vdTH7kyHqW2Z7YuaU+A2vHVoCPxhZOyRGSVAkEA2EfVyDJmoiboIx1aNc0r3cOWDrY36GubzgudwGRoMsDgPAkjvRHw0fpXrI2gFCkV9SsjgNeiYBz7jG3gVsEpHwJBAKUH8mTzyBcQeH9zVZd3++V76p+FHoZWnNBA7g+Z02wZbeitbS6cHPOUl96a4GKAlrXbcyYvWU0zjXmzqeqk2AECQQCZs0M8CIVjit7BxaRMQ8h+yvYi8l/87ixFW3/6L+DU4Lj6MUySmuNXdd9Eo0k1ypTuLIAImjWstCwX+iXJwW/lAkAdmztRYRc3+QE7Yx9MLzo2H6+e31uYjGdCSxACTXMQ3pf54vcp9zsWFIq+e/3GCZP9BuNtv0ebUSbeuw7udi9s";
+		String data = encryptByPublicKey("321".getBytes(),pubKey);
+		System.out.println(data);
+		System.out.println(decryptByPrivateKey(data, priKey));;
+	}
+	
 }

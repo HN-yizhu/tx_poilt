@@ -38,5 +38,10 @@ public class TradeLogService {
 		int count = tradeLogMapper.updateStatus(trade);
 		return count;
 	}
+
+	public int updateOrderNoByOldOrderNo(String openId, String orderNo, String newOrderNo) {
+		int count = tradeLogMapper.updateOrderNoByOldOrderNo(openId,orderNo,newOrderNo);
+		return count;
+	}
 	
 }
