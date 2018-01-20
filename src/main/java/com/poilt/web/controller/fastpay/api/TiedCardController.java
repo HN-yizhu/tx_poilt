@@ -97,7 +97,16 @@ public class TiedCardController {
 			creditCard.setBankCode(card.getBankCode());
 			creditCard.setBankAbbr(card.getBankAbbr());
 			creditCard.setBankName(card.getBankName());
+			creditCard.setCvn2(card.getCvn2());
+			creditCard.setExpired(card.getExpired());
 			cardService.insert(creditCard);
+		}else{
+			/*更新卡片信息*/
+			creditCard.setCvn2(card.getCvn2());
+			creditCard.setExpired(card.getExpired());
+			creditCard.setCardNo(card.getCardNo());
+			creditCard.setOpenId(openId);
+			cardService.update(creditCard);
 		}
 		JSONObject result = tiedCardService.tiedCreditCard(openId, card.getCardNo());
 		String respCode = result.getString("respCode");

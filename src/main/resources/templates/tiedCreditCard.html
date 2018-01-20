@@ -43,6 +43,24 @@
 								type="number" pattern="[0-9]*" placeholder="支付卡号">
 						</div>
 					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">CVN2</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="cvn2" name="cvn2" class="weui-input"
+								type="number" pattern="[0-9]*" placeholder="卡背面后三位数字">
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
+							<label for="" class="weui-label">有效期</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input id="expired" name="expired" class="weui-input"
+								type="number" pattern="[0-9]*" placeholder="如12/24则填写1224">
+						</div>
+					</div>
 				</div>
 
 				<div class='demos-content-padded'>
@@ -62,11 +80,29 @@
 	<script th:src="@{/js/jquery-weui.js}"></script>
 
 	<script type="text/javascript" th:inline="javascript">
+	
 		$("#bankName").select({
 	        title: "请选择开户银行",
 	        items: /*[[${bankCodeList}]]*/
 	    });
+		
 		$("#tiedCreditCard").click(function() {
+			if($("#bankName").val() == ""){
+				$.alert("请选择开户银行！");
+				return false;
+			}
+			if($("#cardNo").val() == ""){
+				$.alert("请填写信用卡卡号！");
+				return false;
+			}
+			if($("#cvn2").val() == ""){
+				$.alert("请填写卡背面后三位数字！");
+				return false;
+			}
+			if($("#expired").val() == ""){
+				$.alert("请填写卡片有效期！");
+				return false;
+			}
 			var card = $("#bankName").attr("data-values").split(",");
 			$("#bankCode").val(card[0]);
 			$("#bankAbbr").val(card[1]);

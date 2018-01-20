@@ -162,7 +162,7 @@ public class TradeLogController {
 			tradeLogService.updateOrderNoByOldOrderNo(openId,orderNo,newOrderNo);
 			httpSession.setAttribute("orderNo", newOrderNo);
 			
-			logger.info("支付订单号：" + orderNo);
+			logger.info("支付订单号：" + newOrderNo);
 			TradeLog tradeLog = tradeLogService.findByOrderNo(openId, newOrderNo);
 			PayMessage message = new PayMessage();
 			message.setTranType("PAYMSG");// 交易码

@@ -19,6 +19,10 @@ public class Card {
 
     private String cardName;
     
+    private String cvn2;
+    
+    private String expired;
+    
     private String bankName;
     
     private String cardProvince;
@@ -201,6 +205,22 @@ public class Card {
 
 	public void setTraceNo(String traceNo) {
 		this.traceNo = traceNo;
+	}
+
+	public String getCvn2() {
+		return cvn2;
+	}
+
+	public void setCvn2(String cvn2) {
+		this.cvn2 = cvn2;
+	}
+
+	public String getExpired() {
+		return expired;
+	}
+
+	public void setExpired(String expired) {
+		this.expired = expired;
 	}
 
    

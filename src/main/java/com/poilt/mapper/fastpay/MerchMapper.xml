@@ -9,6 +9,7 @@
 		<result column="phone" jdbcType="CHAR" property="phone" />
 		<result column="id_card" jdbcType="CHAR" property="idCard" />
 		<result column="credit_rate" jdbcType="DOUBLE" property="creditRate" />
+		<result column="withdRate" jdbcType="DOUBLE" property="withdRate" />
 		<result column="credit_fee" jdbcType="DOUBLE" property="creditFee" />
 		<result column="history_total" jdbcType="DOUBLE" property="historyTotal" />
 		<result column="referrer" jdbcType="VARCHAR" property="referrer" />
@@ -44,6 +45,9 @@
 			</if>
 			<if test="creditRate != null">
 				credit_rate,
+			</if>
+			<if test="withdRate != null">
+				withdRate,
 			</if>
 			<if test="creditFee != null">
 				credit_fee,
@@ -92,6 +96,9 @@
 			<if test="creditRate != null">
 				#{creditRate,jdbcType=DOUBLE},
 			</if>
+			<if test="withdRate != null">
+				#{withdRate,jdbcType=DOUBLE},
+			</if>
 			<if test="creditFee != null">
 				#{creditFee,jdbcType=DOUBLE},
 			</if>
@@ -136,6 +143,9 @@
 			</if>
 			<if test="creditRate != null">
 				credit_rate = #{creditRate,jdbcType=DOUBLE},
+			</if>
+			<if test="withdRate != null">
+				withdRate = #{withdRate,jdbcType=DOUBLE},
 			</if>
 			<if test="creditFee != null">
 				credit_fee = #{creditFee,jdbcType=DOUBLE},

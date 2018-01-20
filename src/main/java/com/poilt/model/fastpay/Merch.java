@@ -16,6 +16,8 @@ public class Merch {
 	private String idCard;
 
 	private Double creditRate;
+	
+	private Double withdRate;
 
 	private Double creditFee;
 
@@ -151,6 +153,14 @@ public class Merch {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Double getWithdRate() {
+		return withdRate;
+	}
+
+	public void setWithdRate(Double withdRate) {
+		this.withdRate = withdRate;
 	}
 
 }

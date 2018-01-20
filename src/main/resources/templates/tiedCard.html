@@ -24,6 +24,14 @@
 				<div class="weui-cells weui-cells_form">
 					<div class="weui-cell">
 						<div class="weui-cell__hd">
+							<label class="weui-label">开户银行</label>
+						</div>
+						<div class="weui-cell__bd">
+							<input class="weui-input" id="bankName" name="bankName" type="text" value="" placeholder="开户银行">
+						</div>
+					</div>
+					<div class="weui-cell">
+						<div class="weui-cell__hd">
 							<label class="weui-label">结算卡卡号</label>
 						</div>
 						<div class="weui-cell__bd">
@@ -31,14 +39,6 @@
 						</div>
 						<div class="weui-cell__ft">
 							<i class="weui-icon-warn"></i>
-						</div>
-					</div>
-					<div class="weui-cell">
-						<div class="weui-cell__hd">
-							<label class="weui-label">开户银行</label>
-						</div>
-						<div class="weui-cell__bd">
-							<input class="weui-input" id="bankName" name="bankName" type="text" value="" placeholder="开户银行">
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,14 @@
 	        items: /*[[${bankCodeList}]]*/
 	      });
 		$("#register").click(function() {
-			//$("#tiedCardForm").submit();
+			if($("#bankName" == "")){
+				$.alert("请选择开户银行！");
+				return false;
+			}
+			if($("#cardNo") == ""){
+				$.alert("请输入卡号！");
+				return false;
+			}
 			var params = {
 					"cardNo": $("#cardNo").val(),
 					"bankName": $("#bankName").val(),

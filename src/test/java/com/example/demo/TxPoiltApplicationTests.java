@@ -15,6 +15,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.alibaba.fastjson.JSONObject;
 import com.poilt.Application;
+import com.poilt.utils.Serialnumber;
 
 import junit.framework.TestCase;
 
@@ -87,44 +88,6 @@ public class TxPoiltApplicationTests {
 		param.put("orderId", "20180116112332687118");
 		RequestBuilder request = MockMvcRequestBuilders
 				.post("/fastpay_cardstate")
-				.contentType("application/json; charset=utf-8")
-				.content(param.toString());
-		
-		MvcResult mvcResult = mockMvc.perform(request).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		String content = mvcResult.getResponse().getContentAsString();
-		TestCase.assertTrue("正确:",status == 200);
-		TestCase.assertFalse("错误:",status != 200);
-		System.out.println("返回结果:" + status);
-		System.out.println(content);
-	}
-	
-	@Test
-	public void fastpayChange() throws Exception{
-		JSONObject param = new JSONObject();
-		param.put("tranType", "MERCHG");
-		param.put("merNo", "321321321321");
-		param.put("merTrace", "");
-		param.put("changeType", "");
-		param.put("bankAccNo", "");
-		param.put("phoneno", "");
-		//bankAccNo
-		param.put("bankName", "");
-		param.put("bankSubName", "");
-		param.put("bankCode", "");
-		param.put("bankAbbr", "");
-		param.put("bankChannelNo", "");
-		param.put("bankProvince", "");
-		param.put("bankCity", "");
-		param.put("rateCode", "");
-		param.put("debitRate", "");
-		param.put("debitCapAmount", "");
-		param.put("creditRate", "");
-		param.put("creditCapAmount", "");
-		param.put("withdRate", "");
-		param.put("withdSgFee", "");
-		RequestBuilder request = MockMvcRequestBuilders
-				.post("/fastpay_change")
 				.contentType("application/json; charset=utf-8")
 				.content(param.toString());
 		
@@ -245,6 +208,44 @@ public class TxPoiltApplicationTests {
 		param.put("offlineNotifyUrl", "");
 		RequestBuilder request = MockMvcRequestBuilders
 				.post("/fastpay_tiedcard")
+				.contentType("application/json; charset=utf-8")
+				.content(param.toString());
+		
+		MvcResult mvcResult = mockMvc.perform(request).andReturn();
+		int status = mvcResult.getResponse().getStatus();
+		String content = mvcResult.getResponse().getContentAsString();
+		TestCase.assertTrue("正确:",status == 200);
+		TestCase.assertFalse("错误:",status != 200);
+		System.out.println("返回结果:" + status);
+		System.out.println(content);
+	}
+	
+	@Test
+	public void fastpayChange() throws Exception{
+		JSONObject param = new JSONObject();
+		param.put("tranType", "MERCHG");
+		param.put("merNo", "10635970");
+		param.put("merTrace", Serialnumber.getSerial());
+		param.put("changeType", "4");
+		/*param.put("bankAccNo", "");
+		param.put("phoneno", "");
+		//bankAccNo
+		param.put("bankName", "");
+		param.put("bankSubName", "");
+		param.put("bankCode", "");
+		param.put("bankAbbr", "");
+		param.put("bankChannelNo", "");
+		param.put("bankProvince", "");
+		param.put("bankCity", "");
+		param.put("rateCode", "");
+		param.put("debitRate", "");
+		param.put("debitCapAmount", "");
+		param.put("creditRate", "");
+		param.put("creditCapAmount", "");*/
+		param.put("withdRate", "0");
+		param.put("withdSgFee", "100");
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/fastpay_change")
 				.contentType("application/json; charset=utf-8")
 				.content(param.toString());
 		

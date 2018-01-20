@@ -86,7 +86,7 @@ public class TiedCardService {
 			merchRegister.setDebitCapAmount("99999900");//借记卡封顶
 			merchRegister.setCreditRate(user.getCreditRate().toString());//信用卡费率
 			merchRegister.setCreditCapAmount("99999900");//信用卡封顶
-			merchRegister.setWithdRate(user.getCreditRate().toString());//提现费率
+			merchRegister.setWithdRate("0");//提现费率
 			merchRegister.setWithdSgFee(user.getCreditFee()*100+"");//单笔提现手续费
 			JSONObject result = tradeExecute.tradeHttpReq(JSONObject.toJSONString(merchRegister));
 			if(!"000000".equals(result.getString("respCode"))){
@@ -127,8 +127,10 @@ public class TiedCardService {
 		card.setBankCode(cardInfo.getBankCode());
 		card.setBankAbbr(cardInfo.getBankAbbr());
 		card.setPhoneno(user.getPhone());
-		card.setCvn2("666");
-		card.setExpired("6666");
+		card.setCvn2(cardInfo.getCvn2());
+		String expired = cardInfo.getExpired();
+		expired = expired.substring(2) + expired.substring(0,2);
+		card.setExpired(expired);
 		card.setCertType("01");
 		card.setCertNo(user.getIdCard());
 		card.setPageReturnUrl(pageReturnUrl);

@@ -29,7 +29,7 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input class="weui-input" id="payCardList" name="payCardList"
-								type="text" value="" placeholder="请选择支付卡"> <input
+								type="text" value="" placeholder="选择支付卡或绑定支付卡"> <input
 								type="hidden" id="payCardNo" name="payCardNo" value="" /> <input
 								type="hidden" id="bankCode" name="bankCode" value="" /> <input
 								type="hidden" id="bankAbbr" name="bankAbbr" value="" /> <input
@@ -42,7 +42,7 @@
 						</div>
 						<div class="weui-cell__bd">
 							<input id="tradeAmt" name="tradeAmt" class="weui-input"
-								type="number" pattern="[0-9]*" placeholder="500 - 200000">
+								type="number" pattern="[0-9]*" placeholder="1000 - 20000">
 						</div>
 						<div class="weui-cell__ft">
 							<i class="weui-icon-warn"></i>
@@ -111,8 +111,8 @@
 			$.alert("请输入金额！");
 			return false;
 		}
-		if(tradeAmt < 500){
-			$.alert("支付金额最少500！");
+		if(tradeAmt < 1000){
+			$.alert("支付金额最少1000！");
 			return false;
 		}
 		if(tradeAmt > 20000){

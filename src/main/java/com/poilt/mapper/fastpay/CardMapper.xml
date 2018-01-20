@@ -10,6 +10,8 @@
 		<result column="card_no" jdbcType="VARCHAR" property="cardNo" />
 		<result column="card_type" jdbcType="CHAR" property="cardType" />
 		<result column="card_name" jdbcType="VARCHAR" property="cardName" />
+		<result column="cvn2" jdbcType="CHAR" property="cvn2" />
+		<result column="expired" jdbcType="CHAR" property="expired" />
 		<result column="bank_name" jdbcType="VARCHAR" property="bankName" />
 		<result column="card_province" jdbcType="VARCHAR" property="cardProvince" />
 		<result column="card_city" jdbcType="VARCHAR" property="cardCity" />
@@ -67,6 +69,12 @@
 			</if>
 			<if test="cardName != null">
 				card_name,
+			</if>
+			<if test="cvn2 != null">
+				cvn2,
+			</if>
+			<if test="expired != null">
+				expired,
 			</if>
 			<if test="bankName != null">
 				bank_name,
@@ -130,6 +138,12 @@
 			<if test="cardName != null">
 				#{cardName,jdbcType=VARCHAR},
 			</if>
+			<if test="cvn2 != null">
+				#{cvn2,jdbcType=CHAR},
+			</if>
+			<if test="expired != null">
+				#{expired,jdbcType=CHAR},
+			</if>
 			<if test="bankName != null">
 				#{bankName,jdbcType=VARCHAR},
 			</if>
@@ -183,6 +197,12 @@
 			</if>
 			<if test="cardType != null">
 				card_type = #{cardType,jdbcType=VARCHAR},
+			</if>
+			<if test="cvn2 != null">
+				cvn2 = #{cvn2,jdbcType=CHAR},
+			</if>
+			<if test="expired != null">
+				expired = #{expired,jdbcType=CHAR},
 			</if>
 			<if test="bankName != null">
 				bank_name = #{bankName,jdbcType=VARCHAR},
