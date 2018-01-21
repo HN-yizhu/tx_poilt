@@ -118,9 +118,10 @@
 					$("#loadMore").hide();
 					$("#loadDone").show();
 					$.each(data,function(i, n) {
+						var cardNo = n.payCardNo;
 						var htm = '<div class="weui-cell">'
 								+ '<div class="weui-cell__bd">'
-								+ '<p>快捷支付</p>'
+								+ '<p>快捷支付****'+cardNo.substr(cardNo.length-4)+'</p>'
 								+ '<font color="#999">'+new Date(n.createTime).Format("yyyy-MM-dd HH:mm:ss")+'</font>'
 								+ '</div>'
 								+ '<div class="weui-cell__ft">'
@@ -159,9 +160,10 @@
 					$(self).pullToRefreshDone();
 					$(".weui-cells").html('');
 					$.each(data,function(i, n) {
+						var cardNo = n.payCardNo;
 						var htm = '<div class="weui-cell">'
 								+ '<div class="weui-cell__bd">'
-								+ '<p>快捷支付</p>'
+								+ '<p>快捷支付****'+cardNo.substr(cardNo.length-4)+'</p>'
 								+ '<font color="#999">'+new Date(n.createTime).Format("yyyy-MM-dd HH:mm:ss")+'</font>'
 								+ '</div>'
 								+ '<div class="weui-cell__ft">'
