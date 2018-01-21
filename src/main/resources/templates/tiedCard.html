@@ -70,11 +70,11 @@
 	        items: /*[[${bankCodeList}]]*/
 	      });
 		$("#register").click(function() {
-			if($("#bankName" == "")){
+			if($("#bankName").val() == ""){
 				$.alert("请选择开户银行！");
 				return false;
 			}
-			if($("#cardNo") == ""){
+			if($("#cardNo").val() == ""){
 				$.alert("请输入卡号！");
 				return false;
 			}

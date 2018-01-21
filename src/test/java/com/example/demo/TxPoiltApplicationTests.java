@@ -171,9 +171,9 @@ public class TxPoiltApplicationTests {
 	public void fastpayPaystate() throws Exception{
 		JSONObject param = new JSONObject();
 		param.put("tranType", "PAYQRY");
-		param.put("merNo", "");
-		param.put("merTrace", "");
-		param.put("orderId", "");
+		param.put("merNo", "10647760");
+		param.put("merTrace", "02120180121135632694934");
+		param.put("orderId", "02120180121135610216827");
 		RequestBuilder request = MockMvcRequestBuilders
 				.post("/fastpay_paystate")
 				.contentType("application/json; charset=utf-8")

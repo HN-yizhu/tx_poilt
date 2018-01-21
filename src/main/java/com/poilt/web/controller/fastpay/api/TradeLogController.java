@@ -20,6 +20,7 @@ import com.poilt.exception.JsonException;
 import com.poilt.exception.Result;
 import com.poilt.model.PayMessage;
 import com.poilt.model.PayMoney;
+import com.poilt.model.PayState;
 import com.poilt.model.fastpay.Card;
 import com.poilt.model.fastpay.Merch;
 import com.poilt.model.fastpay.TradeLog;
@@ -276,6 +277,25 @@ public class TradeLogController {
 					errTrade.setStatus("5");
 					tradeLogService.update(errTrade);
 					throw new JsonException(StatusCode.SYS_PAY_ERR);
+				}else{
+					/*接口查询交易状态*/
+					PayState payState = new PayState();
+					payState.setTranType("PAYQRY");
+					payState.setMerNo(merch.getMerNo());
+					payState.setMerTrace(merTrace);
+					payState.setOrderId(orderNo);
+					JSONObject stateResult = tradeExecute.tradeHttpReq(JSONObject.toJSONString(payState));
+					if("000000".equals(stateResult.getString("respCode"))){
+						String merNo = stateResult.getJSONObject("result").getString("merNo");
+						orderNo = stateResult.getJSONObject("result").getString("orderId");
+						String status = stateResult.getJSONObject("result").getString("orderStatus");
+						TradeLog stateTrade = new TradeLog();
+						stateTrade.setMerNo(merNo);
+						stateTrade.setTradeNo(merTrace);
+						stateTrade.setOrderNo(orderNo);
+						stateTrade.setStatus(status);
+						tradeLogService.updateStatus(stateTrade);
+					}
 				}
 			}
 			httpSession.setAttribute("orderNo", "");
