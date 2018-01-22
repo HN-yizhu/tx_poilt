@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>使用教程</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="快捷支付使用教程">
+
+<link rel="stylesheet" th:href="@{/lib/weui.min.css}">
+<link rel="stylesheet" th:href="@{/css/jquery-weui.css}">
+<link rel="stylesheet" th:href="@{/css/demos.css}">
+<style type="text/css">
+.img-responsive {
+	display: inline-block;
+	height: auto;
+	max-width: 80%;
+}
+</style>
+</head>
+
+<body ontouchstart th:inline="text">
+
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help1.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help2.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help3.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help4.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help5.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<div class="weui-msg__opr-area" style="text-align: center;">
+		<img class="img-responsive" th:src="@{/images/help/help6.jpg}" alt="" />
+	</div>
+	<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+	</div>
+	<script th:src="@{/lib/jquery-2.1.4.js}"></script>
+	<script th:src="@{/lib/fastclick.js}"></script>
+	<script>
+		$(function() {
+			FastClick.attach(document.body);
+		});
+	</script>
+	<script th:src="@{/js/jquery-weui.js}"></script>
+
+</body>
+</html>

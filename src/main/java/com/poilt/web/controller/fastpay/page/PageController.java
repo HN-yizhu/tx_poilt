@@ -97,4 +97,8 @@ public class PageController {
 		return "/register";
 	}
 	
+	@RequestMapping(value = "/help")
+	public String help() throws Exception {
+		return "/help";
+	}
 }

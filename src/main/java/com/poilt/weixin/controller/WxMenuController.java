@@ -64,17 +64,17 @@ public class WxMenuController implements WxMpMenuService {
     menu.getButtons().add(button2);
     menu.getButtons().add(button3);
 
-    WxMenuButton button21 = new WxMenuButton();
-    button21.setType(MenuButtonType.VIEW);
-    button21.setName("我要注册");
-    button21.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect");
+    //WxMenuButton button21 = new WxMenuButton();
+    //button21.setType(MenuButtonType.VIEW);
+    //button21.setName("我要注册");
+    //button21.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45da44ed1dfa99c5&redirect_uri=https%3A%2F%2Fpay.masduo.com%2Fwechat%2Furl&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect");
 
     WxMenuButton button22 = new WxMenuButton();
     button22.setType(MenuButtonType.VIEW);
     button22.setName("使用教程");
-    button22.setUrl("http://v.qq.com/");
+    button22.setUrl("https://pay.masduo.com/help");
 
-    button2.getSubButtons().add(button21);
+    //button2.getSubButtons().add(button21);
     button2.getSubButtons().add(button22);
     
     this.wxService.getMenuService().menuCreate(menu);
